@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EVChargeFinder.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -13,10 +13,10 @@ namespace EVChargeFinder.Data
 
         }
 
-        public virtual DbSet<ChargeStation> ChargeStations { get; set; } = null!;
-        public virtual DbSet<Connector> Connectors { get; set; } = null!;
-        public virtual DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
-        public virtual DbSet<Operator> Operators { get; set; } = null!;
-        public virtual DbSet<Vehicle> Vehicles { get; set; } = null!;
+        public DbSet<ChargeStation> ChargeStations { get; set; } = null!;
+        public DbSet<Connector> Connectors { get; set; } = null!;
+        public DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
+        public DbSet<Operator> Operators { get; set; } = null!;
+        public DbSet<Vehicle> Vehicles { get; set; } = null!;
     }
 }
