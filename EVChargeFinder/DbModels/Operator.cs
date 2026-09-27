@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static EVChargeFinder.Common.EntityValidation.Operator;
-
-namespace EVChargeFinder.DbModels
+﻿namespace EVChargeFinder.DbModels
 {
+    using Microsoft.EntityFrameworkCore;
+    using System.ComponentModel.DataAnnotations;
+    using static EVChargeFinder.Common.EntityValidation.Operator;
+
+
+    [Index(nameof(Name), IsUnique = true)]
     public class Operator
     {
         [Key]

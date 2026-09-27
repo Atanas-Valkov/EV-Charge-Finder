@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using static EVChargeFinder.Common.EntityValidation.Vehicle;
-namespace EVChargeFinder.DbModels
+﻿namespace EVChargeFinder.DbModels
 {
+    using Microsoft.EntityFrameworkCore;
+    using System.ComponentModel.DataAnnotations;
+    using static EVChargeFinder.Common.EntityValidation.Vehicle;
+
     public class Vehicle
     {
         [Key]

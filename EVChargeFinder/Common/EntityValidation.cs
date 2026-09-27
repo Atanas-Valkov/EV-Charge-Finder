@@ -1,6 +1,4 @@
-﻿using EVChargeFinder.DbModels;
-
-namespace EVChargeFinder.Common
+﻿namespace EVChargeFinder.Common
 {
     public class EntityValidation
     {

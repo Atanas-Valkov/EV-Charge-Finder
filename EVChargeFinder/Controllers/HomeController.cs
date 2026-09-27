@@ -1,9 +1,9 @@
-using EVChargeFinder.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
 namespace EVChargeFinder.Controllers
 {
+    using System.Diagnostics;
+    using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
+
     public class HomeController : Controller
     {
         public IActionResult Index()

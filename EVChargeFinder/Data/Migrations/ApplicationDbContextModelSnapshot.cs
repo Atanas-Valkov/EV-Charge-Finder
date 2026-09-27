@@ -70,13 +70,10 @@ namespace EVChargeFinder.Data.Migrations
                     b.Property<int>("OperatorId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PricePerKWh")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("OperatorId");
+                    b.HasIndex("OperatorId", "Name", "Latitude", "Longitude")
+                        .IsUnique();
 
                     b.ToTable("ChargeStations");
                 });
@@ -143,6 +140,10 @@ namespace EVChargeFinder.Data.Migrations
                         .HasPrecision(6, 2)
                         .HasColumnType("decimal(6,2)");
 
+                    b.Property<decimal>("PricePerKWh")
+                        .HasPrecision(8, 4)
+                        .HasColumnType("decimal(8,4)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ChargeStationId");
@@ -168,6 +169,9 @@ namespace EVChargeFinder.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Operators");
                 });

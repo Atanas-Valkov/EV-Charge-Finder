@@ -1,18 +1,18 @@
-﻿using EVChargeFinder.DbModels.Enums;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic.CompilerServices;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.VisualBasic;
-using static EVChargeFinder.Common.EntityValidation.ChargeStation;
-
-namespace EVChargeFinder.DbModels
+﻿namespace EVChargeFinder.DbModels
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.EntityFrameworkCore;
+    using static EVChargeFinder.Common.EntityValidation.ChargeStation;
+    using Enums;
+
+
+    [Index(nameof(OperatorId), nameof(Name), nameof(Latitude), nameof(Longitude), IsUnique = true)]
     public class ChargeStation
     {
         [Key]
         public int Id { get; set; }
-        
+
         [Required]
         [MinLength(NameMinLength)]
         [MaxLength(NameMaxLength)]
@@ -37,9 +37,6 @@ namespace EVChargeFinder.DbModels
 
         public ChargeStationStatus ChargeStationStatus { get; set; }
 
-        [Precision(8, 4)]
-        public decimal PricePerKWh { get; set; }
-
         [Required]
         [MinLength(DataSourceMinLength)]
         [MaxLength(DataSourceMaxLength)]
@@ -55,6 +52,5 @@ namespace EVChargeFinder.DbModels
         public int OperatorId { get; set; }
 
         public virtual Operator Operator { get; set; } = null!;
-
     }
 }

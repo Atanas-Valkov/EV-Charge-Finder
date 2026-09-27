@@ -1,9 +1,11 @@
-using EVChargeFinder.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
 namespace EVChargeFinder
 {
+    using EVChargeFinder.Data;
+    using EVChargeFinder.Data.Seeding;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+
+
     public class Program
     {
         public static void Main(string[] args)
@@ -13,10 +15,20 @@ namespace EVChargeFinder
             // Add services to the container.
             var connectionString = builder.Configuration
                 .GetConnectionString("DevConnectionString") ?? throw new InvalidOperationException("Connection string 'DevConnectionString' not found.");
-
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
-            
+            {
+                options
+                    .UseSqlServer(connectionString)
+                    .UseSeeding((context, _) =>
+                    {
+                        ApplicationDbContext dbContext =
+                            (ApplicationDbContext)context;
+
+                        OperatorSeeder.Seed(dbContext);
+                        ChargeStationSeeder.Seed(dbContext);
+                    });
+            });
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

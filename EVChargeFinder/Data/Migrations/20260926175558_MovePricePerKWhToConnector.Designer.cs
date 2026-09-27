@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EVChargeFinder.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260926153237_AddIdentitySchema")]
-    partial class AddIdentitySchema
+    [Migration("20260926175558_MovePricePerKWhToConnector")]
+    partial class MovePricePerKWhToConnector
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,10 +69,6 @@ namespace EVChargeFinder.Data.Migrations
 
                     b.Property<int>("OperatorId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("PricePerKWh")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
 
                     b.HasKey("Id");
 
@@ -142,6 +138,10 @@ namespace EVChargeFinder.Data.Migrations
                     b.Property<decimal>("PowerKw")
                         .HasPrecision(6, 2)
                         .HasColumnType("decimal(6,2)");
+
+                    b.Property<decimal>("PricePerKWh")
+                        .HasPrecision(8, 4)
+                        .HasColumnType("decimal(8,4)");
 
                     b.HasKey("Id");
 

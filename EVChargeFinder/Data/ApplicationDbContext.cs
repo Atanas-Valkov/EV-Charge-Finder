@@ -1,10 +1,9 @@
-﻿
-using EVChargeFinder.DbModels;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace EVChargeFinder.Data
+﻿namespace EVChargeFinder.Data
 {
+    using EVChargeFinder.DbModels;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -18,5 +17,7 @@ namespace EVChargeFinder.Data
         public DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
         public DbSet<Operator> Operators { get; set; } = null!;
         public DbSet<Vehicle> Vehicles { get; set; } = null!;
+
+   
     }
 }
