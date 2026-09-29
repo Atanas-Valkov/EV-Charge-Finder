@@ -26,8 +26,5 @@
         public int ConnectorId { get; set; }
         public virtual Connector Connector { get; set; } = null!;
 
-        [ForeignKey(nameof(Vehicle))]
-        public int VehicleId { get; set; }
-        public virtual Vehicle Vehicle { get; set; } = null!;
     }
 }

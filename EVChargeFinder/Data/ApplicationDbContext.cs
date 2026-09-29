@@ -16,8 +16,6 @@
         public DbSet<Connector> Connectors { get; set; } = null!;
         public DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
         public DbSet<Operator> Operators { get; set; } = null!;
-        public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
-   
     }
 }

@@ -36,16 +36,9 @@
             public const int WebsiteMaxLength = 100;
         }
 
-        public static class Vehicle
+        public static class Connector
         {
-            public const int BrandMinLength = 2;
-            public const int BrandMaxLength = 100;
-
-            public const int ModelMinLength = 2;
-            public const int ModelMaxLength = 100;
-
-            public const int YearMinValue = 1990;
-            public const int YearMaxValue = 2100;
+            public const int ExternalIdMaxLength = 100;
         }
     }
 }

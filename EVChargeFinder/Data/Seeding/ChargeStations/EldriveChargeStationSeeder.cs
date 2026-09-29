@@ -1,8 +1,8 @@
-﻿using EVChargeFinder.DbModels;
-using EVChargeFinder.DbModels.Enums;
-
-namespace EVChargeFinder.Data.Seeding.ChargeStations
+﻿namespace EVChargeFinder.Data.Seeding.ChargeStations
 {
+
+    using DbModels;
+    using DbModels.Enums;
     public static class EldriveChargeStationSeeder
     {
         public static ChargeStation[] GetChargeStations(int operatorId)
