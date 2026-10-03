@@ -6,13 +6,13 @@
     public static class OMVeMotionConnectorSeeder
     {
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Хемус"],
+                ChargingStationIds["OMV Хемус"],
                 ConnectorType.CCS2,
                 4,
                 300.00m,
@@ -20,7 +20,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Хемус Осиковица"],
+                ChargingStationIds["OMV Хемус Осиковица"],
                 ConnectorType.CCS2,
                 4,
                 300.00m,
@@ -28,7 +28,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Хемус Шумен Юг"],
+                ChargingStationIds["OMV Хемус Шумен Юг"],
                 ConnectorType.CCS2,
                 4,
                 300.00m,
@@ -36,7 +36,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV София Бояна"],
+                ChargingStationIds["OMV София Бояна"],
                 ConnectorType.CCS2,
                 2,
                 300.00m,
@@ -44,7 +44,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV София бул. България"],
+                ChargingStationIds["OMV София бул. България"],
                 ConnectorType.CCS2,
                 2,
                 300.00m,
@@ -52,7 +52,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Стара Загора Дезинтегратор"],
+                ChargingStationIds["OMV Стара Загора Дезинтегратор"],
                 ConnectorType.CCS2,
                 2,
                 180.00m,
@@ -60,7 +60,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Тракия Дражево"],
+                ChargingStationIds["OMV Тракия Дражево"],
                 ConnectorType.CCS2,
                 2,
                 180.00m,
@@ -68,7 +68,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Тракия Виноградец"],
+                ChargingStationIds["OMV Тракия Виноградец"],
                 ConnectorType.CCS2,
                 2,
                 120.00m,
@@ -76,7 +76,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Тракия Хаджидимитрово"],
+                ChargingStationIds["OMV Тракия Хаджидимитрово"],
                 ConnectorType.CCS2,
                 2,
                 120.00m,
@@ -84,7 +84,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Тракия Динката"],
+                ChargingStationIds["OMV Тракия Динката"],
                 ConnectorType.CCS2,
                 2,
                 60.00m,
@@ -92,7 +92,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV София Ботевградско"],
+                ChargingStationIds["OMV София Ботевградско"],
                 ConnectorType.CCS2,
                 2,
                 120.00m,
@@ -100,7 +100,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV Струма Чучулигово ляво"],
+                ChargingStationIds["OMV Струма Чучулигово ляво"],
                 ConnectorType.CCS2,
                 1,
                 50.00m,
@@ -108,7 +108,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["OMV София Корабче"],
+                ChargingStationIds["OMV София Корабче"],
                 ConnectorType.CCS2,
                 1,
                 50.00m,
@@ -125,7 +125,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -141,7 +141,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

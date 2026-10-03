@@ -9,14 +9,14 @@
         private const decimal HistoricalNiagaraPricePerKWh = 0.36m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GPStation Central Station"],
+                ChargingStationIds["GPStation Central Station"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -25,7 +25,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GPStation Niagara Druzhba 2"],
+                ChargingStationIds["GPStation Niagara Druzhba 2"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -34,7 +34,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GPStation St. Sofia Golf Club"],
+                ChargingStationIds["GPStation St. Sofia Golf Club"],
                 ConnectorType.Type2,
                 1,
                 7.50m,
@@ -47,7 +47,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -65,7 +65,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

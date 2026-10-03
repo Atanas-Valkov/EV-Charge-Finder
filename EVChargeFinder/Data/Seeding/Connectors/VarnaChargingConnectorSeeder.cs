@@ -8,14 +8,14 @@
       private const decimal DefaultPricePerKWh = 0.36m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Varna Charging №5 - Tsaribrod"],
+                ChargingStationIds["Varna Charging №5 - Tsaribrod"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -23,7 +23,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Varna Charging №16 - Marin Drinov"],
+                ChargingStationIds["Varna Charging №16 - Marin Drinov"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -31,16 +31,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Varna Charging №17 - Chataldzha"],
-                ConnectorType.Type2,
-                2,
-                22.00m,
-                DefaultPricePerKWh);
-
-
-            AddConnectors(
-                connectors,
-                chargeStationIds["Varna Charging №18 - Lyuben Karavelov"],
+                ChargingStationIds["Varna Charging №17 - Chataldzha"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -49,7 +40,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Varna Charging №20 - Marin Drinov"],
+                ChargingStationIds["Varna Charging №18 - Lyuben Karavelov"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -58,7 +49,16 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Varna Charging №21 - Drin"],
+                ChargingStationIds["Varna Charging №20 - Marin Drinov"],
+                ConnectorType.Type2,
+                2,
+                22.00m,
+                DefaultPricePerKWh);
+
+
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Varna Charging №21 - Drin"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -71,7 +71,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -89,7 +89,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

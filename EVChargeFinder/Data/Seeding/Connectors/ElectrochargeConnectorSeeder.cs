@@ -5,13 +5,13 @@
 
     public static class ElectrochargeConnectorSeeder
     {
-        public static Connector[] GetConnectors(Dictionary<string, int> chargeStationIds)
+        public static Connector[] GetConnectors(Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge Plovdiv 320B"],
+                ChargingStationIds["Electrocharge Plovdiv 320B"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.39m),
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
@@ -21,32 +21,32 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge 109th Street 266"],
+                ChargingStationIds["Electrocharge 109th Street 266"],
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge Mladost 526"],
+                ChargingStationIds["Electrocharge Mladost 526"],
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge Pchela 212"],
+                ChargingStationIds["Electrocharge Pchela 212"],
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge Braila 11"],
+                ChargingStationIds["Electrocharge Braila 11"],
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge Orion 84"],
+                ChargingStationIds["Electrocharge Orion 84"],
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Electrocharge Simitli"],
+                ChargingStationIds["Electrocharge Simitli"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.39m),
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
@@ -68,7 +68,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 int Count,
@@ -93,7 +93,7 @@
                         PricePerKWh = connectorGroup.PricePerKWh,
                         ConnectorStatus = ConnectorStatus.Unknown,
                         ExternalId = null,
-                        ChargeStationId = chargeStationId
+                        ChargingStationId = ChargingStationId
                     };
 
                     connectors.Add(connector);

@@ -12,7 +12,7 @@
 
         }
 
-        public DbSet<ChargeStation> ChargeStations { get; set; } = null!;
+        public DbSet<ChargingStation> ChargingStations { get; set; } = null!;
         public DbSet<Connector> Connectors { get; set; } = null!;
         public DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
         public DbSet<Operator> Operators { get; set; } = null!;

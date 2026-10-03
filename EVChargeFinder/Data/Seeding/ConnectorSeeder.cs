@@ -1,4 +1,4 @@
-﻿using EVChargeFinder.Data.Seeding.ChargeStations;
+﻿using EVChargeFinder.Data.Seeding.ChargingStations;
 
 namespace EVChargeFinder.Data.Seeding
 {
@@ -10,7 +10,7 @@ namespace EVChargeFinder.Data.Seeding
     {
         public static void Seed(ApplicationDbContext context)
         {
-            Dictionary<string, int> chargeStationIds = context.ChargeStations
+            Dictionary<string, int> ChargingStationIds = context.ChargingStations
                 .AsNoTracking()
                 .ToDictionary(
                     cs => cs.Name,
@@ -20,52 +20,52 @@ namespace EVChargeFinder.Data.Seeding
             List<Connector> connectors = new List<Connector>();
 
 
-            connectors.AddRange(FinesConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(FinesConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(EldriveConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(EldriveConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(ElectripConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(ElectripConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(EVPointConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(EVPointConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(GigaChargerConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(GigaChargerConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(ElectrochargeConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(ElectrochargeConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(OMVeMotionConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(OMVeMotionConnectorSeeder.GetConnectors(ChargingStationIds));
           
-            connectors.AddRange(ElfinityConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(ElfinityConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(KiaHyperchargeConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(KiaHyperchargeConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            connectors.AddRange(GPStationConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(GPStationConnectorSeeder.GetConnectors(ChargingStationIds));
            
-            connectors.AddRange(WINKChargingConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(WINKChargingConnectorSeeder.GetConnectors(ChargingStationIds));
            
-            connectors.AddRange(VoltspotConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(VoltspotConnectorSeeder.GetConnectors(ChargingStationIds));
             
-            connectors.AddRange(EVN2GOConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(EVN2GOConnectorSeeder.GetConnectors(ChargingStationIds));
             
-            connectors.AddRange(TeslaSuperchargerConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(TeslaSuperchargerConnectorSeeder.GetConnectors(ChargingStationIds));
             
-            connectors.AddRange(VarnaChargingConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(VarnaChargingConnectorSeeder.GetConnectors(ChargingStationIds));
             
-            connectors.AddRange(BullChargeConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(BullChargeConnectorSeeder.GetConnectors(ChargingStationIds));
             
-            connectors.AddRange(eCarsConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(eCarsConnectorSeeder.GetConnectors(ChargingStationIds));
            
-            connectors.AddRange(ProCreditChargingConnectorSeeder.GetConnectors(chargeStationIds));
+            connectors.AddRange(ProCreditChargingConnectorSeeder.GetConnectors(ChargingStationIds));
 
             List<Connector> existingConnectors = context.Connectors
                 .ToList();
 
 
             Dictionary<
-                (int ChargeStationId, int ConnectorNumber),
+                (int ChargingStationId, int ConnectorNumber),
                 Connector> existingConnectorsByKey =
                     existingConnectors.ToDictionary(
                         c => (
-                            c.ChargeStationId,
+                            c.ChargingStationId,
                             c.ConnectorNumber),
                         c => c);
 
@@ -77,11 +77,11 @@ namespace EVChargeFinder.Data.Seeding
             foreach (Connector connector in connectors)
             {
                 (
-                    int ChargeStationId,
+                    int ChargingStationId,
                     int ConnectorNumber
                 ) connectorKey =
                 (
-                    connector.ChargeStationId,
+                    connector.ChargingStationId,
                     connector.ConnectorNumber
                 );
 

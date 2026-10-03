@@ -9,14 +9,14 @@
         private const decimal DefaultPricePerKWh = 0.35m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Kostinbrod"],
+                ChargingStationIds["Voltspot Kome CBA Kostinbrod"],
                 (ConnectorType.CCS2, 1, 60.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 43.00m));
@@ -24,14 +24,14 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Bora Bora"],
+                ChargingStationIds["Voltspot Bora Bora"],
                 (ConnectorType.CCS2, 4, 180.00m),
                 (ConnectorType.CHAdeMO, 2, 60.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot AutoBOX Ray"],
+                ChargingStationIds["Voltspot AutoBOX Ray"],
                 (ConnectorType.CCS2, 1, 80.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 22.00m));
@@ -39,25 +39,25 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot AutoBOX Elmira"],
+                ChargingStationIds["Voltspot AutoBOX Elmira"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot AutoBOX Popovo"],
+                ChargingStationIds["Voltspot AutoBOX Popovo"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Autocenter Vikar"],
+                ChargingStationIds["Voltspot Autocenter Vikar"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Delta Planet Mall"],
+                ChargingStationIds["Voltspot Delta Planet Mall"],
                 (ConnectorType.CCS2, 1, 60.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 43.00m));
@@ -65,7 +65,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Furnata"],
+                ChargingStationIds["Voltspot Furnata"],
                 (ConnectorType.CCS2, 1, 90.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 43.00m));
@@ -73,86 +73,86 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Sokol Gas Station"],
+                ChargingStationIds["Voltspot Sokol Gas Station"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Sveta Troitsa"],
+                ChargingStationIds["Voltspot Kome CBA Sveta Troitsa"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Bankya"],
+                ChargingStationIds["Voltspot Kome CBA Bankya"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Slatina"],
+                ChargingStationIds["Voltspot Kome CBA Slatina"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Ovcha Kupel"],
+                ChargingStationIds["Voltspot Kome CBA Ovcha Kupel"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Hotel Park Center"],
+                ChargingStationIds["Voltspot Hotel Park Center"],
                 (ConnectorType.CCS2, 1, 30.00m),
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Motopista"],
+                ChargingStationIds["Voltspot Kome CBA Motopista"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Druzhba"],
+                ChargingStationIds["Voltspot Kome CBA Druzhba"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Pernik"],
+                ChargingStationIds["Voltspot Kome CBA Pernik"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Bolero CBA Pomorie"],
+                ChargingStationIds["Voltspot Bolero CBA Pomorie"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Bolero CBA Iztok"],
+                ChargingStationIds["Voltspot Bolero CBA Iztok"],
                 (ConnectorType.Type2, 1, 7.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot AutoBOX Strelcha"],
+                ChargingStationIds["Voltspot AutoBOX Strelcha"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Horse Base & Hotel Max"],
+                ChargingStationIds["Voltspot Horse Base & Hotel Max"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Yambol Park"],
+                ChargingStationIds["Voltspot Yambol Park"],
                 (ConnectorType.CCS2, 1, 100.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 22.00m));
@@ -160,13 +160,13 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Autoengineering"],
+                ChargingStationIds["Voltspot Autoengineering"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Struma Petrol"],
+                ChargingStationIds["Voltspot Struma Petrol"],
                 (ConnectorType.CCS2, 1, 100.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 43.00m));
@@ -174,31 +174,31 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kome CBA Dupnitsa"],
+                ChargingStationIds["Voltspot Kome CBA Dupnitsa"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Restaurant Tikhiyat Kat"],
+                ChargingStationIds["Voltspot Restaurant Tikhiyat Kat"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Bolero CBA Tsarevo"],
+                ChargingStationIds["Voltspot Bolero CBA Tsarevo"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot AutoBOX Elhovo"],
+                ChargingStationIds["Voltspot AutoBOX Elhovo"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Mall Plovdiv"],
+                ChargingStationIds["Voltspot Mall Plovdiv"],
                 (ConnectorType.CCS2, 1, 140.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 1, 43.00m));
@@ -206,55 +206,55 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Parvomay Park"],
+                ChargingStationIds["Voltspot Parvomay Park"],
                 (ConnectorType.Type2, 2, 7.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot BGMARKET CBA Zapad"],
+                ChargingStationIds["Voltspot BGMARKET CBA Zapad"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Hippoland Blagoevgrad"],
+                ChargingStationIds["Voltspot Hippoland Blagoevgrad"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Kashmir Hotel & SPA"],
+                ChargingStationIds["Voltspot Kashmir Hotel & SPA"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Motel Kozyat Rog"],
+                ChargingStationIds["Voltspot Motel Kozyat Rog"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot AutoBOX Haskovo"],
+                ChargingStationIds["Voltspot AutoBOX Haskovo"],
                 (ConnectorType.Type2, 1, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot St. Ivan Rilski SPA Resort"],
+                ChargingStationIds["Voltspot St. Ivan Rilski SPA Resort"],
                 (ConnectorType.Type2, 4, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Premier Resort"],
+                ChargingStationIds["Voltspot Premier Resort"],
                 (ConnectorType.Type2, 2, 22.00m));
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Voltspot Shell Kardzhali"],
+                ChargingStationIds["Voltspot Shell Kardzhali"],
                 (ConnectorType.CCS2, 2, 240.00m),
                 (ConnectorType.CHAdeMO, 1, 60.00m),
                 (ConnectorType.Type2, 2, 22.00m));
@@ -266,7 +266,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 int Count,
@@ -289,7 +289,7 @@
                         PricePerKWh = DefaultPricePerKWh,
                         ConnectorStatus = ConnectorStatus.Unknown,
                         ExternalId = null,
-                        ChargeStationId = chargeStationId
+                        ChargingStationId = ChargingStationId
                     };
 
                     connectors.Add(connector);

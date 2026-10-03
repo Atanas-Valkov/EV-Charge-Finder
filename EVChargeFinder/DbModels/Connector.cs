@@ -8,7 +8,7 @@ namespace EVChargeFinder.DbModels
     using System.ComponentModel.DataAnnotations.Schema;
     using static EntityValidation.Connector;
 
-    [Index(nameof(ChargeStationId), nameof(ConnectorNumber), IsUnique = true)]
+    [Index(nameof(ChargingStationId), nameof(ConnectorNumber), IsUnique = true)]
     public class Connector
     {
         [Key]
@@ -29,9 +29,9 @@ namespace EVChargeFinder.DbModels
         [MaxLength(ExternalIdMaxLength)]
         public string? ExternalId { get; set; }
 
-        [ForeignKey(nameof(ChargeStation))]
-        public int ChargeStationId { get; set; }
-        public virtual ChargeStation ChargeStation { get; set; } = null!;
+        [ForeignKey(nameof(ChargingStation))]
+        public int ChargingStationId { get; set; }
+        public virtual ChargingStation ChargingStation { get; set; } = null!;
 
     }
 }

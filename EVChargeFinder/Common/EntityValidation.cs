@@ -2,7 +2,7 @@
 {
     public class EntityValidation
     {
-        public static class ChargeStation
+        public static class ChargingStation
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 150;

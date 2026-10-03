@@ -8,14 +8,14 @@
       private const decimal DefaultPricePerKWh = 0.39m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
 
             AddConnectorsWithExternalIds(
                 connectors,
-                chargeStationIds["Kia Hypercharge Tsarigradsko Shose 144"],
+                ChargingStationIds["Kia Hypercharge Tsarigradsko Shose 144"],
                 (ConnectorType.CCS2, 150.00m, DefaultPricePerKWh, "BG*KIA*EE4812E66*1"),
                 (ConnectorType.CCS2, 150.00m, DefaultPricePerKWh, "BG*KIA*EE4812E66*2"));
 
@@ -28,7 +28,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Kia Hypercharge Pozitano 2"],
+                ChargingStationIds["Kia Hypercharge Pozitano 2"],
                 ConnectorType.CCS2,
                 1,
                 150.00m,
@@ -37,7 +37,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Kia Hypercharge Yuzhen"],
+                ChargingStationIds["Kia Hypercharge Yuzhen"],
                 ConnectorType.CCS2,
                 1,
                 150.00m,
@@ -46,7 +46,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Kia Hypercharge Industrialna 12"],
+                ChargingStationIds["Kia Hypercharge Industrialna 12"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -59,7 +59,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -77,7 +77,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);
@@ -87,7 +87,7 @@
 
         private static void AddConnectorsWithExternalIds(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 decimal PowerKw,
@@ -110,7 +110,7 @@
                     PricePerKWh = connectorGroup.PricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = connectorGroup.ExternalId,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

@@ -25,7 +25,7 @@ namespace EVChargeFinder
                             (ApplicationDbContext)context;
 
                         OperatorSeeder.Seed(dbContext);
-                        ChargeStationSeeder.Seed(dbContext);
+                        ChargingStationSeeder.Seed(dbContext);
                         ConnectorSeeder.Seed(dbContext);
                         ChargingSessionSeeder.Seed(dbContext);
                     });

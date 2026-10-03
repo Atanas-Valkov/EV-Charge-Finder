@@ -20,7 +20,7 @@
         [MaxLength(WebsiteMaxLength)]
         public string? Website { get; set; }
 
-        public ICollection<ChargeStation> ChargeStations { get; set; } 
-            = new HashSet<ChargeStation>();
+        public ICollection<ChargingStation> ChargingStations { get; set; } 
+            = new HashSet<ChargingStation>();
     }
 }

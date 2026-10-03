@@ -1,6 +1,6 @@
 ﻿namespace EVChargeFinder.DbModels.Enums
 {
-    public enum ChargeStationStatus
+    public enum ChargingStationStatus
     {
         
         Active = 1,

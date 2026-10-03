@@ -8,7 +8,7 @@
         private const decimal DefaultPricePerKWh = 0.41m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
@@ -40,7 +40,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["WINK Fantastico Manastirski Livadi"],
+                ChargingStationIds["WINK Fantastico Manastirski Livadi"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -59,7 +59,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["WINK Momchilgrad"],
+                ChargingStationIds["WINK Momchilgrad"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -68,7 +68,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["WINK Bansko 1"],
+                ChargingStationIds["WINK Bansko 1"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -91,7 +91,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -109,7 +109,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

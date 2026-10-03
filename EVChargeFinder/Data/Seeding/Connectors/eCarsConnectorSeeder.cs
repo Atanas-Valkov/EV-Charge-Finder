@@ -8,14 +8,14 @@
         private const decimal UnknownPricePerKWh = 0.00m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Casino Phoenix"],
+                ChargingStationIds["eCars Casino Phoenix"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -24,7 +24,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Park Hotel Pirin Sharlopov"],
+                ChargingStationIds["eCars Park Hotel Pirin Sharlopov"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -33,7 +33,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Avtokompleks Kalivas"],
+                ChargingStationIds["eCars Avtokompleks Kalivas"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -42,7 +42,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Oasis Beach Club"],
+                ChargingStationIds["eCars Oasis Beach Club"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -51,7 +51,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Hotel Yanakiev"],
+                ChargingStationIds["eCars Hotel Yanakiev"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -59,16 +59,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Hotel Morska Vila"],
-                ConnectorType.Type2,
-                1,
-                22.00m,
-                UnknownPricePerKWh);
-
-
-            AddConnectors(
-                connectors,
-                chargeStationIds["eCars Atiya Resort"],
+                ChargingStationIds["eCars Hotel Morska Vila"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -77,7 +68,16 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Omnikar Auto"],
+                ChargingStationIds["eCars Atiya Resort"],
+                ConnectorType.Type2,
+                1,
+                22.00m,
+                UnknownPricePerKWh);
+
+
+            AddConnectors(
+                connectors,
+                ChargingStationIds["eCars Omnikar Auto"],
                 ConnectorType.Type2,
                 2,
                 7.00m,
@@ -86,7 +86,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Inter Expo Center"],
+                ChargingStationIds["eCars Inter Expo Center"],
                 ConnectorType.Type2,
                 1,
                 3.00m,
@@ -95,7 +95,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Hotel Balkantsi"],
+                ChargingStationIds["eCars Hotel Balkantsi"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -104,7 +104,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Grand Hotel Yantra"],
+                ChargingStationIds["eCars Grand Hotel Yantra"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -113,7 +113,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Sunny Garden SPA Hotel"],
+                ChargingStationIds["eCars Sunny Garden SPA Hotel"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -122,7 +122,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Novi Pazar"],
+                ChargingStationIds["eCars Novi Pazar"],
                 ConnectorType.Type2,
                 1,
                 7.40m,
@@ -131,7 +131,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["eCars Shtipsko"],
+                ChargingStationIds["eCars Shtipsko"],
                 ConnectorType.Type2,
                 1,
                 7.40m,
@@ -144,7 +144,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -162,7 +162,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

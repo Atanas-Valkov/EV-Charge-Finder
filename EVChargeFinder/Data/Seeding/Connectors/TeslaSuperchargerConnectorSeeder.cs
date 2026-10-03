@@ -8,13 +8,13 @@
        private const decimal DefaultPricePerKWh = 0.38m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Tesla Supercharger Bulgaria Mall"],
+                ChargingStationIds["Tesla Supercharger Bulgaria Mall"],
                 ConnectorType.CCS2,
                 8,
                 250.00m,
@@ -22,7 +22,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Tesla Supercharger Paradise Center"],
+                ChargingStationIds["Tesla Supercharger Paradise Center"],
                 ConnectorType.CCS2,
                 6,
                 250.00m,
@@ -30,7 +30,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Tesla Supercharger Plovdiv"],
+                ChargingStationIds["Tesla Supercharger Plovdiv"],
                 ConnectorType.CCS2,
                 4,
                 125.00m,
@@ -43,7 +43,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -61,7 +61,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);

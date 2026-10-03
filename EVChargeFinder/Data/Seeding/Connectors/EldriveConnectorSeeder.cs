@@ -6,19 +6,19 @@
     public static class EldriveConnectorSeeder
     {
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
             AddConnectorsWithExternalIds(
                 connectors,
-                chargeStationIds["Eldrive Praktis MEGA Sofia"],
+                ChargingStationIds["Eldrive Praktis MEGA Sofia"],
                 (ConnectorType.CCS2, 200.00m, 0.46m, "BG642*1"),
                 (ConnectorType.CCS2, 200.00m, 0.46m, "BG642*2"));
 
             AddConnectorsWithExternalIds(
                 connectors,
-                chargeStationIds["Eldrive Grand Mall Varna"],
+                ChargingStationIds["Eldrive Grand Mall Varna"],
                 (ConnectorType.CCS2, 200.00m, 0.46m, "BG692*1"),
                 (ConnectorType.CCS2, 200.00m, 0.46m, "BG692*2"));
 
@@ -27,7 +27,7 @@
 
             AddConnectorsWithExternalIds(
                 connectors,
-                chargeStationIds["Eldrive Shell Lyubimets East"],
+                ChargingStationIds["Eldrive Shell Lyubimets East"],
                 (ConnectorType.CCS2, 300.00m, 0.46m, "BG729*1"),
                 (ConnectorType.CCS2, 300.00m, 0.46m, "BG729*2"),
                 (ConnectorType.CCS2, 300.00m, 0.46m, null),
@@ -35,7 +35,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Montana"],
+                ChargingStationIds["Eldrive Shell Montana"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
@@ -53,7 +53,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Bulport Logistics"],
+                ChargingStationIds["Eldrive Bulport Logistics"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.46m));
 
             // TODO: "Eldrive The Mall Sofia"
@@ -76,29 +76,29 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Studena"],
+                ChargingStationIds["Eldrive Shell Studena"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Damyanitsa Hub"],
+                ChargingStationIds["Eldrive Damyanitsa Hub"],
                 (ConnectorType.CCS2, 8, 120.00m, 0.46m),
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Technopolis Sandanski"],
+                ChargingStationIds["Eldrive Technopolis Sandanski"],
                 (ConnectorType.CCS2, 6, 150.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Yambol"],
+                ChargingStationIds["Eldrive Shell Yambol"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Retail Park Vidin"],
+                ChargingStationIds["Eldrive Retail Park Vidin"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
             // TODO: "Eldrive Holiday Park Pazardzhik"
@@ -106,18 +106,18 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Holiday Park Haskovo"],
+                ChargingStationIds["Eldrive Holiday Park Haskovo"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.46m),
                 (ConnectorType.CCS2, 2, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Retail Park Dupnitsa"],
+                ChargingStationIds["Eldrive Retail Park Dupnitsa"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Technopolis Blagoevgrad"],
+                ChargingStationIds["Eldrive Technopolis Blagoevgrad"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.46m));
 
             // TODO: "Eldrive Technopolis Burgas 2"
@@ -125,29 +125,29 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Trakia South"],
+                ChargingStationIds["Eldrive Shell Trakia South"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Trakia North"],
+                ChargingStationIds["Eldrive Shell Trakia North"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Sea Cars Sandanski"],
+                ChargingStationIds["Eldrive Sea Cars Sandanski"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Moto-Pfohe Pleven"],
+                ChargingStationIds["Eldrive Moto-Pfohe Pleven"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metropolitan Hotel Sofia"],
+                ChargingStationIds["Eldrive Metropolitan Hotel Sofia"],
                 (ConnectorType.CCS2, 4, 120.00m, 0.46m));
 
             // TODO: "Eldrive Billa Lulin"
@@ -161,19 +161,19 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Bulgaria Mall"],
+                ChargingStationIds["Eldrive Bulgaria Mall"],
                 (ConnectorType.CCS2, 4, 120.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metro Sofia"],
+                ChargingStationIds["Eldrive Metro Sofia"],
                 (ConnectorType.CCS2, 1, 25.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 25.00m, 0.46m),
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Vasilevi Plaza"],
+                ChargingStationIds["Eldrive Vasilevi Plaza"],
                 (ConnectorType.CCS2, 5, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 5, 50.00m, 0.46m),
                 (ConnectorType.CCS2, 1, 20.00m, 0.46m),
@@ -181,84 +181,84 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Sofia Park"],
+                ChargingStationIds["Eldrive Sofia Park"],
                 (ConnectorType.CCS2, 1, 22.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 22.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Sofia Airport Center"],
+                ChargingStationIds["Eldrive Sofia Airport Center"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Sofia Airport Terminal 2"],
+                ChargingStationIds["Eldrive Sofia Airport Terminal 2"],
                 (ConnectorType.Type2, 6, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Moto-Pfohe Sofia"],
+                ChargingStationIds["Eldrive Moto-Pfohe Sofia"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Lulin"],
+                ChargingStationIds["Eldrive Shell Lulin"],
                 (ConnectorType.CCS2, 1, 24.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 24.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Fantastico G.M. Dimitrov"],
+                ChargingStationIds["Eldrive Fantastico G.M. Dimitrov"],
                 (ConnectorType.CCS2, 1, 25.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 25.00m, 0.46m),
                 (ConnectorType.Type2, 3, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Gazprom Tsarigradsko"],
+                ChargingStationIds["Eldrive Gazprom Tsarigradsko"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive KFC Sofia"],
+                ChargingStationIds["Eldrive KFC Sofia"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Sheynovo"],
+                ChargingStationIds["Eldrive Sheynovo"],
                 (ConnectorType.CCS2, 2, 25.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 2, 25.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Fantastico Dragalevtsi"],
+                ChargingStationIds["Eldrive Fantastico Dragalevtsi"],
                 (ConnectorType.CCS2, 1, 25.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 25.00m, 0.46m),
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Fantastico Bankya"],
+                ChargingStationIds["Eldrive Fantastico Bankya"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metro Sofia Voluyak"],
+                ChargingStationIds["Eldrive Metro Sofia Voluyak"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Mall Plovdiv"],
+                ChargingStationIds["Eldrive Mall Plovdiv"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive VIA Park Plovdiv"],
+                ChargingStationIds["Eldrive VIA Park Plovdiv"],
                 (ConnectorType.CCS2, 2, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 2, 50.00m, 0.46m),
                 (ConnectorType.CCS2, 1, 22.00m, 0.46m),
@@ -266,182 +266,182 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Haas Plovdiv"],
+                ChargingStationIds["Eldrive Haas Plovdiv"],
                 (ConnectorType.CCS2, 1, 24.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive HomeMax Plovdiv"],
+                ChargingStationIds["Eldrive HomeMax Plovdiv"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Gazprom Plovdiv"],
+                ChargingStationIds["Eldrive Gazprom Plovdiv"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Maritsa"],
+                ChargingStationIds["Eldrive Shell Maritsa"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive DKS Varna"],
+                ChargingStationIds["Eldrive DKS Varna"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Landmark Centre Varna"],
+                ChargingStationIds["Eldrive Landmark Centre Varna"],
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metro Varna"],
+                ChargingStationIds["Eldrive Metro Varna"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive HomeMax Varna"],
+                ChargingStationIds["Eldrive HomeMax Varna"],
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Moto-Pfohe Varna"],
+                ChargingStationIds["Eldrive Moto-Pfohe Varna"],
                 (ConnectorType.CCS2, 1, 20.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 20.00m, 0.46m),
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Business Park Varna"],
+                ChargingStationIds["Eldrive Business Park Varna"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Ruse"],
+                ChargingStationIds["Eldrive Shell Ruse"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metro Ruse"],
+                ChargingStationIds["Eldrive Metro Ruse"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metro Pleven"],
+                ChargingStationIds["Eldrive Metro Pleven"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive America for Bulgaria Student Center"],
+                ChargingStationIds["Eldrive America for Bulgaria Student Center"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Metro Blagoevgrad"],
+                ChargingStationIds["Eldrive Metro Blagoevgrad"],
                 (ConnectorType.Type2, 2, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Panairski Livadi"],
+                ChargingStationIds["Eldrive Panairski Livadi"],
                 (ConnectorType.CCS2, 2, 180.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Nayden Gerov Bansko"],
+                ChargingStationIds["Eldrive Nayden Gerov Bansko"],
                 (ConnectorType.Type2, 4, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Gazprom Bansko"],
+                ChargingStationIds["Eldrive Gazprom Bansko"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Slivnitsa Municipality"],
+                ChargingStationIds["Eldrive Slivnitsa Municipality"],
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Abritus Razgrad"],
+                ChargingStationIds["Eldrive Abritus Razgrad"],
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Razgrad Center"],
+                ChargingStationIds["Eldrive Razgrad Center"],
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Hotel Serdika Silistra"],
+                ChargingStationIds["Eldrive Hotel Serdika Silistra"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Cedar Lovech"],
+                ChargingStationIds["Eldrive Cedar Lovech"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Billa Troyan"],
+                ChargingStationIds["Eldrive Billa Troyan"],
                 (ConnectorType.CCS2, 2, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Retail Park Smolyan"],
+                ChargingStationIds["Eldrive Retail Park Smolyan"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Shumen"],
+                ChargingStationIds["Eldrive Shell Shumen"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Pravets"],
+                ChargingStationIds["Eldrive Shell Pravets"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Shell Enevo North"],
+                ChargingStationIds["Eldrive Shell Enevo North"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Santa Marina Holiday Village"],
+                ChargingStationIds["Eldrive Santa Marina Holiday Village"],
                 (ConnectorType.CCS2, 1, 24.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Swimming Complex Flora"],
+                ChargingStationIds["Eldrive Swimming Complex Flora"],
                 (ConnectorType.CCS2, 1, 24.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Rodopi Burgas"],
+                ChargingStationIds["Eldrive Rodopi Burgas"],
                 (ConnectorType.CCS2, 1, 24.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Borisova Gradina"],
+                ChargingStationIds["Eldrive Borisova Gradina"],
                 (ConnectorType.CCS2, 3, 24.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Boycho Branzov"],
+                ChargingStationIds["Eldrive Boycho Branzov"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Eldrive Parking Gurko"],
+                ChargingStationIds["Eldrive Parking Gurko"],
                 (ConnectorType.CCS2, 1, 25.00m, 0.46m),
                 (ConnectorType.CHAdeMO, 1, 25.00m, 0.46m),
                 (ConnectorType.Type2, 1, 22.00m, 0.41m));
@@ -452,7 +452,7 @@
 
         private static void AddConnectorsWithExternalIds(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 decimal PowerKw,
@@ -475,7 +475,7 @@
                     PricePerKWh = connectorInfo.PricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = connectorInfo.ExternalId,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);
@@ -486,7 +486,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 int Count,
@@ -511,7 +511,7 @@
                         PricePerKWh = connectorGroup.PricePerKWh,
                         ConnectorStatus = ConnectorStatus.Unknown,
                         ExternalId = null,
-                        ChargeStationId = chargeStationId
+                        ChargingStationId = ChargingStationId
                     };
 
                     connectors.Add(connector);

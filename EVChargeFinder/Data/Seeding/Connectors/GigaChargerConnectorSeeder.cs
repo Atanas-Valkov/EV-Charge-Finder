@@ -8,7 +8,7 @@
       private const decimal DefaultPricePerKWh = 0.25m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
@@ -20,7 +20,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Mladost 4"],
+                ChargingStationIds["GigaCharger Mladost 4"],
                 (ConnectorType.Type2, 1, 7.20m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Trudolyubie 7"
@@ -55,7 +55,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Hotel Riga"],
+                ChargingStationIds["GigaCharger Hotel Riga"],
                 (ConnectorType.Type2, 1, 22.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Bl. Madara"
@@ -90,7 +90,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Vazrazhdane 27"],
+                ChargingStationIds["GigaCharger Vazrazhdane 27"],
                 (ConnectorType.Type2, 1, 7.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Chaika, bl. 68"
@@ -101,7 +101,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Vazrazhdane 4"],
+                ChargingStationIds["GigaCharger Vazrazhdane 4"],
                 (ConnectorType.Type2, 1, 7.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Simfoniya"
@@ -124,7 +124,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Graf Ignatiev 33"],
+                ChargingStationIds["GigaCharger Graf Ignatiev 33"],
                 (ConnectorType.Type2, 1, 22.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Baruten Pogreb"
@@ -141,12 +141,12 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Perperikon 4"],
+                ChargingStationIds["GigaCharger Perperikon 4"],
                 (ConnectorType.Type2, 1, 22.00m, DefaultPricePerKWh));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Pchelina"],
+                ChargingStationIds["GigaCharger Pchelina"],
                 (ConnectorType.Type2, 1, 7.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Shagy Carpets"
@@ -154,7 +154,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Naiden Gerov 10"],
+                ChargingStationIds["GigaCharger Naiden Gerov 10"],
                 (ConnectorType.Type2, 1, 7.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Velikova"
@@ -162,7 +162,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["GigaCharger Kaylaka Park Hotel"],
+                ChargingStationIds["GigaCharger Kaylaka Park Hotel"],
                 (ConnectorType.Type2, 1, 22.00m, DefaultPricePerKWh));
 
             // TODO: "GigaCharger Bratya Miladinovi, bl. 18"
@@ -186,7 +186,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 int Count,
@@ -211,7 +211,7 @@
                         PricePerKWh = connectorGroup.PricePerKWh,
                         ConnectorStatus = ConnectorStatus.Unknown,
                         ExternalId = null,
-                        ChargeStationId = chargeStationId
+                        ChargingStationId = ChargingStationId
                     };
 
                     connectors.Add(connector);

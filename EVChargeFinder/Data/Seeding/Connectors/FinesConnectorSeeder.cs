@@ -5,121 +5,121 @@
     public static class FinesConnectorSeeder
     {
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Trakia 122"],
+                ChargingStationIds["FINES Trakia 122"],
                 (ConnectorType.CCS2, 1, 600.00m, 0.33m),
                 (ConnectorType.MCS, 1, 1000.00m, 0.33m),
                 (ConnectorType.CCS2, 10, 480.00m, 0.33m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Elit Vidin"],
+                ChargingStationIds["FINES Elit Vidin"],
                 (ConnectorType.CCS2, 2, 480.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Imperial Palace Svilengrad"],
+                ChargingStationIds["FINES Imperial Palace Svilengrad"],
                 (ConnectorType.CCS2, 2, 480.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 150.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Varna Billa"],
+                ChargingStationIds["FINES Varna Billa"],
                 (ConnectorType.CCS2, 8, 480.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Chuchuligovo"],
+                ChargingStationIds["FINES Chuchuligovo"],
                 (ConnectorType.CCS2, 2, 400.00m, 0.39m),
                 (ConnectorType.CCS2, 6, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Petrol Orizovo"],
+                ChargingStationIds["FINES Petrol Orizovo"],
                 (ConnectorType.CCS2, 2, 180.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Balkan AD Lovech"],
+                ChargingStationIds["Balkan AD Lovech"],
                 (ConnectorType.CCS2, 12, 480.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Intercom Group Varna"],
+                ChargingStationIds["FINES Intercom Group Varna"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Varna Star Power"],
+                ChargingStationIds["FINES Varna Star Power"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Hyundai Varna"],
+                ChargingStationIds["FINES Hyundai Varna"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Bulavto Premium Varna"],
+                ChargingStationIds["FINES Bulavto Premium Varna"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Tomsy Burgas"],
+                ChargingStationIds["FINES Tomsy Burgas"],
                 (ConnectorType.CCS2, 2, 180.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Tomov Plaza Plovdiv"],
+                ChargingStationIds["FINES Tomov Plaza Plovdiv"],
                 (ConnectorType.CCS2, 2, 180.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Hay Group Shumen"],
+                ChargingStationIds["FINES Hay Group Shumen"],
                 (ConnectorType.CCS2, 2, 360.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FiNES Omnicar Auto Plovdiv"],
+                ChargingStationIds["FiNES Omnicar Auto Plovdiv"],
                 (ConnectorType.CCS2, 2, 360.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Harmanli"],
+                ChargingStationIds["FINES Harmanli"],
                 (ConnectorType.CCS2, 2, 320.00m, 0.20m),
                 (ConnectorType.CCS2, 2, 240.00m, 0.20m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Petrol Studena"],
+                ChargingStationIds["FINES Petrol Studena"],
                 (ConnectorType.CCS2, 4, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Plovdiv Tsarigradsko"],
+                ChargingStationIds["FINES Plovdiv Tsarigradsko"],
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Porsche Center Sofia"],
+                ChargingStationIds["FINES Porsche Center Sofia"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Trakia 243 Sofia"],
+                ChargingStationIds["FINES Trakia 243 Sofia"],
                 (ConnectorType.CCS2, 4, 400.00m, 0.39m),
                 (ConnectorType.CCS2, 6, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Trakia 243 Burgas"],
+                ChargingStationIds["FINES Trakia 243 Burgas"],
                 (ConnectorType.Type2, 1, 22.00m, 0.39m),
                 (ConnectorType.CCS2, 3, 600.00m, 0.39m),
                 (ConnectorType.MCS, 1, 1000.00m, 0.39m),
@@ -129,119 +129,119 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Central Park Burgas"],
+                ChargingStationIds["FINES Central Park Burgas"],
                 (ConnectorType.Type2, 19, 22.00m, 0.32m),
                 (ConnectorType.CCS2, 6, 480.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 50.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["Hydro Power Plant Kadievo"],
+                ChargingStationIds["Hydro Power Plant Kadievo"],
                 (ConnectorType.Type2, 1, 22.00m, 0.15m),
                 (ConnectorType.CCS2, 2, 180.00m, 0.18m),
                 (ConnectorType.CCS2, 4, 480.00m, 0.22m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Dimar Stroy"],
+                ChargingStationIds["FINES Dimar Stroy"],
                 (ConnectorType.CCS2, 2, 360.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Ihtiman Burgas"],
+                ChargingStationIds["FINES Ihtiman Burgas"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m),
                 (ConnectorType.CCS2, 6, 320.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Hotel City Sandanski"],
+                ChargingStationIds["FINES Hotel City Sandanski"],
                 (ConnectorType.CCS2, 4, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Hyundai Sofia"],
+                ChargingStationIds["FINES Hyundai Sofia"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Lukoil Sofia Ring"],
+                ChargingStationIds["FINES Lukoil Sofia Ring"],
                 (ConnectorType.CCS2, 3, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mr. Bricolage Blagoevgrad"],
+                ChargingStationIds["FINES Mr. Bricolage Blagoevgrad"],
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mr. Bricolage XOPark"],
+                ChargingStationIds["FINES Mr. Bricolage XOPark"],
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Retail Park Dobrich"],
+                ChargingStationIds["FINES Retail Park Dobrich"],
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m),
                 (ConnectorType.Type2, 6, 22.00m, 0.32m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Technomarket Haskovo"],
+                ChargingStationIds["FINES Technomarket Haskovo"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.39m),
                 (ConnectorType.CHAdeMO, 1, 50.00m, 0.39m),
                 (ConnectorType.CCS2, 2, 300.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Gelemenovo"],
+                ChargingStationIds["FINES Gelemenovo"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m),
                 (ConnectorType.Type2, 1, 22.00m, 0.32m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Hyundai Burgas"],
+                ChargingStationIds["FINES Hyundai Burgas"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mall Yambol"],
+                ChargingStationIds["FINES Mall Yambol"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES MASTERHAUS Kazanlak"],
+                ChargingStationIds["FINES MASTERHAUS Kazanlak"],
                 (ConnectorType.Type2, 1, 22.00m, 0.32m),
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mr. Bricolage Burgas"],
+                ChargingStationIds["FINES Mr. Bricolage Burgas"],
                 (ConnectorType.CCS2, 6, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mr. Bricolage Haskovo"],
+                ChargingStationIds["FINES Mr. Bricolage Haskovo"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mr. Bricolage Plovdiv"],
+                ChargingStationIds["FINES Mr. Bricolage Plovdiv"],
                 (ConnectorType.CCS2, 4, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Mr. Bricolage Ruse"],
+                ChargingStationIds["FINES Mr. Bricolage Ruse"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Omnicar Plovdiv Rodopi"],
+                ChargingStationIds["FINES Omnicar Plovdiv Rodopi"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             AddConnectors(
                 connectors,
-                chargeStationIds["FINES Porcelanosa"],
+                ChargingStationIds["FINES Porcelanosa"],
                 (ConnectorType.CCS2, 2, 240.00m, 0.39m));
 
             return connectors.ToArray();
@@ -250,7 +250,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             params (
                 ConnectorType Type,
                 int Count,
@@ -275,7 +275,7 @@
                         PricePerKWh = connectorGroup.PricePerKWh,
                         ConnectorStatus = ConnectorStatus.Unknown,
                         ExternalId = null,
-                        ChargeStationId = chargeStationId
+                        ChargingStationId = ChargingStationId
                     };
 
                     connectors.Add(connector);

@@ -3,12 +3,12 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Microsoft.EntityFrameworkCore;
-    using static EVChargeFinder.Common.EntityValidation.ChargeStation;
+    using static EVChargeFinder.Common.EntityValidation.ChargingStation;
     using Enums;
 
 
     [Index(nameof(OperatorId), nameof(Name), nameof(Latitude), nameof(Longitude), IsUnique = true)]
-    public class ChargeStation
+    public class ChargingStation
     {
         [Key]
         public int Id { get; set; }
@@ -35,7 +35,7 @@
         [Precision(9, 6)]
         public decimal Longitude { get; set; }
 
-        public ChargeStationStatus ChargeStationStatus { get; set; }
+        public ChargingStationStatus ChargingStationStatus { get; set; }
 
         [Required]
         [MinLength(DataSourceMinLength)]

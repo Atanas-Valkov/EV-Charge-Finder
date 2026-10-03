@@ -8,13 +8,13 @@
         private const decimal HistoricalPricePerKWh = 0.51m;
 
         public static Connector[] GetConnectors(
-            Dictionary<string, int> chargeStationIds)
+            Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
             AddConnectors(
                 connectors,
-                chargeStationIds["EVN2GO Hristo G. Danov"],
+                ChargingStationIds["EVN2GO Hristo G. Danov"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -23,7 +23,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["EVN2GO Great Basilica Plovdiv"],
+                ChargingStationIds["EVN2GO Great Basilica Plovdiv"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -32,7 +32,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["EVN2GO TEC Sever Plovdiv"],
+                ChargingStationIds["EVN2GO TEC Sever Plovdiv"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
@@ -41,7 +41,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["EVN2GO Grand Mall Varna"],
+                ChargingStationIds["EVN2GO Grand Mall Varna"],
                 ConnectorType.Type2,
                 2,
                 22.00m,
@@ -49,7 +49,7 @@
 
             AddConnectors(
                 connectors,
-                chargeStationIds["EVN2GO Pamporovo Studenets"],
+                ChargingStationIds["EVN2GO Pamporovo Studenets"],
                 ConnectorType.CCS2,
                 2,
                 60.00m,
@@ -62,7 +62,7 @@
 
         private static void AddConnectors(
             List<Connector> connectors,
-            int chargeStationId,
+            int ChargingStationId,
             ConnectorType connectorType,
             int count,
             decimal powerKw,
@@ -80,7 +80,7 @@
                     PricePerKWh = pricePerKWh,
                     ConnectorStatus = ConnectorStatus.Unknown,
                     ExternalId = null,
-                    ChargeStationId = chargeStationId
+                    ChargingStationId = ChargingStationId
                 };
 
                 connectors.Add(connector);
