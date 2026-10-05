@@ -1,0 +1,951 @@
+﻿@model EVChargeFinder.DbModels.ChargingStation
+@using System.Globalization
+@using System.Text.Json
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Charging Station Details";
+
+    int connectorsCount = Model.Connectors.Count;
+
+    decimal maxPower = Model.Connectors.Any()
+        ? Model.Connectors.Max(c => c.PowerKw)
+        : 0;
+
+    string stationStatusClass = Model.ChargingStationStatus.ToString() switch
+    {
+        "Active" => "station-status-active",
+        "Inactive" => "station-status-inactive",
+        "PartiallyAvailable" => "station-status-partial",
+        "Unavailable" => "station-status-unavailable",
+        "Maintenance" => "station-status-maintenance",
+        "Faulted" => "station-status-faulted",
+        "Offline" => "station-status-offline",
+        _ => "station-status-unknown"
+    };
+
+    string latitude = Model.Latitude.ToString(CultureInfo.InvariantCulture);
+    string longitude = Model.Longitude.ToString(CultureInfo.InvariantCulture);
+
+    string stationNameJson = JsonSerializer.Serialize(Model.Name);
+    string stationAddressJson = JsonSerializer.Serialize(Model.Address);
+}
+
+@functions
+{
+    string GetConnectorImage(EVChargeFinder.DbModels.Enums.ConnectorType connectorType)
+    {
+        return connectorType switch
+        {
+            EVChargeFinder.DbModels.Enums.ConnectorType.Type1
+                => "/images/connectors/type1.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.Type2
+                => "/images/connectors/type2.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.CCS1
+                => "/images/connectors/ccs1.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.CCS2
+                => "/images/connectors/ccs2.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.CHAdeMO
+                => "/images/connectors/chademo.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.NACS
+                => "/images/connectors/nacs.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.Schuko
+                => "/images/connectors/schuko.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.GB_T_AC
+                => "/images/connectors/gbt-ac.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.GB_T_DC
+                => "/images/connectors/gbt-dc.svg",
+
+            EVChargeFinder.DbModels.Enums.ConnectorType.MCS
+                => "/images/connectors/mcs.svg",
+
+            _ => "/images/connectors/unknown.svg"
+        };
+    }
+}
+
+<style>
+
+    body {
+        background-color: #f7f1e5;
+    }
+
+    .station-details-page {
+        padding-top: 28px;
+        padding-bottom: 60px;
+    }
+
+    .dashboard-card {
+        background: rgba(255, 251, 242, 0.96);
+        border: 1px solid rgba(60, 50, 35, 0.08);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(50, 45, 35, 0.06);
+    }
+
+    .station-header {
+        padding: 30px 32px;
+        margin-bottom: 22px;
+        background: rgba(255, 251, 242, 0.96);
+        border: 1px solid rgba(60, 50, 35, 0.08);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(50, 45, 35, 0.06);
+    }
+
+    .station-title {
+        margin-bottom: 7px;
+        color: #172033;
+        font-size: 2rem;
+        font-weight: 750;
+    }
+
+    .station-location {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 7px;
+        color: #697386;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .station-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 30px;
+    }
+
+    .station-status::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        background-color: currentColor;
+        border-radius: 50%;
+    }
+
+    .station-status-active {
+        background-color: #e8f8ef;
+        color: #16864b;
+    }
+
+    .station-status-inactive,
+    .station-status-unknown {
+        background-color: #eceff3;
+        color: #6c757d;
+    }
+
+    .station-status-partial {
+        background-color: #fff3d1;
+        color: #a66a00;
+    }
+
+    .station-status-unavailable,
+    .station-status-faulted {
+        background-color: #ffe8e8;
+        color: #c93434;
+    }
+
+    .station-status-maintenance {
+        background-color: #e8f4ff;
+        color: #087bbf;
+    }
+
+    .station-status-offline {
+        background-color: #e8e8e8;
+        color: #343a40;
+    }
+
+    .metric-card {
+        height: 100%;
+        padding: 20px 22px;
+    }
+
+    .metric-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 18px;
+        background-color: #f3f5f7;
+        color: #334155;
+        border-radius: 12px;
+    }
+
+    .metric-icon i {
+        font-size: 32px;
+    }
+
+    .metric-label {
+        margin-bottom: 7px;
+        color: #7b8494;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .metric-value {
+        color: #172033;
+        font-size: 1.65rem;
+        font-weight: 750;
+    }
+
+    .metric-subtext {
+        margin-top: 4px;
+        color: #8a94a3;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .section-card {
+        overflow: hidden;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 21px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0;
+        color: #172033;
+        font-size: 1.35rem;
+        font-weight: 700;
+    }
+
+    .connectors-total {
+        padding: 7px 13px;
+        background-color: #f3f1eb;
+        color: #172033;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 20px;
+    }
+
+    .section-body {
+        padding: 22px;
+    }
+
+    .station-info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+    }
+
+    .station-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .station-info-label {
+        color: #7b8494;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .station-info-value {
+        color: #172033;
+        font-size: 1.05rem;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .station-overview-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        align-items: stretch;
+        margin-bottom: 24px;
+    }
+
+    .station-info-card {
+        height: auto;
+        align-self: start;
+    }
+
+    .station-map-card {
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        min-height: 0;
+    }
+
+    #stationMap {
+        width: 100%;
+        height: 100%;
+        min-height: 220px;
+        border-radius: 14px 14px 0 0;
+    }
+
+    .map-coordinates {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .coordinate-badge {
+        padding: 10px 12px;
+        background-color: #faf7ef;
+        border-radius: 10px;
+    }
+
+    .coordinate-badge .station-info-value {
+        text-align: left;
+    }
+
+    .connectors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+    }
+
+    .connector-card {
+        padding: 18px;
+        background-color: #fffdf8;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        border-radius: 14px;
+        transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .connector-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(40, 45, 60, 0.08);
+    }
+
+    .connector-card-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .connector-image-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        flex-shrink: 0;
+        background-color: #f7f4ec;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 14px;
+    }
+
+    .connector-image {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+    }
+
+    .connector-main-info {
+        flex: 1;
+    }
+
+    .connector-number {
+        color: #8a94a3;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .connector-type {
+        margin-top: 7px;
+        color: #172033;
+        font-size: 1.1rem;
+        font-weight: 750;
+    }
+
+    .connector-power {
+        margin-top: 16px;
+        color: #172033;
+        font-size: 1.65rem;
+        font-weight: 750;
+    }
+
+    .connector-power-unit {
+        color: #788394;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .connector-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 17px;
+    }
+
+    .connector-meta-item {
+        padding: 9px 10px;
+        background-color: #f7f7f4;
+        border-radius: 9px;
+    }
+
+    .connector-meta-label {
+        display: block;
+        margin-bottom: 3px;
+        color: #8b94a2;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+
+    .connector-meta-value {
+        color: #364152;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .connector-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(0, 0, 0, 0.055);
+    }
+
+    .connector-history-btn {
+        padding: 7px 12px;
+        background-color: #eef6ff;
+        color: #0d6efd;
+        font-size: 0.84rem;
+        font-weight: 700;
+        border: 1px solid #cfe4ff;
+        border-radius: 9px;
+        transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+    }
+
+    .connector-history-btn:hover {
+        background-color: #0d6efd;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .empty-connectors {
+        padding: 45px 20px;
+        color: #8993a3;
+        text-align: center;
+    }
+
+    @@media (max-width: 991px) {
+
+        .station-overview-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .station-info-card {
+            align-self: stretch;
+        }
+
+        #stationMap {
+            height: 300px;
+            min-height: 300px;
+        }
+    }
+
+</style>
+
+
+<div class="station-details-page">
+
+    <div class="station-header">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-7">
+
+                <h1 class="station-title">
+                    @Model.Name
+                </h1>
+
+                <div class="station-location">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    <span>
+                        @Model.Address
+                    </span>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.City))
+                    {
+                        <span>
+                            · @Model.City
+                        </span>
+                    }
+
+                </div>
+
+                <div class="mt-3">
+
+                    <span class="station-status @stationStatusClass">
+                        @Model.ChargingStationStatus
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-5 text-lg-end mt-4 mt-lg-0">
+
+                <a asp-controller="ChargingStations"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary">
+
+                    <i class="bi bi-arrow-left me-1"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon">
+                    <i class="bi bi-building"></i>
+                </div>
+
+                <div class="metric-label">
+                    Operator
+                </div>
+
+                <div class="metric-value">
+                    @(Model.Operator?.Name ?? "N/A")
+                </div>
+
+                <div class="metric-subtext">
+                    Charging network
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon">
+                    <i class="bi bi-plug"></i>
+                </div>
+
+                <div class="metric-label">
+                    Connectors
+                </div>
+
+                <div class="metric-value">
+                    @connectorsCount
+                </div>
+
+                <div class="metric-subtext">
+                    Total charging ports
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon">
+                    <i class="bi bi-lightning-charge"></i>
+                </div>
+
+                <div class="metric-label">
+                    Maximum Power
+                </div>
+
+                <div class="metric-value">
+                    @maxPower.ToString("0")
+                    <span style="font-size: 1.1rem; font-weight: 600;">
+                        kW
+                    </span>
+                </div>
+
+                <div class="metric-subtext">
+                    Highest connector power
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon">
+                    <i class="bi bi-activity"></i>
+                </div>
+
+                <div class="metric-label">
+                    Status
+                </div>
+
+                <div class="metric-value">
+                    @Model.ChargingStationStatus
+                </div>
+
+                <div class="metric-subtext">
+                    Current station status
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="station-overview-grid">
+
+        <div class="dashboard-card section-card station-info-card">
+
+            <div class="section-header">
+
+                <h2 class="section-title">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    Station Information
+
+                </h2>
+
+            </div>
+
+
+            <div class="section-body">
+
+                <div class="station-info-row">
+
+                    <span class="station-info-label">
+                        Station Name
+                    </span>
+
+                    <span class="station-info-value">
+                        @Model.Name
+                    </span>
+
+                </div>
+
+
+                <div class="station-info-row">
+
+                    <span class="station-info-label">
+                        Operator
+                    </span>
+
+                    <span class="station-info-value">
+                        @(Model.Operator?.Name ?? "N/A")
+                    </span>
+
+                </div>
+
+
+                <div class="station-info-row">
+
+                    <span class="station-info-label">
+                        City
+                    </span>
+
+                    <span class="station-info-value">
+                        @(Model.City ?? "N/A")
+                    </span>
+
+                </div>
+
+
+                <div class="station-info-row">
+
+                    <span class="station-info-label">
+                        Address
+                    </span>
+
+                    <span class="station-info-value">
+                        @Model.Address
+                    </span>
+
+                </div>
+
+
+                <div class="station-info-row">
+
+                    <span class="station-info-label">
+                        Data Source
+                    </span>
+
+                    <span class="station-info-value">
+                        @Model.DataSource
+                    </span>
+
+                </div>
+
+
+                <div class="station-info-row">
+
+                    <span class="station-info-label">
+                        Last Updated
+                    </span>
+
+                    <span class="station-info-value">
+                        @Model.LastUpdatedAt.ToString("dd MMM yyyy, HH:mm")
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card section-card station-map-card">
+
+            <div id="stationMap"></div>
+
+            <div class="map-coordinates">
+
+                <div class="coordinate-badge">
+
+                    <span class="station-info-label d-block">
+                        Latitude
+                    </span>
+
+                    <span class="station-info-value d-block mt-1">
+                        @Model.Latitude
+                    </span>
+
+                </div>
+
+
+                <div class="coordinate-badge">
+
+                    <span class="station-info-label d-block">
+                        Longitude
+                    </span>
+
+                    <span class="station-info-value d-block mt-1">
+                        @Model.Longitude
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-card section-card">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                <i class="bi bi-plug"></i>
+
+                Connectors
+
+            </h2>
+
+            <span class="connectors-total">
+                @Model.Connectors.Count total
+            </span>
+
+        </div>
+
+
+        <div class="section-body">
+
+            @if (Model.Connectors.Any())
+            {
+                <div class="connectors-grid">
+
+                    @foreach (var connector in Model.Connectors
+                        .OrderBy(c => c.ConnectorNumber))
+                    {
+                        <div class="connector-card">
+
+                            <div class="connector-card-header">
+
+                                <div class="connector-image-box">
+
+                                    <img src="@GetConnectorImage(connector.ConnectorType)"
+                                         alt="@connector.ConnectorType connector"
+                                         class="connector-image" />
+
+                                </div>
+
+
+                                <div class="connector-main-info">
+
+                                    <div class="connector-number">
+                                        Connector #@connector.ConnectorNumber
+                                    </div>
+
+                                    <div class="connector-type">
+                                        @connector.ConnectorType
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="connector-power">
+
+                                @connector.PowerKw.ToString("0")
+
+                                <span class="connector-power-unit">
+                                    kW
+                                </span>
+
+                            </div>
+
+
+                            <div class="connector-meta">
+
+                                <div class="connector-meta-item">
+
+                                    <span class="connector-meta-label">
+                                        Price / kWh
+                                    </span>
+
+                                    <span class="connector-meta-value">
+                                        @connector.PricePerKWh.ToString("0.00") €
+                                    </span>
+
+                                </div>
+
+
+                                <div class="connector-meta-item">
+
+                                    <span class="connector-meta-label">
+                                        Status
+                                    </span>
+
+                                    <span class="connector-meta-value">
+                                        @connector.ConnectorStatus
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="connector-actions">
+
+                                <a asp-controller="ChargingSessions"
+                                   asp-action="Index"
+                                   asp-route-connectorId="@connector.Id"
+                                   class="btn connector-history-btn">
+
+                                    <i class="bi bi-clock-history me-1"></i>
+
+                                    View History
+
+                                </a>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="empty-connectors">
+
+                    <i class="bi bi-plug fs-2 d-block mb-2"></i>
+
+                    No connectors available for this station.
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        const stationLatitude = @latitude;
+        const stationLongitude = @longitude;
+
+        const stationName = @Html.Raw(stationNameJson);
+        const stationAddress = @Html.Raw(stationAddressJson);
+
+        const map = L.map('stationMap')
+            .setView(
+                [
+                    stationLatitude,
+                    stationLongitude
+                ],
+                15
+            );
+
+        const mapboxToken =  '@Configuration["Mapbox:AccessToken"]';
+
+        L.tileLayer(
+            `https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}?access_token=${mapboxToken}`,
+            {
+                tileSize: 512,
+                zoomOffset: -1,
+                maxZoom: 22,
+                attribution: '© Mapbox © OpenStreetMap'
+            })
+            .addTo(map);
+
+        const marker = L.marker(
+            [
+                stationLatitude,
+                stationLongitude
+            ])
+            .addTo(map);
+            r
+        marker.bindPopup(`
+            <strong>${stationName}</strong>
+            <br>
+            ${stationAddress}
+        `);
+
+        requestAnimationFrame(() => {
+            map.invalidateSize();
+        });
+
+    </script>
+}

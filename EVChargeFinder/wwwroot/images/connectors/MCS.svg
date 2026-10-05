@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="22 28 156 148">
+  <g fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Outer MCS housing -->
+    <path
+      d="M 0.64410237,158.6754 C 94.008637,158.4937 135.97283,252.52028 182.81245,333.28549 229.65207,414.0507 290.42335,497.17015 243.89844,578.11706 197.37353,659.06397 94.962024,648.39274 1.5974895,648.57443 -91.76705,648.75613 -194.13624,659.82588 -240.97587,579.06066 c -46.83962,-80.76521 13.60769,-164.12055 60.1326,-245.06746 46.52492,-80.94691 88.122833,-175.13611 181.48737237,-175.3178 z"
+      transform="matrix(-0.26458333,0,0,-0.26458333,105.58346,209.58726)"
+      stroke-width="26"/>
+
+    <!-- Main DC power contacts -->
+    <circle cx="73.524864" cy="74.307625" r="24.302755" stroke-width="9"/>
+    <circle cx="137.94254" cy="74.307251" r="24.302755" stroke-width="9"/>
+    <circle cx="72.689903" cy="73.751015" r="7.5" fill="#000000" stroke="none"/>
+    <circle cx="138.62897" cy="73.851479" r="7.5" fill="#000000" stroke="none"/>
+
+    <!-- Communication slot -->
+    <rect x="92.5" y="96.6" width="26.5" height="15.5" rx="7.75" fill="#000000" stroke="none"/>
+    <circle cx="99.2" cy="104.35" r="3.6" fill="#ffffff" stroke="none"/>
+    <circle cx="112.3" cy="104.35" r="3.6" fill="#ffffff" stroke="none"/>
+
+    <!-- Small signal contacts -->
+    <circle cx="82.437843" cy="119.1245" r="7.2" fill="#000000" stroke="none"/>
+    <circle cx="130.42014" cy="119.11855" r="7.2" fill="#000000" stroke="none"/>
+
+    <!-- PE contact -->
+    <circle cx="105.62165" cy="141.39511" r="12.5" fill="#000000" stroke="none"/>
+  </g>
+</svg>

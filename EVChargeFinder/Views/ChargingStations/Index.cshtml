@@ -1,0 +1,1586 @@
+﻿@model IEnumerable<EVChargeFinder.DbModels.ChargingStation>
+@using System.Text.Json
+@using EVChargeFinder.DbModels.Enums
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Charging Stations";
+
+    var stations = Model?.ToArray()
+        ?? Array.Empty<EVChargeFinder.DbModels.ChargingStation>();
+
+    int stationsCount = stations.Length;
+
+
+    int activeStationsCount = stations
+        .Count(cs => cs.ChargingStationStatus.ToString() == "Active");
+
+    int operatorsCount = stations
+        .Where(cs => cs.Operator != null)
+        .Select(cs => cs.Operator!.Id)
+        .Distinct()
+        .Count();
+
+    int connectorsCount = stations
+        .Sum(cs => cs.Connectors.Count);
+
+
+    var mapStations = stations.Select(station =>
+    {
+        string[] connectorTypes = station.Connectors
+            .Select(c => c.ConnectorType.ToString())
+            .ToArray();
+
+        bool hasAc = connectorTypes.Any(type =>
+            type == "Type1" ||
+            type == "Type2" ||
+            type == "Schuko" ||
+            type == "GB_T_AC");
+
+        bool hasDc = connectorTypes.Any(type =>
+            type == "CCS1" ||
+            type == "CCS2" ||
+            type == "CHAdeMO" ||
+            type == "NACS" ||
+            type == "GB_T_DC");
+
+        string chargingType;
+
+        if (hasAc && hasDc)
+        {
+            chargingType = "AC/DC";
+        }
+        else if (hasDc)
+        {
+            chargingType = "DC";
+        }
+        else if (hasAc)
+        {
+            chargingType = "AC";
+        }
+        else
+        {
+            chargingType = "N/A";
+        }
+
+        decimal maxPowerKw = station.Connectors.Any()
+            ? station.Connectors.Max(c => c.PowerKw)
+            : 0m;
+
+        return new
+        {
+            station.Id,
+            station.Name,
+            station.City,
+            station.Address,
+            station.Latitude,
+            station.Longitude,
+
+            Operator = station.Operator != null
+                ? station.Operator.Name
+                : "N/A",
+
+            ChargingType = chargingType,
+            MaxPowerKw = maxPowerKw
+        };
+    });
+
+    string stationsJson = JsonSerializer.Serialize(mapStations);
+}
+
+
+<style>
+
+    body {
+        background-color: #f7f1e5;
+    }
+
+
+    .stations-page {
+        padding-top: 28px;
+        padding-bottom: 60px;
+    }
+
+
+    /* -----------------------------
+           Shared dashboard card
+        ----------------------------- */
+
+    .dashboard-card {
+        background: rgba(255, 251, 242, 0.96);
+        border: 1px solid rgba(60, 50, 35, 0.08);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(50, 45, 35, 0.06);
+    }
+
+
+    /* -----------------------------
+           Header
+        ----------------------------- */
+
+    .stations-header {
+        padding: 30px 32px;
+        margin-bottom: 20px;
+        background: rgba(255, 251, 242, 0.96);
+        border: 1px solid rgba(60, 50, 35, 0.08);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(50, 45, 35, 0.06);
+    }
+
+
+    .stations-title {
+        margin: 0;
+        color: #172033;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+
+    .stations-subtitle {
+        margin-top: 8px;
+        margin-bottom: 0;
+        color: #697386;
+        font-size: 1rem;
+    }
+
+
+    .add-station-btn {
+        padding: 10px 17px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(13, 110, 253, 0.16);
+        transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+
+        .add-station-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 20px rgba(13, 110, 253, 0.22);
+        }
+
+
+    /* -----------------------------
+           KPI cards
+        ----------------------------- */
+
+    .metric-card {
+        height: 100%;
+        padding: 22px 23px;
+    }
+
+
+    .metric-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 18px;
+        background-color: #e9f2ff;
+        color: #0d6efd;
+        font-size: 24px;
+        border-radius: 13px;
+    }
+
+
+    .metric-icon-green {
+        background-color: #e8f8ef;
+        color: #16864b;
+    }
+
+
+    .metric-icon-orange {
+        background-color: #fff1df;
+        color: #e58a00;
+    }
+
+
+    .metric-icon-purple {
+        background-color: #f1ebff;
+        color: #7654c4;
+    }
+
+
+    .metric-label {
+        margin-bottom: 7px;
+        color: #7b8494;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+
+    .metric-value {
+        color: #172033;
+        font-size: 1.58rem;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+
+    .metric-subtext {
+        margin-top: 6px;
+        color: #8a94a3;
+        font-size: 0.88rem;
+    }
+
+
+    /* -----------------------------
+           Section headers
+        ----------------------------- */
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 19px 22px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0;
+        color: #263142;
+        font-size: 1.08rem;
+        font-weight: 700;
+    }
+
+
+        .section-title i {
+            font-size: 20px;
+        }
+
+
+    /* -----------------------------
+           Map
+        ----------------------------- */
+
+    .map-card {
+        overflow: hidden;
+    }
+
+
+    .map-body {
+        padding: 14px;
+    }
+
+
+    #stationsMap {
+        width: 100%;
+        height: 500px;
+        border-radius: 14px;
+    }
+
+
+    .map-legend {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        color: #697386;
+        font-size: 0.86rem;
+        font-weight: 600;
+    }
+
+
+        .map-legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+
+    .legend-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+
+    .legend-ac {
+        background-color: #2ecc71;
+    }
+
+
+    .legend-dc {
+        background-color: #f59e0b;
+    }
+
+
+    .legend-mixed {
+        background-color: #0d6efd;
+    }
+
+
+    /* -----------------------------
+           Custom Leaflet pin
+        ----------------------------- */
+
+    .charging-station-marker {
+        background: transparent;
+        border: none;
+    }
+
+
+    /* -----------------------------
+           Stations table
+        ----------------------------- */
+
+    .stations-list-card {
+        overflow: hidden;
+    }
+
+
+    .stations-total {
+        padding: 6px 12px;
+        background-color: #f3f1eb;
+        color: #697386;
+        font-size: 0.86rem;
+        font-weight: 650;
+        border-radius: 20px;
+    }
+
+
+    .stations-table {
+        margin-bottom: 0;
+        font-size: 0.94rem;
+    }
+
+
+        .stations-table thead th {
+            padding: 18px 16px;
+            background-color: #faf8f2;
+            color: #737d8c;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.035em;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+
+        .stations-table tbody td {
+            padding: 18px 16px;
+            color: #364152;
+            vertical-align: middle;
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+
+        .stations-table tbody tr {
+            transition: background-color 0.16s ease;
+        }
+
+
+            .stations-table tbody tr:hover {
+                background-color: #fcfaf5;
+            }
+
+
+    .station-name {
+        color: #172033;
+        font-size: 0.96rem;
+        font-weight: 700;
+    }
+
+
+    .operator-name {
+        color: #475569;
+    }
+
+
+    .city-name {
+        color: #475569;
+    }
+
+
+    .station-address {
+        color: #64748b;
+    }
+
+
+    /* -----------------------------
+           Status badges
+        ----------------------------- */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 11px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border-radius: 30px;
+    }
+
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
+        background-color: currentColor;
+        border-radius: 50%;
+    }
+
+
+    .status-active {
+        background-color: #e8f8ef;
+        color: #16864b;
+    }
+
+
+    .status-inactive {
+        background-color: #f1f3f5;
+        color: #6c757d;
+    }
+
+
+    .status-partial {
+        background-color: #fff5d9;
+        color: #a66a00;
+    }
+
+
+    .status-unavailable {
+        background-color: #ffe9e9;
+        color: #dc3545;
+    }
+
+
+    .status-maintenance {
+        background-color: #e8f4ff;
+        color: #087bbf;
+    }
+
+
+    .status-faulted {
+        background-color: #ffe7e7;
+        color: #b42318;
+    }
+
+
+    .status-offline {
+        background-color: #eceff3;
+        color: #343a40;
+    }
+
+
+    .status-unknown {
+        background-color: #f1f3f5;
+        color: #6c757d;
+    }
+
+
+    /* -----------------------------
+           Action buttons
+        ----------------------------- */
+
+    .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 7px;
+    }
+
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        font-size: 15px;
+        border-radius: 10px;
+        transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+    }
+
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+
+    .details-btn {
+        background-color: #eef6ff;
+        border-color: #cfe4ff;
+        color: #0d6efd;
+    }
+
+
+        .details-btn:hover {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+            box-shadow: 0 6px 14px rgba(13, 110, 253, 0.20);
+        }
+
+
+    .edit-btn {
+        background-color: #f5f6f8;
+        border-color: #dfe3e8;
+        color: #5b6470;
+    }
+
+
+        .edit-btn:hover {
+            background-color: #5b6470;
+            border-color: #5b6470;
+            color: white;
+            box-shadow: 0 6px 14px rgba(80, 90, 105, 0.18);
+        }
+
+
+    .delete-btn {
+        background-color: #fff1f2;
+        border-color: #ffd5da;
+        color: #dc3545;
+    }
+
+
+        .delete-btn:hover {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: white;
+            box-shadow: 0 6px 14px rgba(220, 53, 69, 0.20);
+        }
+
+
+    /* -----------------------------
+           Empty state
+        ----------------------------- */
+
+    .empty-stations {
+        padding: 60px 20px;
+        color: #64748b;
+        text-align: center;
+    }
+
+
+        .empty-stations i {
+            display: block;
+            margin-bottom: 15px;
+            color: #94a3b8;
+            font-size: 2.7rem;
+        }
+
+
+    @@media (max-width: 767px) {
+
+        .stations-header {
+            padding: 24px;
+        }
+
+
+        .stations-title {
+            font-size: 1.7rem;
+        }
+
+
+        .section-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+
+        .map-legend {
+            width: 100%;
+        }
+
+
+        #stationsMap {
+            height: 420px;
+        }
+    }
+
+</style>
+
+
+<div class="container stations-page">
+
+
+    <!-- =========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="stations-header">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <h1 class="stations-title">
+                    Charging Stations
+                </h1>
+
+                <p class="stations-subtitle">
+                    Find and explore electric vehicle charging stations
+                </p>
+
+            </div>
+
+
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                <a asp-controller="ChargingStations"
+                   asp-action="Create"
+                   class="btn btn-primary add-station-btn">
+
+                    <i class="bi bi-plus-lg me-1"></i>
+
+                    Add Charging Station
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         DASHBOARD METRICS
+    ========================================== -->
+
+    <div class="row g-3 mb-4">
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon">
+
+                    <i class="bi bi-ev-station"></i>
+
+                </div>
+
+                <div class="metric-label">
+                    Charging Stations
+                </div>
+
+                <div class="metric-value">
+                    @stationsCount
+                </div>
+
+                <div class="metric-subtext">
+                    Total charging stations
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon metric-icon-green">
+
+                    <i class="bi bi-activity"></i>
+
+                </div>
+
+                <div class="metric-label">
+                    Active Stations
+                </div>
+
+                <div class="metric-value">
+                    @activeStationsCount
+                </div>
+
+                <div class="metric-subtext">
+                    Currently active
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon metric-icon-purple">
+
+                    <i class="bi bi-building"></i>
+
+                </div>
+
+                <div class="metric-label">
+                    Operators
+                </div>
+
+                <div class="metric-value">
+                    @operatorsCount
+                </div>
+
+                <div class="metric-subtext">
+                    Charging networks
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card metric-card">
+
+                <div class="metric-icon metric-icon-orange">
+
+                    <i class="bi bi-plug"></i>
+
+                </div>
+
+                <div class="metric-label">
+                    Connectors
+                </div>
+
+                <div class="metric-value">
+                    @connectorsCount
+                </div>
+
+                <div class="metric-subtext">
+                    Total charging ports
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+	
+	<form asp-controller="ChargingStations"
+      asp-action="Search"
+      method="get">
+
+    <div class="mb-3">
+        <div class="input-group">
+
+            <input type="text"
+                   name="searchTerm"
+                   value="@ViewBag.SearchTerm"
+                   class="form-control"
+                   placeholder="Search station, city, address or operator..." />
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+
+            <a asp-controller="ChargingStations"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                Clear
+            </a>
+
+        </div>
+    </div>
+
+
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            <div class="dashboard-card">
+
+                <p>Charging Stations</p>
+                <h3>@Model.Count()</h3>
+                <span>Total charging stations</span>
+
+                <select name="city"
+                        class="form-select dashboard-filter"
+                        onchange="this.form.submit()">
+
+                    <option value="">All cities</option>
+
+                    @foreach (string city in ViewBag.Cities)
+                    {
+                        if (ViewBag.SelectedCity == city)
+                        {
+                            <option value="@city" selected>
+                                @city
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@city">
+                                @city
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="dashboard-card">
+
+                <p>Active Stations</p>
+
+                <select name="status"
+                        class="form-select dashboard-filter"
+                        onchange="this.form.submit()">
+
+                    <option value="">All statuses</option>
+
+                    @foreach (ChargingStationStatus status
+                              in Enum.GetValues<ChargingStationStatus>())
+                    {
+                        if (ViewBag.SelectedStatus == status)
+                        {
+                            <option value="@status" selected>
+                                @status
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@status">
+                                @status
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="dashboard-card">
+
+                <p>Operators</p>
+
+                <select name="operatorId"
+                        class="form-select dashboard-filter"
+                        onchange="this.form.submit()">
+
+                    <option value="">All operators</option>
+
+                    @foreach (var op in ViewBag.Operators)
+                    {
+                        if (ViewBag.SelectedOperatorId == op.Id)
+                        {
+                            <option value="@op.Id" selected>
+                                @op.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@op.Id">
+                                @op.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="dashboard-card">
+
+                <p>Connectors</p>
+
+                <select name="connectorType"
+                        class="form-select dashboard-filter"
+                        onchange="this.form.submit()">
+
+                    <option value="">All connector types</option>
+
+                    @foreach (ConnectorType connectorType
+                              in Enum.GetValues<ConnectorType>())
+                    {
+                        if (ViewBag.SelectedConnectorType == connectorType)
+                        {
+                            <option value="@connectorType" selected>
+                                @connectorType
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@connectorType">
+                                @connectorType
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+        </div>
+
+    </div>
+
+</form>
+	
+
+
+
+    <!-- =========================================
+         MAP
+    ========================================== -->
+
+    <div class="dashboard-card map-card mb-4">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                <i class="bi bi-geo-alt"></i>
+
+                Charging Station Locations
+
+            </h2>
+
+
+            <div class="map-legend">
+
+                <span>
+
+                    <i class="legend-dot legend-ac"></i>
+
+                    AC
+
+                </span>
+
+
+                <span>
+
+                    <i class="legend-dot legend-dc"></i>
+
+                    DC
+
+                </span>
+
+
+                <span>
+
+                    <i class="legend-dot legend-mixed"></i>
+
+                    AC/DC
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="map-body">
+
+            <div id="stationsMap"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         STATIONS LIST
+    ========================================== -->
+
+    <div class="dashboard-card stations-list-card">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                <i class="bi bi-list-ul"></i>
+
+                Charging Stations
+
+            </h2>
+
+
+            <span class="stations-total">
+
+                @stationsCount total
+
+            </span>
+
+        </div>
+
+
+        @if (!stations.Any())
+        {
+            <div class="empty-stations">
+
+                <i class="bi bi-ev-station"></i>
+
+                <h5>
+                    No charging stations found
+                </h5>
+
+                <p class="mb-0">
+                    There are currently no stations available.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table stations-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Operator
+                            </th>
+
+                            <th>
+                                City
+                            </th>
+
+                            <th>
+                                Address
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th class="text-end">
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var station in stations)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <span class="station-name">
+                                        @station.Name
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    @if (station.Operator != null)
+                                    {
+                                        <span class="operator-name">
+                                            @station.Operator.Name
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            N/A
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(station.City))
+                                    {
+                                        <span class="city-name">
+                                            @station.City
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            N/A
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="station-address">
+                                        @station.Address
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    @if (station.ChargingStationStatus.ToString() == "Active")
+                                    {
+                                        <span class="status-badge status-active">
+
+                                            <span class="status-dot"></span>
+
+                                            Active
+
+                                        </span>
+                                    }
+
+                                    else if (station.ChargingStationStatus.ToString() == "Inactive")
+                                    {
+                                        <span class="status-badge status-inactive">
+
+                                            <span class="status-dot"></span>
+
+                                            Inactive
+
+                                        </span>
+                                    }
+
+                                    else if (station.ChargingStationStatus.ToString() == "PartiallyAvailable")
+                                    {
+                                        <span class="status-badge status-partial">
+
+                                            <span class="status-dot"></span>
+
+                                            Partially Available
+
+                                        </span>
+                                    }
+
+                                    else if (station.ChargingStationStatus.ToString() == "Unavailable")
+                                    {
+                                        <span class="status-badge status-unavailable">
+
+                                            <span class="status-dot"></span>
+
+                                            Unavailable
+
+                                        </span>
+                                    }
+
+                                    else if (station.ChargingStationStatus.ToString() == "Maintenance")
+                                    {
+                                        <span class="status-badge status-maintenance">
+
+                                            <span class="status-dot"></span>
+
+                                            Maintenance
+
+                                        </span>
+                                    }
+
+                                    else if (station.ChargingStationStatus.ToString() == "Faulted")
+                                    {
+                                        <span class="status-badge status-faulted">
+
+                                            <span class="status-dot"></span>
+
+                                            Faulted
+
+                                        </span>
+                                    }
+
+                                    else if (station.ChargingStationStatus.ToString() == "Offline")
+                                    {
+                                        <span class="status-badge status-offline">
+
+                                            <span class="status-dot"></span>
+
+                                            Offline
+
+                                        </span>
+                                    }
+
+                                    else
+                                    {
+                                        <span class="status-badge status-unknown">
+
+                                            <span class="status-dot"></span>
+
+                                            Unknown
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+
+                                        <a asp-controller="ChargingStations"
+                                           asp-action="Details"
+                                           asp-route-id="@station.Id"
+                                           class="btn action-btn details-btn"
+                                           title="Details">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </a>
+
+
+                                        <a asp-controller="ChargingStations"
+                                           asp-action="Edit"
+                                           asp-route-id="@station.Id"
+                                           class="btn action-btn edit-btn"
+                                           title="Edit">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </a>
+
+
+                                        <a asp-controller="ChargingStations"
+                                           asp-action="Delete"
+                                           asp-route-id="@station.Id"
+                                           class="btn action-btn delete-btn"
+                                           title="Delete">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </a>
+
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+const stations = @Html.Raw(stationsJson);
+
+const map = L.map('stationsMap')
+    .setView(
+        [
+            42.7339,
+            25.4858
+        ],  
+        7
+    );
+
+
+       
+const mapboxToken = '@Configuration["Mapbox:AccessToken"]';
+
+L.tileLayer(
+    `https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}?access_token=${mapboxToken}`,
+    {
+        tileSize: 512,
+        zoomOffset: -1,
+        maxZoom: 22,
+        attribution: '© Mapbox © OpenStreetMap'
+    })
+    .addTo(map);
+
+        stations.forEach(station => {
+
+
+            /* -----------------------------
+               Pin color
+            ----------------------------- */
+
+            let pinColor = "#6c757d";
+
+
+            if (station.ChargingType === "AC") {
+
+                pinColor = "#2ecc71";
+
+            }
+            else if (station.ChargingType === "DC") {
+
+                pinColor = "#f59e0b";
+
+            }
+            else if (station.ChargingType === "AC/DC") {
+
+                pinColor = "#0d6efd";
+
+            }
+
+
+            /* -----------------------------
+               Power text
+            ----------------------------- */
+
+            const powerValue =
+                Number(station.MaxPowerKw);
+
+
+            const displayPower =
+                Number.isInteger(powerValue)
+                    ? powerValue.toString()
+                    : powerValue.toFixed(1);
+
+
+            /* -----------------------------
+               AC / DC text
+            ----------------------------- */
+
+            const typeFontSize =
+                station.ChargingType === "AC/DC"
+                    ? 11
+                    : 13;
+
+
+            const chargingTypeText =
+                station.ChargingType === "AC/DC"
+                    ? `
+                        <tspan
+                            x="30"
+                            y="50">
+                            AC
+                        </tspan>
+
+                        <tspan
+                            x="30"
+                            y="61">
+                            DC
+                        </tspan>
+                      `
+                    : `
+                        <tspan
+                            x="30"
+                            y="56">
+                            ${station.ChargingType}
+                        </tspan>
+                      `;
+
+
+            /* -----------------------------
+               Custom SVG marker
+            ----------------------------- */
+
+            const stationIcon = L.divIcon({
+
+                className:
+                    'charging-station-marker',
+
+                html: `
+                    <svg
+                        width="60"
+                        height="82"
+                        viewBox="0 0 60 82"
+                        xmlns="http://www.w3.org/2000/svg">
+
+
+                        <defs>
+
+                            <filter
+                                id="pinShadow-${station.Id}"
+                                x="-40%"
+                                y="-30%"
+                                width="180%"
+                                height="190%">
+
+                                <feDropShadow
+                                    dx="2"
+                                    dy="3"
+                                    stdDeviation="2"
+                                    flood-color="#000"
+                                    flood-opacity="0.45"/>
+
+                            </filter>
+
+                        </defs>
+
+
+                        <path
+                            d="
+                                M 30 2
+                                C 14 2, 4 13, 4 28
+                                C 4 40, 10 48, 16 56
+                                L 30 79
+                                L 44 56
+                                C 50 48, 56 40, 56 28
+                                C 56 13, 46 2, 30 2
+                                Z
+                            "
+                            fill="#171717"
+                            filter="url(#pinShadow-${station.Id})"
+                        />
+
+
+                        <circle
+                            cx="30"
+                            cy="27"
+                            r="21"
+                            fill="${pinColor}"
+                        />
+
+
+                        <circle
+                            cx="30"
+                            cy="27"
+                            r="17"
+                            fill="#eeeeea"
+                        />
+
+
+                        <text
+                            x="30"
+                            y="24"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            font-size="12"
+                            font-weight="900"
+                            fill="#202020">
+
+                            ${displayPower}
+
+                        </text>
+
+
+                        <text
+                            x="30"
+                            y="35"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            font-size="7"
+                            font-weight="800"
+                            fill="#333333">
+
+                            kW
+
+                        </text>
+
+
+                        <text
+                            x="30"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                            font-size="${typeFontSize}"
+                            font-weight="900"
+                            fill="#ffffff">
+
+                            ${chargingTypeText}
+
+                        </text>
+
+
+                    </svg>
+                `,
+
+                iconSize:
+                    [
+                        60,
+                        82
+                    ],
+
+                iconAnchor:
+                    [
+                        30,
+                        79
+                    ],
+
+                popupAnchor:
+                    [
+                        0,
+                        -76
+                    ]
+            });
+
+
+            const marker = L.marker(
+                [
+                    station.Latitude,
+                    station.Longitude
+                ],
+                {
+                    icon: stationIcon
+                }
+            );
+
+
+            marker.addTo(map);
+
+
+            marker.bindPopup(`
+                <div style="min-width: 210px;">
+
+                    <strong
+                        style="
+                            font-size: 14px;
+                            color: #172033;
+                        ">
+                        ${station.Name}
+                    </strong>
+
+                    <br>
+
+                    <span
+                        style="
+                            color: #64748b;
+                            font-size: 12px;
+                        ">
+                        ${station.Operator}
+                    </span>
+
+                    <br><br>
+
+                    ${station.City ?? ""}
+
+                    <br>
+
+                    ${station.Address}
+
+                    <br><br>
+
+                    <strong>
+                        ${station.ChargingType}
+                        ·
+                        ${displayPower} kW
+                    </strong>
+
+                    <br><br>
+
+                    <a href="/ChargingStations/Details/${station.Id}">
+                        View details
+                    </a>
+
+                </div>
+            `);
+
+        });
+
+    </script>
+}
