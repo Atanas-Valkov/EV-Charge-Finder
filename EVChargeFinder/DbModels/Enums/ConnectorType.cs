@@ -13,7 +13,6 @@
         GB_T_AC = 8,
         GB_T_DC = 9,
         Unknown = 10,
-
         MCS = 11
     }
 }

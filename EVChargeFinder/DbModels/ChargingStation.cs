@@ -52,5 +52,8 @@
         public int OperatorId { get; set; }
 
         public virtual Operator Operator { get; set; } = null!;
+
+        public virtual ICollection<Connector> Connectors { get; set; }
+            = new HashSet<Connector>();
     }
 }
