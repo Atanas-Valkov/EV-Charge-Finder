@@ -3,88 +3,88 @@
 @using EVChargeFinder.DbModels.Enums
 @inject IConfiguration Configuration
 @{
-    ViewData["Title"] = "Charging Stations";
+	ViewData["Title"] = "Charging Stations";
 
-    var stations = Model?.ToArray()
-        ?? Array.Empty<EVChargeFinder.DbModels.ChargingStation>();
+	var stations = Model?.ToArray()
+	               ?? Array.Empty<EVChargeFinder.DbModels.ChargingStation>();
 
-    int stationsCount = stations.Length;
-
-
-    int activeStationsCount = stations
-        .Count(cs => cs.ChargingStationStatus.ToString() == "Active");
-
-    int operatorsCount = stations
-        .Where(cs => cs.Operator != null)
-        .Select(cs => cs.Operator!.Id)
-        .Distinct()
-        .Count();
-
-    int connectorsCount = stations
-        .Sum(cs => cs.Connectors.Count);
+	int stationsCount = stations.Length;
 
 
-    var mapStations = stations.Select(station =>
-    {
-        string[] connectorTypes = station.Connectors
-            .Select(c => c.ConnectorType.ToString())
-            .ToArray();
+	int activeStationsCount = stations
+		.Count(cs => cs.ChargingStationStatus.ToString() == "Active");
 
-        bool hasAc = connectorTypes.Any(type =>
-            type == "Type1" ||
-            type == "Type2" ||
-            type == "Schuko" ||
-            type == "GB_T_AC");
+	int operatorsCount = stations
+		.Where(cs => cs.Operator != null)
+		.Select(cs => cs.Operator!.Id)
+		.Distinct()
+		.Count();
 
-        bool hasDc = connectorTypes.Any(type =>
-            type == "CCS1" ||
-            type == "CCS2" ||
-            type == "CHAdeMO" ||
-            type == "NACS" ||
-            type == "GB_T_DC");
+	int connectorsCount = stations
+		.Sum(cs => cs.Connectors.Count);
 
-        string chargingType;
 
-        if (hasAc && hasDc)
-        {
-            chargingType = "AC/DC";
-        }
-        else if (hasDc)
-        {
-            chargingType = "DC";
-        }
-        else if (hasAc)
-        {
-            chargingType = "AC";
-        }
-        else
-        {
-            chargingType = "N/A";
-        }
+	var mapStations = stations.Select(station =>
+	{
+		string[] connectorTypes = station.Connectors
+			.Select(c => c.ConnectorType.ToString())
+			.ToArray();
 
-        decimal maxPowerKw = station.Connectors.Any()
-            ? station.Connectors.Max(c => c.PowerKw)
-            : 0m;
+		bool hasAc = connectorTypes.Any(type =>
+			type == "Type1" ||
+			type == "Type2" ||
+			type == "Schuko" ||
+			type == "GB_T_AC");
 
-        return new
-        {
-            station.Id,
-            station.Name,
-            station.City,
-            station.Address,
-            station.Latitude,
-            station.Longitude,
+		bool hasDc = connectorTypes.Any(type =>
+			type == "CCS1" ||
+			type == "CCS2" ||
+			type == "CHAdeMO" ||
+			type == "NACS" ||
+			type == "GB_T_DC");
 
-            Operator = station.Operator != null
-                ? station.Operator.Name
-                : "N/A",
+		string chargingType;
 
-            ChargingType = chargingType,
-            MaxPowerKw = maxPowerKw
-        };
-    });
+		if (hasAc && hasDc)
+		{
+			chargingType = "AC/DC";
+		}
+		else if (hasDc)
+		{
+			chargingType = "DC";
+		}
+		else if (hasAc)
+		{
+			chargingType = "AC";
+		}
+		else
+		{
+			chargingType = "N/A";
+		}
 
-    string stationsJson = JsonSerializer.Serialize(mapStations);
+		decimal maxPowerKw = station.Connectors.Any()
+			? station.Connectors.Max(c => c.PowerKw)
+			: 0m;
+
+		return new
+		{
+			station.Id,
+			station.Name,
+			station.City,
+			station.Address,
+			station.Latitude,
+			station.Longitude,
+
+			Operator = station.Operator != null
+				? station.Operator.Name
+				: "N/A",
+
+			ChargingType = chargingType,
+			MaxPowerKw = maxPowerKw
+		};
+	});
+
+	string stationsJson = JsonSerializer.Serialize(mapStations);
 }
 
 
@@ -131,7 +131,7 @@
         margin: 0;
         color: #172033;
         font-size: 2rem;
-        font-weight: 700;
+        font-weight: 750;
     }
 
 
@@ -165,7 +165,7 @@
 
     .metric-card {
         height: 100%;
-        padding: 22px 23px;
+        padding: 40px 30px;
     }
 
 
@@ -173,12 +173,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         margin-bottom: 18px;
         background-color: #e9f2ff;
         color: #0d6efd;
-        font-size: 24px;
+        font-size: 33px;
         border-radius: 13px;
     }
 
@@ -203,16 +203,19 @@
 
     .metric-label {
         margin-bottom: 7px;
-        color: #7b8494;
-        font-size: 0.9rem;
-        font-weight: 600;
+            color: #8a94a3;
+    font-size: 1rem;
+    font-weight: 600;
+
+
+    
     }
 
 
     .metric-value {
         color: #172033;
-        font-size: 1.58rem;
-        font-weight: 700;
+        font-size: 1.65rem;
+        font-weight: 750;
         line-height: 1.15;
     }
 
@@ -220,7 +223,7 @@
     .metric-subtext {
         margin-top: 6px;
         color: #8a94a3;
-        font-size: 0.88rem;
+        font-size: 0.95rem;
     }
 
 
@@ -244,7 +247,7 @@
         gap: 9px;
         margin: 0;
         color: #263142;
-        font-size: 1.08rem;
+        font-size: 1.3rem;
         font-weight: 700;
     }
 
@@ -281,7 +284,7 @@
         flex-wrap: wrap;
         gap: 16px;
         color: #697386;
-        font-size: 0.86rem;
+        font-size: 1.1rem;
         font-weight: 600;
     }
 
@@ -315,6 +318,102 @@
         background-color: #0d6efd;
     }
 
+.map-container {
+    position: relative;
+
+        flex: 1 1 0;
+
+    width: 100%;
+    min-height: 300px;
+}
+
+#stationMap {
+    width: 100%;
+    height: 100%;
+
+    min-height: 300px;
+
+    border-radius: 14px 14px 0 0;
+}
+
+.gps-location-btn {
+   position: absolute;
+
+    top: 82px;
+    left: 10px;
+    bottom: auto;
+    right: auto;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    background-color: white;
+    color: #334155;
+
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+
+    font-size: 18px;
+    cursor: pointer;
+}
+.gps-location-btn:hover {
+    background: #f4f6f8;
+    color: #0d6efd;
+}
+
+.gps-location-btn:active {
+    transform: scale(0.96);
+}
+.map-container {
+    position: relative;
+}
+
+.gps-location-btn {
+    position: absolute;
+
+    top: 82px;
+    left: 10px;
+
+    z-index: 1100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    background-color: white;
+    color: #334155;
+
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.gps-location-btn:hover {
+    background-color: #f4f6f8;
+    color: #0d6efd;
+}
+
+
 
     /* -----------------------------
            Custom Leaflet pin
@@ -334,12 +433,17 @@
         overflow: hidden;
     }
 
+    .stations-list-card .stations-table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.18);
+}
+
 
     .stations-total {
         padding: 6px 12px;
-        background-color: #f3f1eb;
+        background-color: #ead9bb;
         color: #697386;
-        font-size: 0.86rem;
+        font-size: 0.95rem;
         font-weight: 650;
         border-radius: 20px;
     }
@@ -347,7 +451,7 @@
 
     .stations-table {
         margin-bottom: 0;
-        font-size: 0.94rem;
+        font-size: 1rem;
     }
 
 
@@ -355,7 +459,7 @@
             padding: 18px 16px;
             background-color: #faf8f2;
             color: #737d8c;
-            font-size: 0.82rem;
+            font-size: 0.95rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.035em;
@@ -595,688 +699,789 @@
         }
     }
 
+
+    .station-name-link {
+    color: #172033;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.station-name-link:hover {
+    color: #0d6efd;
+}
+
+
+.station-map-card .gps-location-btn {
+    position: absolute !important;
+
+    top: 82px !important;
+    left: 10px !important;
+
+    right: auto !important;
+    bottom: auto !important;
+
+    z-index: 1100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    background-color: #ffffff;
+    color: #334155;
+
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.station-map-card .map-container {
+    position: relative;
+
+    flex: 1 1 0;
+
+    width: 100%;
+    min-height: 300px;
+}
+
+.filters-row {
+    margin-bottom: 24px;
+}
+
+.filter-card {
+    height: 100%;
+    padding: 16px 18px;
+
+    background: rgba(255, 251, 242, 0.96);
+
+    border: 1px solid rgba(60, 50, 35, 0.08);
+    border-radius: 14px;
+
+    box-shadow: 0 6px 18px rgba(50, 45, 35, 0.05);
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 10px;
+
+    color: #697386;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.filter-label i {
+    color: #0d6efd;
+    font-size: 20px;
+}
+
+.dashboard-filter {
+    width: 100%;
+    height: 46px;
+
+    padding-left: 13px;
+    padding-right: 38px;
+
+    background-color: #fffdf8;
+
+    border: 1px solid #ddd7ca;
+    border-radius: 10px;
+
+    color: #263142;
+
+    font-size: 0.93rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.dashboard-filter:hover {
+    background-color: #ffffff;
+    border-color: #b8c0cc;
+}
+
+.dashboard-filter:focus {
+    background-color: #ffffff;
+
+    border-color: #7aa7ef;
+
+    box-shadow:
+        0 0 0 3px rgba(13, 110, 253, 0.10);
+}
+
+.filter-card:has(.dashboard-filter:focus) {
+    border-color: rgba(13, 110, 253, 0.18);
+}
+
+
+
 </style>
 
 
 <div class="container stations-page">
 
 
-    <!-- =========================================
-         PAGE HEADER
-    ========================================== -->
+<!-- =========================================
+PAGE HEADER
+========================================== -->
 
-    <div class="stations-header">
+<div class="stations-header">
 
-        <div class="row align-items-center">
+	<div class="row align-items-center">
 
-            <div class="col-md-8">
+		<div class="col-md-8">
 
-                <h1 class="stations-title">
-                    Charging Stations
-                </h1>
+			<h1 class="stations-title">
+				Charging Stations
+			</h1>
 
-                <p class="stations-subtitle">
-                    Find and explore electric vehicle charging stations
-                </p>
+			<p class="stations-subtitle">
+				Find and explore electric vehicle charging stations
+			</p>
 
-            </div>
+		</div>
 
+	</div>
 
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+</div>
 
-                <a asp-controller="ChargingStations"
-                   asp-action="Create"
-                   class="btn btn-primary add-station-btn">
 
-                    <i class="bi bi-plus-lg me-1"></i>
+<!-- =========================================
+DASHBOARD METRICS
+========================================== -->
 
-                    Add Charging Station
+<div class="row g-3 mb-4">
 
-                </a>
 
-            </div>
+	<div class="col-md-6 col-xl-3">
 
-        </div>
+		<div class="dashboard-card metric-card">
 
-    </div>
+			<div class="metric-icon">
 
+				<i class="bi bi-ev-station"></i>
 
-    <!-- =========================================
-         DASHBOARD METRICS
-    ========================================== -->
+			</div>
 
-    <div class="row g-3 mb-4">
+			<div class="metric-label">
+				Charging Stations
+			</div>
 
+			<div class="metric-value">
+				@stationsCount
+			</div>
 
-        <div class="col-md-6 col-xl-3">
+			<div class="metric-subtext">
+				Total charging stations
+			</div>
 
-            <div class="dashboard-card metric-card">
+		</div>
 
-                <div class="metric-icon">
+	</div>
 
-                    <i class="bi bi-ev-station"></i>
 
-                </div>
+	<div class="col-md-6 col-xl-3">
 
-                <div class="metric-label">
-                    Charging Stations
-                </div>
+		<div class="dashboard-card metric-card">
 
-                <div class="metric-value">
-                    @stationsCount
-                </div>
+			<div class="metric-icon metric-icon-green">
 
-                <div class="metric-subtext">
-                    Total charging stations
-                </div>
+				<i class="bi bi-activity"></i>
 
-            </div>
+			</div>
 
-        </div>
+			<div class="metric-label">
+				Active Stations
+			</div>
 
+			<div class="metric-value">
+				@activeStationsCount
+			</div>
 
-        <div class="col-md-6 col-xl-3">
+			<div class="metric-subtext">
+				Currently active
+			</div>
 
-            <div class="dashboard-card metric-card">
+		</div>
 
-                <div class="metric-icon metric-icon-green">
+	</div>
 
-                    <i class="bi bi-activity"></i>
 
-                </div>
+	<div class="col-md-6 col-xl-3">
 
-                <div class="metric-label">
-                    Active Stations
-                </div>
+		<div class="dashboard-card metric-card">
 
-                <div class="metric-value">
-                    @activeStationsCount
-                </div>
+			<div class="metric-icon metric-icon-purple">
 
-                <div class="metric-subtext">
-                    Currently active
-                </div>
+				<i class="bi bi-building"></i>
 
-            </div>
+			</div>
 
-        </div>
+			<div class="metric-label">
+				Operators
+			</div>
 
+			<div class="metric-value">
+				@operatorsCount
+			</div>
 
-        <div class="col-md-6 col-xl-3">
+			<div class="metric-subtext">
+				Charging networks
+			</div>
 
-            <div class="dashboard-card metric-card">
+		</div>
 
-                <div class="metric-icon metric-icon-purple">
+	</div>
 
-                    <i class="bi bi-building"></i>
 
-                </div>
+	<div class="col-md-6 col-xl-3">
 
-                <div class="metric-label">
-                    Operators
-                </div>
+		<div class="dashboard-card metric-card">
 
-                <div class="metric-value">
-                    @operatorsCount
-                </div>
+			<div class="metric-icon metric-icon-orange">
 
-                <div class="metric-subtext">
-                    Charging networks
-                </div>
+				<i class="bi bi-plug"></i>
 
-            </div>
+			</div>
 
-        </div>
+			<div class="metric-label">
+				Connectors
+			</div>
 
+			<div class="metric-value">
+				@connectorsCount
+			</div>
 
-        <div class="col-md-6 col-xl-3">
+			<div class="metric-subtext">
+				Total charging ports
+			</div>
 
-            <div class="dashboard-card metric-card">
+		</div>
 
-                <div class="metric-icon metric-icon-orange">
+	</div>
 
-                    <i class="bi bi-plug"></i>
 
-                </div>
+</div>
 
-                <div class="metric-label">
-                    Connectors
-                </div>
 
-                <div class="metric-value">
-                    @connectorsCount
-                </div>
-
-                <div class="metric-subtext">
-                    Total charging ports
-                </div>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-	
-	<form asp-controller="ChargingStations"
+<form asp-controller="ChargingStations"
       asp-action="Search"
       method="get">
 
-    <div class="mb-3">
-        <div class="input-group">
+	<div class="mb-3">
+		<div class="input-group">
 
-            <input type="text"
-                   name="searchTerm"
-                   value="@ViewBag.SearchTerm"
-                   class="form-control"
-                   placeholder="Search station, city, address or operator..." />
+			<input type="text"
+			       name="searchTerm"
+			       value="@ViewBag.SearchTerm"
+			       class="form-control"
+			       placeholder="Search station, city, address or operator..."/>
 
-            <button type="submit"
-                    class="btn btn-primary">
-                Search
-            </button>
+			<button type="submit"
+			        class="btn btn-primary">
+				Search
+			</button>
 
-            <a asp-controller="ChargingStations"
-               asp-action="Index"
-               class="btn btn-outline-secondary">
-                Clear
-            </a>
+			<a asp-controller="ChargingStations"
+			   asp-action="Index"
+			   class="btn btn-outline-secondary">
+				Clear
+			</a>
 
-        </div>
-    </div>
-
-
-    <div class="row g-3">
-
-        <div class="col-md-3">
-            <div class="dashboard-card">
-
-                <p>Charging Stations</p>
-                <h3>@Model.Count()</h3>
-                <span>Total charging stations</span>
-
-                <select name="city"
-                        class="form-select dashboard-filter"
-                        onchange="this.form.submit()">
-
-                    <option value="">All cities</option>
-
-                    @foreach (string city in ViewBag.Cities)
-                    {
-                        if (ViewBag.SelectedCity == city)
-                        {
-                            <option value="@city" selected>
-                                @city
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="@city">
-                                @city
-                            </option>
-                        }
-                    }
-
-                </select>
-
-            </div>
-        </div>
+		</div>
+	</div>
 
 
-        <div class="col-md-3">
-            <div class="dashboard-card">
+	<div class="row g-3 filters-row">
 
-                <p>Active Stations</p>
+		<div class="col-md-6 col-xl-3">
 
-                <select name="status"
-                        class="form-select dashboard-filter"
-                        onchange="this.form.submit()">
+			<div class="filter-card">
 
-                    <option value="">All statuses</option>
+				<label class="filter-label">
+					<i class="bi bi-geo-alt"></i>
+					City
+				</label>
 
-                    @foreach (ChargingStationStatus status
-                              in Enum.GetValues<ChargingStationStatus>())
-                    {
-                        if (ViewBag.SelectedStatus == status)
-                        {
-                            <option value="@status" selected>
-                                @status
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="@status">
-                                @status
-                            </option>
-                        }
-                    }
+				<select name="city"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
 
-                </select>
+					<option value="">All cities</option>
 
-            </div>
-        </div>
+					@foreach (string city in ViewBag.Cities)
+					{
+						if (ViewBag.SelectedCity == city)
+						{
+							<option value="@city" selected>
+								@city
+							</option>
+						}
+						else
+						{
+							<option value="@city">
+								@city
+							</option>
+						}
+					}
+
+				</select>
+
+			</div>
+
+		</div>
+
+		<div class="col-md-6 col-xl-3">
+
+			<div class="filter-card">
+
+				<label class="filter-label">
+					<i class="bi bi-activity"></i>
+					Status
+				</label>
+
+				<select name="status"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
+
+					<option value="">All statuses</option>
+
+					@foreach (ChargingStationStatus status
+					          in Enum.GetValues<ChargingStationStatus>())
+					{
+						if (ViewBag.SelectedStatus == status)
+						{
+							<option value="@status" selected>
+								@status
+							</option>
+						}
+						else
+						{
+							<option value="@status">
+								@status
+							</option>
+						}
+					}
+
+				</select>
+
+			</div>
+
+		</div>
 
 
-        <div class="col-md-3">
-            <div class="dashboard-card">
+		<div class="col-md-6 col-xl-3">
 
-                <p>Operators</p>
+			<div class="filter-card">
 
-                <select name="operatorId"
-                        class="form-select dashboard-filter"
-                        onchange="this.form.submit()">
+				<label class="filter-label">
+					<i class="bi bi-building"></i>
+					Operator
+				</label>
 
-                    <option value="">All operators</option>
+				<select name="operatorId"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
 
-                    @foreach (var op in ViewBag.Operators)
-                    {
-                        if (ViewBag.SelectedOperatorId == op.Id)
-                        {
-                            <option value="@op.Id" selected>
-                                @op.Name
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="@op.Id">
-                                @op.Name
-                            </option>
-                        }
-                    }
+					<option value="">All operators</option>
 
-                </select>
+					@foreach (var op in ViewBag.Operators)
+					{
+						if (ViewBag.SelectedOperatorId == op.Id)
+						{
+							<option value="@op.Id" selected>
+								@op.Name
+							</option>
+						}
+						else
+						{
+							<option value="@op.Id">
+								@op.Name
+							</option>
+						}
+					}
 
-            </div>
-        </div>
+				</select>
 
+			</div>
 
-        <div class="col-md-3">
-            <div class="dashboard-card">
+		</div>
+		<div class="col-md-6 col-xl-3">
 
-                <p>Connectors</p>
+			<div class="filter-card">
 
-                <select name="connectorType"
-                        class="form-select dashboard-filter"
-                        onchange="this.form.submit()">
+				<label class="filter-label">
+					<i class="bi bi-plug"></i>
+					Connector
+				</label>
 
-                    <option value="">All connector types</option>
+				<select name="connectorType"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
 
-                    @foreach (ConnectorType connectorType
-                              in Enum.GetValues<ConnectorType>())
-                    {
-                        if (ViewBag.SelectedConnectorType == connectorType)
-                        {
-                            <option value="@connectorType" selected>
-                                @connectorType
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="@connectorType">
-                                @connectorType
-                            </option>
-                        }
-                    }
+					<option value="">All connector types</option>
 
-                </select>
+					@foreach (ConnectorType connectorType
+					          in Enum.GetValues<ConnectorType>())
+					{
+						if (ViewBag.SelectedConnectorType == connectorType)
+						{
+							<option value="@connectorType" selected>
+								@connectorType
+							</option>
+						}
+						else
+						{
+							<option value="@connectorType">
+								@connectorType
+							</option>
+						}
+					}
 
-            </div>
-        </div>
+				</select>
 
-    </div>
+			</div>
+
+		</div>
+
+	</div>
 
 </form>
-	
 
 
+<!-- =========================================
+MAP
+========================================== -->
 
-    <!-- =========================================
-         MAP
-    ========================================== -->
+<div class="dashboard-card map-card mb-4">
 
-    <div class="dashboard-card map-card mb-4">
+<div class="section-header">
 
-        <div class="section-header">
+	<h2 class="section-title">
 
-            <h2 class="section-title">
+		<i class="bi bi-geo-alt"></i>
 
-                <i class="bi bi-geo-alt"></i>
+		Charging Station Locations
 
-                Charging Station Locations
+	</h2>
 
-            </h2>
 
+	<div class="map-legend">
 
-            <div class="map-legend">
+		<span>
 
-                <span>
+			<i class="legend-dot legend-ac"></i>
 
-                    <i class="legend-dot legend-ac"></i>
+			AC
 
-                    AC
+		</span>
 
-                </span>
 
+		<span>
 
-                <span>
+			<i class="legend-dot legend-dc"></i>
 
-                    <i class="legend-dot legend-dc"></i>
+			DC
 
-                    DC
+		</span>
 
-                </span>
 
+		<span>
 
-                <span>
+			<i class="legend-dot legend-mixed"></i>
 
-                    <i class="legend-dot legend-mixed"></i>
+			AC/DC
 
-                    AC/DC
+		</span>
 
-                </span>
+	</div>
 
-            </div>
+</div>
 
-        </div>
+<div class="map-body">
 
+	<div class="map-container">
 
-        <div class="map-body">
+		<div id="stationsMap"></div>
 
-            <div id="stationsMap"></div>
+		<button type="button"
+		        id="locateUserButton"
+		        class="gps-location-btn"
+		        title="My location">
 
-        </div>
+			<i class="bi bi-crosshair"></i>
 
-    </div>
+		</button>
 
+	</div>
 
-    <!-- =========================================
-         STATIONS LIST
-    ========================================== -->
+</div>
 
-    <div class="dashboard-card stations-list-card">
+<!-- =========================================
+STATIONS LIST
+========================================== -->
 
-        <div class="section-header">
+<div class="dashboard-card stations-list-card">
 
-            <h2 class="section-title">
+	<div class="section-header">
 
-                <i class="bi bi-list-ul"></i>
+		<h2 class="section-title">
 
-                Charging Stations
+			<i class="bi bi-list-ul"></i>
 
-            </h2>
+			Charging Stations
 
+		</h2>
 
-            <span class="stations-total">
 
-                @stationsCount total
+		<span class="stations-total">
 
-            </span>
+			@stationsCount total
 
-        </div>
+		</span>
 
+	</div>
 
-        @if (!stations.Any())
-        {
-            <div class="empty-stations">
 
-                <i class="bi bi-ev-station"></i>
+	@if (!stations.Any())
+	{
+		<div class="empty-stations">
 
-                <h5>
-                    No charging stations found
-                </h5>
+			<i class="bi bi-ev-station"></i>
 
-                <p class="mb-0">
-                    There are currently no stations available.
-                </p>
+			<h5>
+				No charging stations found
+			</h5>
 
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive">
+			<p class="mb-0">
+				There are currently no stations available.
+			</p>
 
-                <table class="table stations-table">
+		</div>
+	}
+	else
+	{
+		<div class="table-responsive">
 
-                    <thead>
+			<table class="table stations-table">
 
-                        <tr>
+				<thead>
 
-                            <th>
-                                Name
-                            </th>
+				<tr>
 
-                            <th>
-                                Operator
-                            </th>
+					<th>
+						Name
+					</th>
 
-                            <th>
-                                City
-                            </th>
+					<th>
+						Operator
+					</th>
 
-                            <th>
-                                Address
-                            </th>
+					<th>
+						City
+					</th>
 
-                            <th>
-                                Status
-                            </th>
+					<th>
+						Address
+					</th>
 
-                            <th class="text-end">
-                                Actions
-                            </th>
+					<th>
+						Status
+					</th>
 
-                        </tr>
+				</tr>
 
-                    </thead>
+				</thead>
 
 
-                    <tbody>
+				<tbody>
 
-                        @foreach (var station in stations)
-                        {
-                            <tr>
+				@foreach (var station in stations)
+				{
+					<tr>
 
-                                <td>
+						<td>
 
-                                    <span class="station-name">
-                                        @station.Name
-                                    </span>
+							<a asp-controller="ChargingStations"
+							   asp-action="Details"
+							   asp-route-id="@station.Id"
+							   class="station-name-link">
+								@station.Name
+							</a>
 
-                                </td>
+						</td>
 
 
-                                <td>
+						<td>
 
-                                    @if (station.Operator != null)
-                                    {
-                                        <span class="operator-name">
-                                            @station.Operator.Name
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">
-                                            N/A
-                                        </span>
-                                    }
+							@if (station.Operator != null)
+							{
+								<span class="operator-name">
+									@station.Operator.Name
+								</span>
+							}
+							else
+							{
+								<span class="text-muted">
+									N/A
+								</span>
+							}
 
-                                </td>
+						</td>
 
 
-                                <td>
+						<td>
 
-                                    @if (!string.IsNullOrWhiteSpace(station.City))
-                                    {
-                                        <span class="city-name">
-                                            @station.City
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">
-                                            N/A
-                                        </span>
-                                    }
+							@if (!string.IsNullOrWhiteSpace(station.City))
+							{
+								<span class="city-name">
+									@station.City
+								</span>
+							}
+							else
+							{
+								<span class="text-muted">
+									N/A
+								</span>
+							}
 
-                                </td>
+						</td>
 
 
-                                <td>
+						<td>
 
-                                    <span class="station-address">
-                                        @station.Address
-                                    </span>
+							<span class="station-address">
+								@station.Address
+							</span>
 
-                                </td>
+						</td>
 
 
-                                <td>
+						<td>
 
-                                    @if (station.ChargingStationStatus.ToString() == "Active")
-                                    {
-                                        <span class="status-badge status-active">
+							@if (station.ChargingStationStatus.ToString() == "Active")
+							{
+								<span class="status-badge status-active">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Active
+									Active
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else if (station.ChargingStationStatus.ToString() == "Inactive")
-                                    {
-                                        <span class="status-badge status-inactive">
+							else if (station.ChargingStationStatus.ToString() == "Inactive")
+							{
+								<span class="status-badge status-inactive">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Inactive
+									Inactive
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else if (station.ChargingStationStatus.ToString() == "PartiallyAvailable")
-                                    {
-                                        <span class="status-badge status-partial">
+							else if (station.ChargingStationStatus.ToString() == "PartiallyAvailable")
+							{
+								<span class="status-badge status-partial">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Partially Available
+									Partially Available
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else if (station.ChargingStationStatus.ToString() == "Unavailable")
-                                    {
-                                        <span class="status-badge status-unavailable">
+							else if (station.ChargingStationStatus.ToString() == "Unavailable")
+							{
+								<span class="status-badge status-unavailable">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Unavailable
+									Unavailable
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else if (station.ChargingStationStatus.ToString() == "Maintenance")
-                                    {
-                                        <span class="status-badge status-maintenance">
+							else if (station.ChargingStationStatus.ToString() == "Maintenance")
+							{
+								<span class="status-badge status-maintenance">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Maintenance
+									Maintenance
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else if (station.ChargingStationStatus.ToString() == "Faulted")
-                                    {
-                                        <span class="status-badge status-faulted">
+							else if (station.ChargingStationStatus.ToString() == "Faulted")
+							{
+								<span class="status-badge status-faulted">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Faulted
+									Faulted
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else if (station.ChargingStationStatus.ToString() == "Offline")
-                                    {
-                                        <span class="status-badge status-offline">
+							else if (station.ChargingStationStatus.ToString() == "Offline")
+							{
+								<span class="status-badge status-offline">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Offline
+									Offline
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                    else
-                                    {
-                                        <span class="status-badge status-unknown">
+							else
+							{
+								<span class="status-badge status-unknown">
 
-                                            <span class="status-dot"></span>
+									<span class="status-dot"></span>
 
-                                            Unknown
+									Unknown
 
-                                        </span>
-                                    }
+								</span>
+							}
 
-                                </td>
+						</td>
 
+					</tr>
+				}
 
-                                <td>
+				</tbody>
 
-                                    <div class="action-buttons">
+			</table>
 
+		</div>
+	}
 
-                                        <a asp-controller="ChargingStations"
-                                           asp-action="Details"
-                                           asp-route-id="@station.Id"
-                                           class="btn action-btn details-btn"
-                                           title="Details">
-
-                                            <i class="bi bi-eye"></i>
-
-                                        </a>
-
-
-                                        <a asp-controller="ChargingStations"
-                                           asp-action="Edit"
-                                           asp-route-id="@station.Id"
-                                           class="btn action-btn edit-btn"
-                                           title="Edit">
-
-                                            <i class="bi bi-pencil"></i>
-
-                                        </a>
-
-
-                                        <a asp-controller="ChargingStations"
-                                           asp-action="Delete"
-                                           asp-route-id="@station.Id"
-                                           class="btn action-btn delete-btn"
-                                           title="Delete">
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </a>
-
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
-        }
-
-    </div>
+</div>
 
 
 </div>
@@ -1284,7 +1489,7 @@
 
 @section Scripts
 {
-    <script>
+	<script>
 
 const stations = @Html.Raw(stationsJson);
 
@@ -1312,6 +1517,57 @@ L.tileLayer(
     .addTo(map);
 
         stations.forEach(station => {
+
+
+const locateButton = document.getElementById('locateUserButton');
+
+let userLocationMarker = null;
+
+locateButton.addEventListener('click', function () {
+
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+
+            const userLatitude = position.coords.latitude;
+            const userLongitude = position.coords.longitude;
+
+            if (userLocationMarker === null) {
+
+                userLocationMarker = L.marker([
+                    userLatitude,
+                    userLongitude
+                ])
+                .addTo(map)
+                .bindPopup('Your location');
+
+            }
+            else {
+
+                userLocationMarker.setLatLng([
+                    userLatitude,
+                    userLongitude
+                ]);
+
+            }
+
+            map.flyTo(
+                [
+                    userLatitude,
+                    userLongitude
+                ],
+                14
+            );
+
+            userLocationMarker.openPopup();
+        },
+        function (error) {
+
+            console.log(error);
+
+        }
+    );
+
+});
 
 
             /* -----------------------------
