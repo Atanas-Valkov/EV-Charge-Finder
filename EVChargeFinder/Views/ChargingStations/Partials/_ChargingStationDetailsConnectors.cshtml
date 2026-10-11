@@ -1,0 +1,156 @@
+﻿@model ChargingStationDetailsViewModel
+@using EVChargeFinder.DbModels.Enums
+
+
+@functions
+{
+	string GetConnectorImage(ConnectorType connectorType)
+	{
+		return connectorType switch
+		{
+			ConnectorType.Type1 => "/images/connectors/type1.svg",
+			ConnectorType.Type2 => "/images/connectors/type2.svg",
+			ConnectorType.CCS1 => "/images/connectors/ccs1.svg",
+			ConnectorType.CCS2 => "/images/connectors/ccs2.svg",
+			ConnectorType.CHAdeMO => "/images/connectors/chademo.svg",
+			ConnectorType.NACS => "/images/connectors/nacs.svg",
+			ConnectorType.Schuko => "/images/connectors/schuko.svg",
+			ConnectorType.GB_T_AC => "/images/connectors/gbt-ac.svg",
+			ConnectorType.GB_T_DC => "/images/connectors/gbt-dc.svg",
+			ConnectorType.MCS => "/images/connectors/mcs.svg",
+			_ => "/images/connectors/unknown.svg"
+		};
+	}
+}
+
+<div class="dashboard-card section-card">
+
+	<div class="section-header">
+
+		<h2 class="section-title">
+
+			<i class="bi bi-plug"></i>
+
+			Connectors
+
+		</h2>
+
+		<span class="connectors-total">
+			@Model.ConnectorsCount total
+		</span>
+
+	</div>
+
+
+	<div class="section-body">
+
+		@if (Model.Connectors.Any())
+		{
+			<div class="connectors-grid">
+
+				@foreach (var connector in Model.Connectors
+					          .OrderBy(c => c.ConnectorNumber))
+				{
+					<div class="connector-card">
+
+						<div class="connector-card-header">
+
+							<div class="connector-image-box">
+
+								<img src="@GetConnectorImage(connector.ConnectorType)"
+								     alt="@connector.ConnectorType connector"
+								     class="connector-image"/>
+
+							</div>
+
+
+							<div class="connector-main-info">
+
+								<div class="connector-number">
+									Connector #@connector.ConnectorNumber
+								</div>
+
+								<div class="connector-type">
+									@connector.ConnectorType
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="connector-power">
+
+							@connector.PowerKw.ToString("0")
+
+							<span class="connector-power-unit">
+								kW
+							</span>
+
+						</div>
+
+
+						<div class="connector-meta">
+
+							<div class="connector-meta-item">
+
+								<span class="connector-meta-label">
+									Price / kWh
+								</span>
+
+								<span class="connector-meta-value">
+									@connector.PricePerKWh.ToString("0.00") €
+								</span>
+
+							</div>
+
+
+							<div class="connector-meta-item">
+
+								<span class="connector-meta-label">
+									Status
+								</span>
+
+								<span class="connector-meta-value">
+									@connector.Status
+								</span>
+
+							</div>
+
+						</div>
+
+
+						<div class="connector-actions">
+
+							<a asp-controller="ChargingSessions"
+							   asp-action="Index"
+							   asp-route-connectorId="@connector.Id"
+							   class="btn connector-history-btn">
+
+								<i class="bi bi-clock-history me-1"></i>
+
+								View History
+
+							</a>
+
+						</div>
+
+					</div>
+				}
+
+			</div>
+		}
+		else
+		{
+			<div class="empty-connectors">
+
+				<i class="bi bi-plug fs-2 d-block mb-2"></i>
+
+				No connectors available for this station.
+
+			</div>
+		}
+
+	</div>
+
+</div>

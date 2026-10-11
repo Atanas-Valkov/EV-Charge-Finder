@@ -1,0 +1,58 @@
+﻿@model ChargingStationDetailsViewModel
+@inject IConfiguration Configuration
+
+
+<div class="dashboard-card section-card station-map-card">
+
+	<div class="map-container">
+
+		<div id="stationMap"
+		     data-latitude="@Model.Latitude"
+		     data-longitude="@Model.Longitude"
+		     data-name="@Model.Name"
+		     data-address="@Model.Address"
+		     data-mapbox-token="@Configuration["Mapbox:AccessToken"]">
+		</div>
+
+		<button type="button"
+		        id="locateUserButton"
+		        class="gps-location-btn"
+		        title="My location">
+
+			<i class="bi bi-crosshair"></i>
+
+		</button>
+
+	</div>
+
+
+	<div class="map-coordinates">
+
+		<div class="coordinate-badge">
+
+			<span class="station-info-label d-block">
+				Latitude
+			</span>
+
+			<span class="station-info-value d-block mt-1">
+				@Model.Latitude
+			</span>
+
+		</div>
+
+
+		<div class="coordinate-badge">
+
+			<span class="station-info-label d-block">
+				Longitude
+			</span>
+
+			<span class="station-info-value d-block mt-1">
+				@Model.Longitude
+			</span>
+
+		</div>
+
+	</div>
+
+</div>

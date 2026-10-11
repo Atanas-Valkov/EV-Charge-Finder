@@ -1,0 +1,101 @@
+﻿@model ChargingStationDetailsViewModel
+
+
+<div class="dashboard-card section-card station-info-card">
+
+	<div class="section-header">
+
+		<h2 class="section-title">
+
+			<i class="bi bi-info-circle"></i>
+
+			Station Information
+
+		</h2>
+
+	</div>
+
+
+	<div class="section-body">
+
+		<div class="station-info-row">
+
+			<span class="station-info-label">
+				Station Name
+			</span>
+
+			<span class="station-info-value">
+				@Model.Name
+			</span>
+
+		</div>
+
+
+		<div class="station-info-row">
+
+			<span class="station-info-label">
+				Operator
+			</span>
+
+			<span class="station-info-value">
+				@(Model.OperatorName ?? "N/A")
+			</span>
+
+		</div>
+
+
+		<div class="station-info-row">
+
+			<span class="station-info-label">
+				City
+			</span>
+
+			<span class="station-info-value">
+				@(Model.City ?? "N/A")
+			</span>
+
+		</div>
+
+
+		<div class="station-info-row">
+
+			<span class="station-info-label">
+				Address
+			</span>
+
+			<span class="station-info-value">
+				@Model.Address
+			</span>
+
+		</div>
+
+
+		<div class="station-info-row">
+
+			<span class="station-info-label">
+				Data Source
+			</span>
+
+			<span class="station-info-value">
+				@Model.DataSource
+			</span>
+
+		</div>
+
+
+		<div class="station-info-row">
+
+			<span class="station-info-label">
+				Last Updated
+			</span>
+
+			<span class="station-info-value">
+				@Model.LastUpdatedAt.ToString("dd MMM yyyy, HH:mm")
+			</span>
+
+		</div>
+
+	</div>
+
+</div>
+

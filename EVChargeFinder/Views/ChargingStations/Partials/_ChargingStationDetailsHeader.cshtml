@@ -1,0 +1,73 @@
+﻿@model ChargingStationDetailsViewModel
+@using EVChargeFinder.DbModels.Enums
+
+@{
+	string stationStatusClass = Model.Status switch
+	{
+		ChargingStationStatus.Active => "station-status-active",
+		ChargingStationStatus.Inactive => "station-status-inactive",
+		ChargingStationStatus.PartiallyAvailable => "station-status-partial",
+		ChargingStationStatus.Unavailable => "station-status-unavailable",
+		ChargingStationStatus.Maintenance => "station-status-maintenance",
+		ChargingStationStatus.Faulted => "station-status-faulted",
+		ChargingStationStatus.Offline => "station-status-offline",
+		_ => "station-status-unknown"
+	};
+}
+
+
+<div class="station-header">
+
+	<div class="row align-items-center">
+
+		<div class="col-lg-7">
+
+			<h1 class="station-title">
+				@Model.Name
+			</h1>
+
+			<div class="station-location">
+
+				<i class="bi bi-geo-alt"></i>
+
+				<span>
+					@Model.Address
+				</span>
+
+				@if (!string.IsNullOrWhiteSpace(Model.City))
+				{
+					<span>
+						· @Model.City
+					</span>
+				}
+
+			</div>
+
+			<div class="mt-3">
+
+				<span class="station-status @stationStatusClass">
+					@Model.Status
+				</span>
+
+			</div>
+
+		</div>
+
+
+		<div class="col-lg-5 text-lg-end mt-4 mt-lg-0">
+
+			<a asp-controller="ChargingStations"
+			   asp-action="Index"
+			   class="btn btn-outline-secondary">
+
+				<i class="bi bi-arrow-left me-1"></i>
+
+				Back
+
+			</a>
+
+		</div>
+
+	</div>
+
+</div>
