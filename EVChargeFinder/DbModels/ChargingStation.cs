@@ -13,15 +13,15 @@
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        
         [MinLength(NameMinLength)]
         [MaxLength(NameMaxLength)]
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; } = null!;
 
-        [Required]
+       
         [MinLength(AddressMinLength)]
         [MaxLength(AddressMaxLength)]
-        public string Address { get; set; } = null!;
+        public required string Address { get; set; } = null!;
 
         [MinLength(CityMinLength)]
         [MaxLength(CityMaxLength)]
@@ -37,10 +37,9 @@
 
         public ChargingStationStatus ChargingStationStatus { get; set; }
 
-        [Required]
         [MinLength(DataSourceMinLength)]
         [MaxLength(DataSourceMaxLength)]
-        public string DataSource { get; set; } = null!;
+        public required string DataSource { get; set; } = null!;
 
         [MinLength(ExternalIdMinLength)]
         [MaxLength(ExternalIdMaxLength)]

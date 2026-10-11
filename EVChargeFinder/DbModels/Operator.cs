@@ -11,10 +11,10 @@
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        
         [MinLength(NameMinLength)]
         [MaxLength(NameMaxLength)]
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; } = null!;
 
         [MinLength(WebsiteMinLength)]
         [MaxLength(WebsiteMaxLength)]
