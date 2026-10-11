@@ -1,0 +1,184 @@
+﻿@model ChargingStationsIndexViewModel
+@using EVChargeFinder.DbModels.Enums
+
+<form asp-controller="ChargingStations" asp-action="Search" method="get">
+
+	<div class="mb-3">
+		<div class="input-group">
+
+			<input type="text"
+			       name="searchTerm"
+			       value="@Model.SearchTerm"
+			       class="form-control"
+			       placeholder="Search station, city, address or operator..."/>
+
+			<button type="submit"
+			        class="btn btn-primary">
+				Search
+			</button>
+
+			<a asp-controller="ChargingStations"
+			   asp-action="Index"
+			   class="btn btn-outline-secondary">
+				Clear
+			</a>
+
+		</div>
+	</div>
+
+
+	<div class="row g-3 filters-row">
+
+		<div class="col-md-6 col-xl-3">
+
+			<div class="filter-card">
+
+				<label class="filter-label">
+					<i class="bi bi-geo-alt"></i>
+					City
+				</label>
+
+				<select name="city"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
+
+					<option value="">All cities</option>
+
+					@foreach (string city in Model.Cities)
+					{
+						if (Model.SelectedCity == city)
+						{
+							<option value="@city" selected>
+								@city
+							</option>
+						}
+						else
+						{
+							<option value="@city">
+								@city
+							</option>
+						}
+					}
+
+				</select>
+
+			</div>
+
+		</div>
+
+		<div class="col-md-6 col-xl-3">
+
+			<div class="filter-card">
+
+				<label class="filter-label">
+					<i class="bi bi-activity"></i>
+					Status
+				</label>
+
+				<select name="status"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
+
+					<option value="">All statuses</option>
+
+					@foreach (ChargingStationStatus status
+					          in Enum.GetValues<ChargingStationStatus>())
+					{
+						if (Model.SelectedStatus == status)
+						{
+							<option value="@status" selected>
+								@status
+							</option>
+						}
+						else
+						{
+							<option value="@status">
+								@status
+							</option>
+						}
+					}
+
+				</select>
+
+			</div>
+
+		</div>
+
+
+		<div class="col-md-6 col-xl-3">
+
+			<div class="filter-card">
+
+				<label class="filter-label">
+					<i class="bi bi-building"></i>
+					Operator
+				</label>
+
+				<select name="operatorId"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
+
+					<option value="">All operators</option>
+
+					@foreach (var op in Model.Operators)
+					{
+						if (Model.SelectedOperatorId == op.Id)
+						{
+							<option value="@op.Id" selected>
+								@op.Name
+							</option>
+						}
+						else
+						{
+							<option value="@op.Id">
+								@op.Name
+							</option>
+						}
+					}
+
+				</select>
+
+			</div>
+
+		</div>
+		<div class="col-md-6 col-xl-3">
+
+			<div class="filter-card">
+
+				<label class="filter-label">
+					<i class="bi bi-plug"></i>
+					Connector
+				</label>
+
+				<select name="connectorType"
+				        class="form-select dashboard-filter"
+				        onchange="this.form.submit()">
+
+					<option value="">All connector types</option>
+
+					@foreach (ConnectorType connectorType
+					          in Enum.GetValues<ConnectorType>())
+					{
+						if (Model.SelectedConnectorType == connectorType)
+						{
+							<option value="@connectorType" selected>
+								@connectorType
+							</option>
+						}
+						else
+						{
+							<option value="@connectorType">
+								@connectorType
+							</option>
+						}
+					}
+
+				</select>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</form>

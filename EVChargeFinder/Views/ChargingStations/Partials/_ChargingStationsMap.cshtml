@@ -1,0 +1,55 @@
+﻿@inject IConfiguration Configuration
+
+
+<div class="dashboard-card map-card mb-4">
+
+	<div class="section-header">
+
+		<h2 class="section-title">
+			<i class="bi bi-geo-alt"></i>
+			Charging Station Locations
+		</h2>
+
+		<div class="map-legend">
+
+			<span>
+				<i class="legend-dot legend-ac"></i>
+				AC
+			</span>
+
+			<span>
+				<i class="legend-dot legend-dc"></i>
+				DC
+			</span>
+
+			<span>
+				<i class="legend-dot legend-mixed"></i>
+				AC/DC
+			</span>
+
+		</div>
+
+	</div>
+
+	<div class="map-body">
+
+		<div class="map-container">
+
+			<div id="stationsMap"
+			     data-mapbox-token="@Configuration["Mapbox:AccessToken"]">
+			</div>
+
+			<button type="button"
+			        id="locateUserButton"
+			        class="gps-location-btn"
+			        title="My location">
+
+				<i class="bi bi-crosshair"></i>
+
+			</button>
+
+		</div>
+
+	</div>
+
+</div>

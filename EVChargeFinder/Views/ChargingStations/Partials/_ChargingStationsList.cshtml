@@ -1,0 +1,243 @@
+﻿@model ChargingStationsIndexViewModel
+@using EVChargeFinder.DbModels.Enums
+
+<div class="dashboard-card stations-list-card">
+
+	<div class="section-header">
+
+		<h2 class="section-title">
+
+			<i class="bi bi-list-ul"></i>
+
+			Charging Stations
+
+		</h2>
+
+
+		<span class="stations-total">
+
+			@Model.StationsCount total
+
+		</span>
+
+	</div>
+
+
+	@if (!Model.Stations.Any())
+	{
+		<div class="empty-stations">
+
+			<i class="bi bi-ev-station"></i>
+
+			<h5>
+				No charging stations found
+			</h5>
+
+			<p class="mb-0">
+				There are currently no stations available.
+			</p>
+
+		</div>
+	}
+	else
+	{
+		<div class="table-responsive">
+
+			<table class="table stations-table">
+
+				<thead>
+
+				<tr>
+
+					<th>
+						Name
+					</th>
+
+					<th>
+						Operator
+					</th>
+
+					<th>
+						City
+					</th>
+
+					<th>
+						Address
+					</th>
+
+					<th>
+						Status
+					</th>
+
+				</tr>
+
+				</thead>
+
+
+				<tbody>
+
+				@foreach (var station in Model.Stations)
+				{
+					<tr>
+
+						<td>
+
+							<a asp-controller="ChargingStations"
+							   asp-action="Details"
+							   asp-route-id="@station.Id"
+							   class="station-name-link">
+								@station.Name
+							</a>
+
+						</td>
+
+
+						<td>
+
+							@if (station.OperatorName != null)
+							{
+								<span class="operator-name">
+									@station.OperatorName
+								</span>
+							}
+							else
+							{
+								<span class="text-muted">
+									N/A
+								</span>
+							}
+
+						</td>
+
+
+						<td>
+
+							@if (!string.IsNullOrWhiteSpace(station.City))
+							{
+								<span class="city-name">
+									@station.City
+								</span>
+							}
+							else
+							{
+								<span class="text-muted">
+									N/A
+								</span>
+							}
+
+						</td>
+
+
+						<td>
+
+							<span class="station-address">
+								@station.Address
+							</span>
+
+						</td>
+
+
+						<td>
+
+							@if (station.Status == ChargingStationStatus.Active)
+							{
+								<span class="status-badge status-active">
+
+									<span class="status-dot"></span>
+
+									Active
+
+								</span>
+							}
+
+							else if (station.Status == ChargingStationStatus.Inactive)
+							{
+								<span class="status-badge status-inactive">
+
+									<span class="status-dot"></span>
+
+									Inactive
+
+								</span>
+							}
+
+							else if (station.Status == ChargingStationStatus.PartiallyAvailable)
+							{
+								<span class="status-badge status-partial">
+
+									<span class="status-dot"></span>
+
+									Partially Available
+
+								</span>
+							}
+
+							else if (station.Status == ChargingStationStatus.Unavailable)
+							{
+								<span class="status-badge status-unavailable">
+
+									<span class="status-dot"></span>
+
+									Unavailable
+
+								</span>
+							}
+
+							else if (station.Status == ChargingStationStatus.Maintenance)
+							{
+								<span class="status-badge status-maintenance">
+
+									<span class="status-dot"></span>
+
+									Maintenance
+
+								</span>
+							}
+
+							else if (station.Status == ChargingStationStatus.Faulted)
+							{
+								<span class="status-badge status-faulted">
+
+									<span class="status-dot"></span>
+
+									Faulted
+
+								</span>
+							}
+
+							else if (station.Status == ChargingStationStatus.Offline)
+							{
+								<span class="status-badge status-offline">
+
+									<span class="status-dot"></span>
+
+									Offline
+
+								</span>
+							}
+
+							else
+							{
+								<span class="status-badge status-unknown">
+
+									<span class="status-dot"></span>
+
+									Unknown
+
+								</span>
+							}
+
+						</td>
+
+					</tr>
+				}
+
+				</tbody>
+
+			</table>
+
+		</div>
+	}
+
+
+</div>
