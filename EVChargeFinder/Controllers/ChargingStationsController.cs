@@ -3,9 +3,10 @@
     using Data;
     using DbModels;
     using DbModels.Enums;
+    using EVChargeFinder.ViewModels.ChargingStations;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
+    using EVChargeFinder.ViewModels.ChargingStations;
 
 
     public class ChargingStationsController : Controller
@@ -20,15 +21,33 @@
         // GET
         public IActionResult Index()
         {
-            ChargingStation[] allChargingStations = _dbContext
+            var chargingStations = _dbContext
                 .ChargingStations
                 .AsNoTracking()
                 .Include(cs => cs.Operator)
                 .Include(cs => cs.Connectors)
                 .ToArray();
 
-            ViewBag.Cities = _dbContext
-                .ChargingStations
+
+            ChargingStationIndexItemViewModel[] chargingStationViewModels = chargingStations
+                .Select(cs => new ChargingStationIndexItemViewModel
+                {
+                    Id = cs.Id,
+                    Name = cs.Name,
+                    Address = cs.Address,
+                    City = cs.City,
+                    OperatorName = cs.Operator.Name,
+                    Status = cs.ChargingStationStatus,
+                    Latitude = cs.Latitude,
+                    Longitude = cs.Longitude,
+                    MaxPowerKw = cs.Connectors.Any()
+                        ? cs.Connectors.Max(c => c.PowerKw)
+                        : 0,
+                    ChargingType = GetChargingType(cs)
+                })
+                .ToArray();
+
+            string[] cities = _dbContext.ChargingStations
                 .AsNoTracking()
                 .Where(cs => cs.City != null)
                 .Select(cs => cs.City!)
@@ -36,48 +55,149 @@
                 .OrderBy(c => c)
                 .ToArray();
 
-            ViewBag.Operators = _dbContext
-                .Operators
+            OperatorFilterViewModel[] operators = _dbContext.Operators
                 .AsNoTracking()
                 .OrderBy(o => o.Name)
+                .Select(o => new OperatorFilterViewModel
+                {
+                    Id = o.Id,
+                    Name = o.Name
+                })
                 .ToArray();
 
+            ChargingStationsIndexViewModel model = new ChargingStationsIndexViewModel
+            {
+                Stations = chargingStationViewModels,
+                Cities = cities,
+                Operators = operators,
+                StationsCount = chargingStations.Length,
+                ActiveStationsCount =
+                    chargingStations.Count(cs => cs.ChargingStationStatus == ChargingStationStatus.Active),
+                OperatorsCount = operators.Length,
+                ConnectorsCount = chargingStations.Sum(cs => cs.Connectors.Count)
+            };
 
-            return View(allChargingStations);
+            return View(model);
         }
 
         public IActionResult Details(int? id)
         {
-            if (!id.HasValue || id < 0)
+            if (!id.HasValue || id <= 0)
             {
                 return BadRequest();
             }
 
-            ChargingStation? chargingStationDetails = _dbContext
-                .ChargingStations
+            var chargingStationDetailsQuery = _dbContext.ChargingStations
                 .AsNoTracking()
                 .Include(cs => cs.Operator)
                 .Include(cs => cs.Connectors)
                 .SingleOrDefault(cs => cs.Id == id);
 
-            if (chargingStationDetails is null)
+            if (chargingStationDetailsQuery == null)
             {
                 return NotFound();
             }
 
-            return View(chargingStationDetails);
-        }
+            ChargingStationDetailsViewModel detailsViewModel =
+                new ChargingStationDetailsViewModel
+                {
+                    Id = chargingStationDetailsQuery.Id,
+                    Name = chargingStationDetailsQuery.Name,
+                    Address = chargingStationDetailsQuery.Address,
+                    City = chargingStationDetailsQuery.City,
+                    OperatorName = chargingStationDetailsQuery.Operator.Name,
+                    Status = chargingStationDetailsQuery.ChargingStationStatus,
+                    DataSource = chargingStationDetailsQuery.DataSource,
+                    LastUpdatedAt = chargingStationDetailsQuery.LastUpdatedAt,
+                    Latitude = chargingStationDetailsQuery.Latitude,
+                    Longitude = chargingStationDetailsQuery.Longitude,
 
-        public IActionResult Search(string? searchTerm, string? city, ChargingStationStatus? status, int? operatorId, ConnectorType? connectorType)
+                    ConnectorsCount = chargingStationDetailsQuery.Connectors.Count,
+
+                    MaxPowerKw = chargingStationDetailsQuery.Connectors.Any()
+                        ? chargingStationDetailsQuery.Connectors.Max(c => c.PowerKw)
+                        : 0,
+                    Connectors = chargingStationDetailsQuery.Connectors
+                        .OrderBy(c => c.ConnectorNumber)
+                        .Select(c => new ConnectorDetailsViewModel
+                        {
+                            Id = c.Id,
+                            ConnectorNumber = c.ConnectorNumber,
+                            ConnectorType = c.ConnectorType,
+                            PowerKw = c.PowerKw,
+                            PricePerKWh = c.PricePerKWh,
+                            Status = c.ConnectorStatus
+                        })
+                        .ToList()
+
+                };
+
+            return View(detailsViewModel);
+        }
+        
+
+        public IActionResult Search(string? searchTerm, string? city, ChargingStationStatus? status, int? operatorId,
+            ConnectorType? connectorType)
         {
-            IQueryable<ChargingStation> chargingStations = _dbContext
-                .ChargingStations
+            IQueryable<ChargingStation> chargingStationsQuery = _dbContext.ChargingStations
                 .AsNoTracking()
                 .Include(cs => cs.Operator)
                 .Include(cs => cs.Connectors);
 
-            ViewBag.Cities = _dbContext
-                .ChargingStations
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                chargingStationsQuery = chargingStationsQuery.Where(cs =>
+                    cs.Name.Contains(searchTerm) ||
+                    cs.Address.Contains(searchTerm) ||
+                    (cs.City != null && cs.City.Contains(searchTerm)) ||
+                    cs.Operator.Name.Contains(searchTerm));
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(city))
+            {
+                chargingStationsQuery = chargingStationsQuery.Where(cs => cs.City != null && cs.City == city);
+            }
+
+            if (status.HasValue)
+            {
+                chargingStationsQuery = chargingStationsQuery.Where(cs => cs.ChargingStationStatus == status.Value);
+            }
+
+            if (operatorId.HasValue)
+            {
+                chargingStationsQuery = chargingStationsQuery.Where(cs => cs.OperatorId == operatorId.Value);
+            }
+
+            if (connectorType.HasValue)
+            {
+                chargingStationsQuery =
+                    chargingStationsQuery.Where(cs => cs.Connectors.Any(c => c.ConnectorType == connectorType.Value));
+            }
+
+            ChargingStation[] chargingStationsDbModels = chargingStationsQuery.ToArray();
+
+            ChargingStationIndexItemViewModel[] chargingStationViewModels = chargingStationsDbModels
+                .Select(cs => new ChargingStationIndexItemViewModel
+                {
+                    Id = cs.Id,
+                    Name = cs.Name,
+                    Address = cs.Address,
+                    City = cs.City,
+                    OperatorName = cs.Operator.Name,
+                    Status = cs.ChargingStationStatus,
+                    Latitude = cs.Latitude,
+                    Longitude = cs.Longitude,
+
+                    MaxPowerKw = cs.Connectors.Any()
+                        ? cs.Connectors.Max(c => c.PowerKw)
+                        : 0,
+
+                    ChargingType = GetChargingType(cs)
+                })
+                .ToArray();
+
+            string[] cities = _dbContext.ChargingStations
                 .AsNoTracking()
                 .Where(cs => cs.City != null)
                 .Select(cs => cs.City!)
@@ -85,44 +205,76 @@
                 .OrderBy(c => c)
                 .ToArray();
 
-            ViewBag.Operators = _dbContext
-                .Operators
+
+            OperatorFilterViewModel[] operators = _dbContext.Operators
                 .AsNoTracking()
                 .OrderBy(o => o.Name)
+                .Select(o => new OperatorFilterViewModel
+                {
+                    Id = o.Id,
+                    Name = o.Name
+                })
                 .ToArray();
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+
+            ChargingStationsIndexViewModel chargingStationsViewModel = new ChargingStationsIndexViewModel
             {
-                chargingStations = chargingStations.Where(cs => cs.Name.Contains(searchTerm) || 
-                                                                cs.Address.Contains(searchTerm) ||
-                                                                cs.City !=null && cs.City.Contains(searchTerm) ||
-                                                                cs.Operator.Name.Contains(searchTerm));
+                Stations = chargingStationViewModels,
+                Cities = cities,
+                Operators = operators,
+                StationsCount = chargingStationsDbModels.Length,
+                ActiveStationsCount = chargingStationsDbModels
+                    .Count(cs => cs.ChargingStationStatus == ChargingStationStatus.Active),
+                OperatorsCount = chargingStationsDbModels
+                    .Select(cs => cs.OperatorId)
+                    .Distinct()
+                    .Count(),
+
+                ConnectorsCount = chargingStationsDbModels.Sum(cs => cs.Connectors.Count),
+
+                SearchTerm = searchTerm,
+                SelectedCity = city,
+                SelectedStatus = status,
+                SelectedOperatorId = operatorId,
+                SelectedConnectorType = connectorType
+            };
+
+
+            return View("Index", chargingStationsViewModel);
+        }
+
+        private static string GetChargingType(ChargingStation chargingStation)
+        {
+            bool hasAc = chargingStation.Connectors.Any(c =>
+                c.ConnectorType == ConnectorType.Type1 ||
+                c.ConnectorType == ConnectorType.Type2 ||
+                c.ConnectorType == ConnectorType.Schuko ||
+                c.ConnectorType == ConnectorType.GB_T_AC);
+
+            bool hasDc = chargingStation.Connectors.Any(c =>
+                c.ConnectorType == ConnectorType.CCS1 ||
+                c.ConnectorType == ConnectorType.CCS2 ||
+                c.ConnectorType == ConnectorType.CHAdeMO ||
+                c.ConnectorType == ConnectorType.NACS ||
+                c.ConnectorType == ConnectorType.GB_T_DC ||
+                c.ConnectorType == ConnectorType.MCS);
+
+            if (hasAc && hasDc)
+            {
+                return "AC/DC";
             }
 
-            if (!string.IsNullOrWhiteSpace(city))
+            if (hasDc)
             {
-                chargingStations = chargingStations.Where(cs => cs.City != null && cs.City == city);
+                return "DC";
             }
 
-            if (status.HasValue)
+            if (hasAc)
             {
-                chargingStations = chargingStations.Where(cs => cs.ChargingStationStatus == status.Value);
+                return "AC";
             }
 
-            if (operatorId.HasValue)
-            {
-                chargingStations = chargingStations.Where(cs => cs.OperatorId == operatorId.Value);
-            }
-
-            if (connectorType.HasValue)
-            {
-                chargingStations = chargingStations.Where(cs => cs.Connectors.Any(c => c.ConnectorType == connectorType));
-            }
-
-            ChargingStation[] result = chargingStations.ToArray();
-
-
-            return View("Index", result);
+            return "N/A";
         }
     }
 }
