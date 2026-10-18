@@ -21,6 +21,10 @@ body {
   margin-bottom: 60px;
 }
 
+body {
+    background-color: #f7f1e5;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
@@ -34,3 +38,4 @@ body {
 .leaflet-container img.leaflet-tile {
     mix-blend-mode: plus-lighter;
 }
+

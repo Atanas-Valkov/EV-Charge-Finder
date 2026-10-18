@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="InputModels\" />
     <Folder Include="wwwroot\images\connectors\" />
   </ItemGroup>
 
