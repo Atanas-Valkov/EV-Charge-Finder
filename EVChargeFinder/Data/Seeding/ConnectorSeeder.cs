@@ -8,13 +8,13 @@ namespace EVChargeFinder.Data.Seeding
 
     public static class ConnectorSeeder
     {
-        public static void Seed(ApplicationDbContext context)
+        public static async Task SeedAsync(ApplicationDbContext context)
         {
-            Dictionary<string, int> ChargingStationIds = context.ChargingStations
+            Dictionary<string, int> ChargingStationIds = await context.ChargingStations
                 .AsNoTracking()
-                .ToDictionary(
+                .ToDictionaryAsync(
                     cs => cs.Name,
-                    cs => cs.Id);
+                    cs => cs.Id);   
 
 
             List<Connector> connectors = new List<Connector>();
@@ -56,23 +56,18 @@ namespace EVChargeFinder.Data.Seeding
            
             connectors.AddRange(ProCreditChargingConnectorSeeder.GetConnectors(ChargingStationIds));
 
-            List<Connector> existingConnectors = context.Connectors
-                .ToList();
+            List<Connector> existingConnectors = await context.Connectors
+                .ToListAsync();
 
 
-            Dictionary<
-                (int ChargingStationId, int ConnectorNumber),
-                Connector> existingConnectorsByKey =
+            Dictionary<(int ChargingStationId, int ConnectorNumber), Connector> existingConnectorsByKey =
                     existingConnectors.ToDictionary(
                         c => (
                             c.ChargingStationId,
                             c.ConnectorNumber),
                         c => c);
 
-
-            List<Connector> connectorsToAdd =
-                new List<Connector>();
-
+            List<Connector> connectorsToAdd = new List<Connector>();
 
             foreach (Connector connector in connectors)
             {
@@ -85,20 +80,13 @@ namespace EVChargeFinder.Data.Seeding
                     connector.ConnectorNumber
                 );
 
-
                 if (existingConnectorsByKey.TryGetValue(
                     connectorKey,
                     out Connector? existingConnector))
                 {
-                    existingConnector.ConnectorType =
-                        connector.ConnectorType;
-
-                    existingConnector.PowerKw =
-                        connector.PowerKw;
-
-                    existingConnector.PricePerKWh =
-                        connector.PricePerKWh;
-
+                    existingConnector.ConnectorType = connector.ConnectorType;
+                    existingConnector.PowerKw = connector.PowerKw;
+                    existingConnector.PricePerKWh = connector.PricePerKWh;
 
                     if (connector.ExternalId != null)
                     {
@@ -106,27 +94,19 @@ namespace EVChargeFinder.Data.Seeding
                             connector.ExternalId;
                     }
 
-
                     continue;
                 }
 
-
                 connectorsToAdd.Add(connector);
-
-                existingConnectorsByKey.Add(
-                    connectorKey,
-                    connector);
+                existingConnectorsByKey.Add(connectorKey, connector);
             }
-
 
             if (connectorsToAdd.Count > 0)
             {
-                context.Connectors.AddRange(
-                    connectorsToAdd);
+                context.Connectors.AddRange(connectorsToAdd);
             }
 
-
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

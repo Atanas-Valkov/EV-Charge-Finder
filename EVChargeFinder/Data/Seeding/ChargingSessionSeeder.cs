@@ -6,17 +6,17 @@
 
     public static class ChargingSessionSeeder
     {
-        public static void Seed(ApplicationDbContext context)
+        public static async Task SeedAsync(ApplicationDbContext context)
         {
-            if (context.ChargingSessions.Any())
+            if (await context.ChargingSessions.AnyAsync())
             {
                 return;
             }
 
-            List<Connector> connectors = context.Connectors
+            List<Connector> connectors = await context.Connectors
                 .AsNoTracking()
                 .OrderBy(c => c.Id)
-                .ToList();
+                .ToListAsync();
 
             if (connectors.Count < 778)
             {
@@ -4028,7 +4028,7 @@
             ];
 
             context.ChargingSessions.AddRange(chargingSessions);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

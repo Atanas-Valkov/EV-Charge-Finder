@@ -1,12 +1,11 @@
 ﻿using EVChargeFinder.DbModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EVChargeFinder.Data.Seeding
 {
     public static class OperatorSeeder
     {
-        public static void Seed(ApplicationDbContext context)
+        public static async Task SeedAsync(ApplicationDbContext context)
         {
             Operator[] operators =
             {
@@ -105,8 +104,8 @@ namespace EVChargeFinder.Data.Seeding
 
             foreach (Operator operatorEntity in operators)
             {
-                bool operatorExists = context.Operators
-                    .Any(o => o.Name == operatorEntity.Name);
+                bool operatorExists = await context.Operators
+                    .AnyAsync(o => o.Name == operatorEntity.Name);
 
                 if (operatorExists)
                 {
@@ -116,7 +115,7 @@ namespace EVChargeFinder.Data.Seeding
                 context.Operators.Add(operatorEntity);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

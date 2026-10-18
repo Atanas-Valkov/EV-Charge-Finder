@@ -8,7 +8,7 @@ namespace EVChargeFinder
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,15 +19,15 @@ namespace EVChargeFinder
             {
                 options
                     .UseSqlServer(connectionString)
-                    .UseSeeding((context, _) =>
+                    .UseAsyncSeeding(async (context, _, _) =>
                     {
                         ApplicationDbContext dbContext =
                             (ApplicationDbContext)context;
 
-                        OperatorSeeder.Seed(dbContext);
-                        ChargingStationSeeder.Seed(dbContext);
-                        ConnectorSeeder.Seed(dbContext);
-                        ChargingSessionSeeder.Seed(dbContext);
+                        await OperatorSeeder.SeedAsync(dbContext);
+                        await ChargingStationSeeder.SeedAsync(dbContext);
+                        await ConnectorSeeder.SeedAsync(dbContext);
+                        await ChargingSessionSeeder.SeedAsync(dbContext);
                     });
             });
 
@@ -68,7 +68,7 @@ namespace EVChargeFinder
             app.MapRazorPages()
                 .WithStaticAssets();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

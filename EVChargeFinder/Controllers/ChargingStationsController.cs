@@ -3,10 +3,10 @@
     using Data;
     using DbModels;
     using DbModels.Enums;
-    using EVChargeFinder.ViewModels.ChargingStations;
+    using ViewModels.ChargingStations;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using EVChargeFinder.ViewModels.ChargingStations;
+    
 
 
     public class ChargingStationsController : Controller
@@ -18,15 +18,15 @@
             _dbContext = dbContext;
         }
 
-        // GET
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            var chargingStations = _dbContext
+            ChargingStation[] chargingStations = await _dbContext
                 .ChargingStations
                 .AsNoTracking()
                 .Include(cs => cs.Operator)
                 .Include(cs => cs.Connectors)
-                .ToArray();
+                .ToArrayAsync();
 
 
             ChargingStationIndexItemViewModel[] chargingStationViewModels = chargingStations
@@ -47,15 +47,15 @@
                 })
                 .ToArray();
 
-            string[] cities = _dbContext.ChargingStations
+            string[] cities = await _dbContext.ChargingStations
                 .AsNoTracking()
                 .Where(cs => cs.City != null)
                 .Select(cs => cs.City!)
                 .Distinct()
                 .OrderBy(c => c)
-                .ToArray();
+                .ToArrayAsync();
 
-            OperatorFilterViewModel[] operators = _dbContext.Operators
+            OperatorFilterViewModel[] operators = await _dbContext.Operators
                 .AsNoTracking()
                 .OrderBy(o => o.Name)
                 .Select(o => new OperatorFilterViewModel
@@ -63,7 +63,7 @@
                     Id = o.Id,
                     Name = o.Name
                 })
-                .ToArray();
+                .ToArrayAsync();
 
             ChargingStationsIndexViewModel model = new ChargingStationsIndexViewModel
             {
@@ -80,18 +80,19 @@
             return View(model);
         }
 
-        public IActionResult Details(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
         {
             if (!id.HasValue || id <= 0)
             {
                 return BadRequest();
             }
 
-            var chargingStationDetailsQuery = _dbContext.ChargingStations
+            var chargingStationDetailsQuery = await _dbContext.ChargingStations
                 .AsNoTracking()
                 .Include(cs => cs.Operator)
                 .Include(cs => cs.Connectors)
-                .SingleOrDefault(cs => cs.Id == id);
+                .SingleOrDefaultAsync(cs => cs.Id == id);
 
             if (chargingStationDetailsQuery == null)
             {
@@ -129,14 +130,13 @@
                             Status = c.ConnectorStatus
                         })
                         .ToList()
-
                 };
 
             return View(detailsViewModel);
         }
-        
 
-        public IActionResult Search(string? searchTerm, string? city, ChargingStationStatus? status, int? operatorId,
+
+        public async Task<IActionResult> Search(string? searchTerm, string? city, ChargingStationStatus? status, int? operatorId,
             ConnectorType? connectorType)
         {
             IQueryable<ChargingStation> chargingStationsQuery = _dbContext.ChargingStations
@@ -175,7 +175,7 @@
                     chargingStationsQuery.Where(cs => cs.Connectors.Any(c => c.ConnectorType == connectorType.Value));
             }
 
-            ChargingStation[] chargingStationsDbModels = chargingStationsQuery.ToArray();
+            ChargingStation[] chargingStationsDbModels = await chargingStationsQuery.ToArrayAsync();
 
             ChargingStationIndexItemViewModel[] chargingStationViewModels = chargingStationsDbModels
                 .Select(cs => new ChargingStationIndexItemViewModel
@@ -197,16 +197,16 @@
                 })
                 .ToArray();
 
-            string[] cities = _dbContext.ChargingStations
+            string[] cities = await _dbContext.ChargingStations
                 .AsNoTracking()
                 .Where(cs => cs.City != null)
                 .Select(cs => cs.City!)
                 .Distinct()
                 .OrderBy(c => c)
-                .ToArray();
+                .ToArrayAsync();
 
 
-            OperatorFilterViewModel[] operators = _dbContext.Operators
+            OperatorFilterViewModel[] operators = await _dbContext.Operators
                 .AsNoTracking()
                 .OrderBy(o => o.Name)
                 .Select(o => new OperatorFilterViewModel
@@ -214,7 +214,7 @@
                     Id = o.Id,
                     Name = o.Name
                 })
-                .ToArray();
+                .ToArrayAsync();
 
 
             ChargingStationsIndexViewModel chargingStationsViewModel = new ChargingStationsIndexViewModel

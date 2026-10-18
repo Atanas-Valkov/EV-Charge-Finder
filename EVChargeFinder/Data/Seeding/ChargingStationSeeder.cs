@@ -6,11 +6,11 @@ namespace EVChargeFinder.Data.Seeding
 {
     public static class ChargingStationSeeder
     {
-        public static void Seed(ApplicationDbContext context)
+        public static async Task SeedAsync(ApplicationDbContext context)
         {
-            Dictionary<string, int> operatorIds = context.Operators
+            Dictionary<string, int> operatorIds = await context.Operators
                 .AsNoTracking()
-                .ToDictionary(
+                .ToDictionaryAsync(
                     o => o.Name,
                     o => o.Id);
 
@@ -54,13 +54,13 @@ namespace EVChargeFinder.Data.Seeding
             ChargingStations.AddRange(ProCreditChargingChargingStationSeeder.GetChargingStations(operatorIds["ProCredit Charging"]));
 
 
-            List<ChargingStation> existingChargingStations = context
+            List<ChargingStation> existingChargingStations = await context
                     .ChargingStations
                     .AsNoTracking()
-                    .ToList();
+                    .ToListAsync();
 
 
-            var existingStations = existingChargingStations
+            HashSet<(int OperatorId, string Name, decimal Latitude, decimal Longitude)> existingStations = existingChargingStations
                     .Select(cs => 
                     (
                         cs.OperatorId,
@@ -101,7 +101,7 @@ namespace EVChargeFinder.Data.Seeding
             {
                 context.ChargingStations.AddRange(ChargingStationsToAdd);
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }

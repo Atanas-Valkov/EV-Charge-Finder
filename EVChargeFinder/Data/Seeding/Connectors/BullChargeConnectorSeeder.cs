@@ -36,12 +36,7 @@
         }
 
 
-        private static void AddConnectors(
-            List<Connector> connectors,
-            int ChargingStationId,
-            ConnectorType connectorType,
-            int count,
-            decimal powerKw,
+        private static void AddConnectors(List<Connector> connectors, int ChargingStationId, ConnectorType connectorType, int count, decimal powerKw,
             decimal pricePerKWh)
         {
             for (int connectorNumber = 1;
