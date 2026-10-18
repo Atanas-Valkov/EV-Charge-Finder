@@ -1,0 +1,22 @@
+﻿@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsIndexViewModel
+
+<section class="sessions-content">
+	<div class="sessions-panel">
+		<div class="sessions-panel-header d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+			<h2 class="mb-0">Charging History</h2>
+
+			<span class="sessions-results-count text-muted">
+				@Model.SessionsCount.ToString("N0") sessions found
+			</span>
+		</div>
+
+		<partial name="~/Views/ChargingSessions/Partials/_ChargingSessionsIndexFilters.cshtml"
+		         model="Model" />
+
+		<partial name="~/Views/ChargingSessions/Partials/_ChargingSessionsIndexTable.cshtml"
+		         model="Model.Sessions" />
+
+		<partial name="~/Views/ChargingSessions/Partials/_ChargingSessionsIndexPagination.cshtml"
+		         model="Model" />
+	</div>
+</section>

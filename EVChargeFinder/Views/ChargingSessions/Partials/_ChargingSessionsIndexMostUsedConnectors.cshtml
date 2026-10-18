@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EVChargeFinder.ViewModels.ChargingSessions.MostUsedConnectorViewModel>
+
+<div class="sessions-panel h-100">
+	<div class="sessions-panel-header">
+		<h2 class="h5">Most Used Connectors</h2>
+	</div>
+
+	@if (!Model.Any())
+	{
+		<p class="text-muted mb-0">
+			No connectors found for the selected filters.
+		</p>
+	}
+	else
+	{
+		<div class="d-flex flex-column gap-3">
+			@foreach (var connector in Model)
+			{
+				<div class="sessions-connector-item d-flex justify-content-between align-items-center gap-3 border-bottom pb-3">
+					<div>
+						<a asp-controller="ChargingStations"
+						   asp-action="Details"
+						   asp-route-id="@connector.ChargingStationId"
+						   class="text-decoration-none">
+							@connector.ChargingStationName
+						</a>
+
+						<div class="small text-muted">
+							Connector @connector.ConnectorNumber
+						</div>
+					</div>
+
+					<div class="text-end">
+						<strong class="d-block">
+							@connector.SessionsCount
+						</strong>
+
+						<span class="small text-muted">
+							sessions
+						</span>
+					</div>
+				</div>
+			}
+		</div>
+	}
+</div>

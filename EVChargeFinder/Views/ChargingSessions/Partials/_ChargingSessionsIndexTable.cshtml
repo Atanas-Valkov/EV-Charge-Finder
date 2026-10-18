@@ -1,0 +1,126 @@
+﻿@model IEnumerable<EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionIndexItemViewModel>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <h3 class="h5">No charging sessions found</h3>
+
+        <p class="text-muted mb-0">
+            Change your filters or create a charging session.
+        </p>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle sessions-table">
+            <caption class="visually-hidden">
+                Charging sessions matching the selected filters
+            </caption>
+
+            <thead>
+                <tr>
+                    <th scope="col">Station</th>
+                    <th scope="col">Connector</th>
+                    <th scope="col">Started</th>
+                    <th scope="col">Ended</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col" class="text-end">Energy (kWh)</th>
+                    <th scope="col" class="text-end">Price / kWh</th>
+                    <th scope="col" class="text-end">Total Cost</th>
+                    <th scope="col" class="text-end">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var session in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="ChargingStations"
+                               asp-action="Details"
+                               asp-route-id="@session.ChargingStationId"
+                               class="text-decoration-none">
+                                @session.ChargingStationName
+                            </a>
+                        </td>
+
+                        <td>
+                            @session.ConnectorNumber
+                        </td>
+
+                        <td class="text-nowrap">
+                            @session.StartedAt.ToString("dd.MM.yyyy HH:mm")
+                        </td>
+
+                        <td class="text-nowrap">
+                            @if (session.EndedAt.HasValue)
+                            {
+                                @session.EndedAt.Value.ToString("dd.MM.yyyy HH:mm")
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    In progress
+                                </span>
+                            }
+                        </td>
+
+                        <td class="text-nowrap">
+                            @if (session.Duration is TimeSpan duration)
+                            {
+                                <span>
+                                    @((int)duration.TotalHours)h @(duration.Minutes)m
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </td>
+
+                        <td class="text-end">
+                            @session.EnergyKWh.ToString("N2")
+                        </td>
+
+                        <td class="text-end">
+                            @session.AppliedPricePerKWh.ToString("N4")
+                        </td>
+
+                        <td class="text-end">
+                            @session.TotalCost.ToString("N2")
+                        </td>
+
+                        <td>
+                            <div class="d-flex justify-content-end gap-2">
+                                <a asp-controller="ChargingSessions"
+                                   asp-action="Details"
+                                   asp-route-id="@session.Id"
+                                   class="btn btn-sm btn-outline-primary"
+                                   aria-label="@($"Details for session {session.Id}")">
+                                    Details
+                                </a>
+
+                                <a asp-controller="ChargingSessions"
+                                   asp-action="Edit"
+                                   asp-route-id="@session.Id"
+                                   class="btn btn-sm btn-outline-secondary"
+                                   aria-label="@($"Edit session {session.Id}")">
+                                    Edit
+                                </a>
+
+                                <a asp-controller="ChargingSessions"
+                                   asp-action="Delete"
+                                   asp-route-id="@session.Id"
+                                   class="btn btn-sm btn-outline-danger"
+                                   aria-label="@($"Delete session {session.Id}")">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

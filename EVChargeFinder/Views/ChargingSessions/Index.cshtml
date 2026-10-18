@@ -1,0 +1,35 @@
+﻿@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsIndexViewModel
+
+@{
+	ViewData["Title"] = "Charging Sessions";
+}
+
+@section Styles {
+	<link rel="stylesheet"
+	      href="~/css/charging-sessions-index.css"
+	      asp-append-version="true" />
+}
+
+<div class="sessions-page"
+     style="display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; width: 100%;">
+	<div style="min-width: 0;">
+		<partial name="~/Views/ChargingSessions/Partials/_ChargingSessionsIndexHeader.cshtml" />
+	</div>
+
+	<div style="min-width: 0;">
+		<partial name="~/Views/ChargingSessions/Partials/_ChargingSessionsIndexOverview.cshtml"
+		         model="Model" />
+	</div>
+
+	<div style="min-width: 0;">
+		<partial name="~/Views/ChargingSessions/Partials/_ChargingSessionsIndexContent.cshtml"
+		         model="Model" />
+	</div>
+</div>
+
+@section Scripts {
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+
+	<script src="~/js/charging-sessions-index.js"
+	        asp-append-version="true"></script>
+}

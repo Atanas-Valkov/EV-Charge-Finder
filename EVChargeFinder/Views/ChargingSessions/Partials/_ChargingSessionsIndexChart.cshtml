@@ -1,0 +1,34 @@
+﻿@using System.Text.Json
+@model IEnumerable<EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionDailyEnergyViewModel>
+
+@{
+	var chartData = Model
+		.OrderBy(day => day.Date)
+		.Select(day => new
+		{
+			date = day.Date.ToString("yyyy-MM-dd"),
+			energyKWh = day.EnergyKWh
+		})
+		.ToList();
+}
+
+<div class="sessions-chart">
+	<h3 class="h6 mb-3">Daily Energy · kWh</h3>
+
+	<div class="sessions-chart-container">
+		<canvas id="sessions-energy-chart"
+		        role="img"
+		        aria-label="Charging energy for the selected period">
+		</canvas>
+	</div>
+
+	<p id="sessions-chart-empty"
+	   class="text-muted small mt-3 mb-0"
+	   hidden>
+		No charging sessions for this period.
+	</p>
+
+	<script id="sessions-energy-data" type="application/json">
+        @Html.Raw(JsonSerializer.Serialize(chartData))
+    </script>
+</div>

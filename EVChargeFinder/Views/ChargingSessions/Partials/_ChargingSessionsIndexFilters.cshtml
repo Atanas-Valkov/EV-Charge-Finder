@@ -1,0 +1,120 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsIndexViewModel
+
+@{
+    bool hasFilters =
+        Model.SelectedChargingStationId.HasValue ||
+        Model.SelectedConnectorId.HasValue ||
+        Model.From.HasValue ||
+        Model.To.HasValue;
+
+    var stationOptions = new SelectList(
+        Model.ChargingStations,
+        "Id",
+        "Name",
+        Model.SelectedChargingStationId);
+
+    var connectorOptions = new SelectList(
+        Model.Connectors.Select(connector => new
+        {
+            connector.Id,
+            Label = $"{connector.ChargingStationName} · Connector {connector.ConnectorNumber}"
+        }),
+        "Id",
+        "Label",
+        Model.SelectedConnectorId);
+}
+
+<form asp-controller="ChargingSessions"
+      asp-action="Index"
+      method="get"
+      class="sessions-filters">
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <label for="sessions-search" class="visually-hidden">
+            Search by station name
+        </label>
+
+        <input id="sessions-search"
+               name="searchTerm"
+               value="@Model.SearchTerm"
+               type="search"
+               class="form-control flex-grow-1 w-auto"
+               placeholder="Search by station name..." />
+
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+
+        <button type="button"
+                class="btn btn-outline-secondary"
+                data-bs-toggle="collapse"
+                data-bs-target="#sessions-filter-options"
+                aria-expanded="@(hasFilters ? "true" : "false")"
+                aria-controls="sessions-filter-options">
+            Filters
+        </button>
+
+        <a asp-controller="ChargingSessions"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Clear
+        </a>
+    </div>
+
+    <div class="collapse @(hasFilters ? "show" : "")"
+         id="sessions-filter-options">
+
+        <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6 col-xl-3">
+                <label for="sessions-station" class="form-label">
+                    Charging Station
+                </label>
+
+                <select id="sessions-station"
+                        name="chargingStationId"
+                        class="form-select"
+                        asp-items="stationOptions">
+                    <option value="">All stations</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <label for="sessions-connector" class="form-label">
+                    Connector
+                </label>
+
+                <select id="sessions-connector"
+                        name="connectorId"
+                        class="form-select"
+                        asp-items="connectorOptions">
+                    <option value="">All connectors</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <label for="sessions-from" class="form-label">
+                    From
+                </label>
+
+                <input id="sessions-from"
+                       name="from"
+                       type="date"
+                       value="@(Model.From?.ToString("yyyy-MM-dd"))"
+                       class="form-control" />
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <label for="sessions-to" class="form-label">
+                    To
+                </label>
+
+                <input id="sessions-to"
+                       name="to"
+                       type="date"
+                       value="@(Model.To?.ToString("yyyy-MM-dd"))"
+                       class="form-control" />
+            </div>
+        </div>
+    </div>
+</form>

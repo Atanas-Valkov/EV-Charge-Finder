@@ -1,0 +1,59 @@
+﻿@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsIndexViewModel
+
+<div class="row g-3 sessions-metrics mb-4">
+	<div class="col-6 col-md-3">
+		<div class="sessions-metric">
+			<span class="sessions-metric-label d-block">
+				Sessions
+			</span>
+
+			<strong class="sessions-metric-value">
+				@Model.SessionsCount.ToString("N0")
+			</strong>
+		</div>
+	</div>
+
+	<div class="col-6 col-md-3">
+		<div class="sessions-metric">
+			<span class="sessions-metric-label d-block">
+				Energy
+			</span>
+
+			<strong class="sessions-metric-value">
+				@Model.TotalEnergyKWh.ToString("N2")
+				<small>kWh</small>
+			</strong>
+		</div>
+	</div>
+
+	<div class="col-6 col-md-3">
+		<div class="sessions-metric">
+			<span class="sessions-metric-label d-block">
+				Total Cost
+			</span>
+
+			<strong class="sessions-metric-value">
+				@Model.TotalCost.ToString("N2")
+			</strong>
+		</div>
+	</div>
+
+	<div class="col-6 col-md-3">
+		<div class="sessions-metric">
+			<span class="sessions-metric-label d-block">
+				Average Duration
+			</span>
+
+			<strong class="sessions-metric-value">
+				@if (Model.AverageDuration is TimeSpan duration)
+				{
+					<span>@((int)duration.TotalHours)h @(duration.Minutes)m</span>
+				}
+				else
+				{
+					<span>N/A</span>
+				}
+			</strong>
+		</div>
+	</div>
+</div>
