@@ -84,11 +84,11 @@ else
                         </td>
 
                         <td class="text-end">
-                            @session.AppliedPricePerKWh.ToString("N4")
+                            @($"€ {session.AppliedPricePerKWh:F2}")
                         </td>
 
                         <td class="text-end">
-                            @session.TotalCost.ToString("N2")
+                            @($"€ {session.TotalCost:F2}")
                         </td>
 
                         <td>

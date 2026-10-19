@@ -584,20 +584,102 @@
         transition: background-color 0.15s ease, color 0.15s ease;
     }
 
-        .sessions-period-menu .dropdown-item:hover {
-            background-color: var(--sessions-accent-soft);
-            color: var(--sessions-accent-hover);
+    .sessions-period-menu .dropdown-item {
+        padding: 9px 11px;
+        background-color: transparent;
+        border-radius: 7px;
+        color: #34424d;
+        font-size: 14px;
+        transition: background-color 0.15s ease;
+    }
+
+        .sessions-period-menu .dropdown-item:hover,
+        .sessions-period-menu .dropdown-item:focus {
+            background-color: #ece9e3;
+            color: #34424d;
         }
 
-
-        /* Selected option */
-
-        .sessions-period-menu .dropdown-item.active {
-            background-color: var(--sessions-accent-soft);
-            color: var(--sessions-accent);
+        .sessions-period-menu .dropdown-item.active,
+        .sessions-period-menu .dropdown-item:active {
+            background-color: transparent;
+            color: #34424d;
             font-weight: 600;
         }
 
+            .sessions-period-menu .dropdown-item.active:hover {
+                background-color: #ece9e3;
+            }
+
+
+.sessions-metrics .sessions-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    min-height: 150px;
+    padding: 18px 20px;
+}
+
+.sessions-metrics .sessions-metric-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+}
+
+    .sessions-metrics .sessions-metric-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+.sessions-metrics .sessions-metric-content {
+    display: contents;
+}
+
+.sessions-metrics .sessions-metric-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #8190a5;
+    line-height: 1.2;
+}
+
+.sessions-metrics .sessions-metric-value {
+    font-size: 27px;
+    font-weight: 700;
+    color: #071b3a;
+    line-height: 1.1;
+}
+
+    .sessions-metrics .sessions-metric-value small {
+        font-size: 14px;
+        font-weight: 500;
+        color: #66758a;
+    }
+
+
+.sessions-metric-icon-blue {
+    background: #e4efff;
+    color: #2675e8;
+}
+
+.sessions-metric-icon-green {
+    background: #e1f2eb;
+    color: #14855f;
+}
+
+.sessions-metric-icon-purple {
+    background: #eee7fb;
+    color: #7558d5;
+}
+
+.sessions-metric-icon-orange {
+    background: #faecd9;
+    color: #df8800;
+}
 
 @media (max-width: 767.98px) {
     .sessions-header,
