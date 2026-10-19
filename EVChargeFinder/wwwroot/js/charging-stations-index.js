@@ -73,7 +73,7 @@ locateButton.addEventListener('click', function () {
 });
 
 
-                stations.forEach(station => {
+stations.forEach(station => {
 
     let pinColor = "#6c757d";
 
@@ -270,4 +270,26 @@ locateButton.addEventListener('click', function () {
 
         </div>
     `);
+});
+
+document.querySelectorAll(".dashboard-dropdown").forEach(dropdown => {
+
+    const hiddenInput = dropdown.querySelector("input[type='hidden']");
+    const items = dropdown.querySelectorAll(".dropdown-item");
+
+    items.forEach(item => {
+
+        item.addEventListener("click", () => {
+
+            hiddenInput.value = item.dataset.filterValue;
+
+            const form = dropdown.closest("form");
+
+            if (form) {
+                form.requestSubmit();
+            }
+        });
+
+    });
+
 });

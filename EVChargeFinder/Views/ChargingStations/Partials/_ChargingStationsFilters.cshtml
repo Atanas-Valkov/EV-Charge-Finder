@@ -1,27 +1,45 @@
 ﻿@model ChargingStationsIndexViewModel
 @using EVChargeFinder.DbModels.Enums
 
-<form asp-controller="ChargingStations" asp-action="Search" method="get">
+@{
+	string selectedCityText = string.IsNullOrWhiteSpace(Model.SelectedCity)
+		? "All cities"
+		: Model.SelectedCity;
 
-	<div class="mb-3">
-		<div class="input-group">
+	string selectedStatusText = Model.SelectedStatus.HasValue
+		? Model.SelectedStatus.Value.ToString()
+		: "All statuses";
 
-			<input type="text"
-			       name="searchTerm"
-			       value="@Model.SearchTerm"
-			       class="form-control"
-			       placeholder="Search station, city, address or operator..."/>
+	string selectedOperatorText = Model.SelectedOperatorId.HasValue
+		? Model.Operators
+			.FirstOrDefault(op => op.Id == Model.SelectedOperatorId.Value)?.Name
+			?? "All operators"
+		: "All operators";
+
+	string selectedConnectorText = Model.SelectedConnectorType.HasValue
+		? Model.SelectedConnectorType.Value.ToString()
+		: "All connector types";
+}
+
+<form asp-controller="ChargingStations"
+	  asp-action="Search"
+	  method="get">
+
+	<div class="stations-search">
+		<div class="stations-search-box">
+
+			<i class="bi bi-search stations-search-icon"></i>
+
+			<input type="search"
+				   name="searchTerm"
+				   value="@Model.SearchTerm"
+				   class="stations-search-input"
+				   placeholder="Search station, city, address or operator..." />
 
 			<button type="submit"
-			        class="btn btn-primary">
+					class="stations-search-button">
 				Search
 			</button>
-
-			<a asp-controller="ChargingStations"
-			   asp-action="Index"
-			   class="btn btn-outline-secondary">
-				Clear
-			</a>
 
 		</div>
 	</div>
@@ -30,7 +48,6 @@
 	<div class="row g-3 filters-row">
 
 		<div class="col-md-6 col-xl-3">
-
 			<div class="filter-card">
 
 				<label class="filter-label">
@@ -38,36 +55,49 @@
 					City
 				</label>
 
-				<select name="city"
-				        class="form-select dashboard-filter"
-				        onchange="this.form.submit()">
+				<div class="dropdown dashboard-dropdown">
 
-					<option value="">All cities</option>
+					<input type="hidden"
+						   name="city"
+						   value="@Model.SelectedCity" />
 
-					@foreach (string city in Model.Cities)
-					{
-						if (Model.SelectedCity == city)
+					<button type="button"
+							class="dashboard-dropdown-button dropdown-toggle"
+							data-bs-toggle="dropdown"
+							aria-expanded="false">
+						<span>@selectedCityText</span>
+					</button>
+
+					<ul class="dropdown-menu dashboard-dropdown-menu">
+
+						<li>
+							<button type="button"
+									class="dropdown-item @(string.IsNullOrWhiteSpace(Model.SelectedCity) ? "active" : "")"
+									data-filter-value="">
+								All cities
+							</button>
+						</li>
+
+						@foreach (string city in Model.Cities)
 						{
-							<option value="@city" selected>
-								@city
-							</option>
+							<li>
+								<button type="button"
+										class="dropdown-item @(Model.SelectedCity == city ? "active" : "")"
+										data-filter-value="@city">
+									@city
+								</button>
+							</li>
 						}
-						else
-						{
-							<option value="@city">
-								@city
-							</option>
-						}
-					}
 
-				</select>
+					</ul>
+
+				</div>
 
 			</div>
-
 		</div>
 
-		<div class="col-md-6 col-xl-3">
 
+		<div class="col-md-6 col-xl-3">
 			<div class="filter-card">
 
 				<label class="filter-label">
@@ -75,38 +105,50 @@
 					Status
 				</label>
 
-				<select name="status"
-				        class="form-select dashboard-filter"
-				        onchange="this.form.submit()">
+				<div class="dropdown dashboard-dropdown">
 
-					<option value="">All statuses</option>
+					<input type="hidden"
+						   name="status"
+						   value="@Model.SelectedStatus" />
 
-					@foreach (ChargingStationStatus status
-					          in Enum.GetValues<ChargingStationStatus>())
-					{
-						if (Model.SelectedStatus == status)
+					<button type="button"
+							class="dashboard-dropdown-button dropdown-toggle"
+							data-bs-toggle="dropdown"
+							aria-expanded="false">
+						<span>@selectedStatusText</span>
+					</button>
+
+					<ul class="dropdown-menu dashboard-dropdown-menu">
+
+						<li>
+							<button type="button"
+									class="dropdown-item @(!Model.SelectedStatus.HasValue ? "active" : "")"
+									data-filter-value="">
+								All statuses
+							</button>
+						</li>
+
+						@foreach (ChargingStationStatus status
+								  in Enum.GetValues<ChargingStationStatus>())
 						{
-							<option value="@status" selected>
-								@status
-							</option>
+							<li>
+								<button type="button"
+										class="dropdown-item @(Model.SelectedStatus == status ? "active" : "")"
+										data-filter-value="@status">
+									@status
+								</button>
+							</li>
 						}
-						else
-						{
-							<option value="@status">
-								@status
-							</option>
-						}
-					}
 
-				</select>
+					</ul>
+
+				</div>
 
 			</div>
-
 		</div>
 
 
 		<div class="col-md-6 col-xl-3">
-
 			<div class="filter-card">
 
 				<label class="filter-label">
@@ -114,35 +156,49 @@
 					Operator
 				</label>
 
-				<select name="operatorId"
-				        class="form-select dashboard-filter"
-				        onchange="this.form.submit()">
+				<div class="dropdown dashboard-dropdown">
 
-					<option value="">All operators</option>
+					<input type="hidden"
+						   name="operatorId"
+						   value="@Model.SelectedOperatorId" />
 
-					@foreach (var op in Model.Operators)
-					{
-						if (Model.SelectedOperatorId == op.Id)
+					<button type="button"
+							class="dashboard-dropdown-button dropdown-toggle"
+							data-bs-toggle="dropdown"
+							aria-expanded="false">
+						<span>@selectedOperatorText</span>
+					</button>
+
+					<ul class="dropdown-menu dashboard-dropdown-menu">
+
+						<li>
+							<button type="button"
+									class="dropdown-item @(!Model.SelectedOperatorId.HasValue ? "active" : "")"
+									data-filter-value="">
+								All operators
+							</button>
+						</li>
+
+						@foreach (var op in Model.Operators)
 						{
-							<option value="@op.Id" selected>
-								@op.Name
-							</option>
+							<li>
+								<button type="button"
+										class="dropdown-item @(Model.SelectedOperatorId == op.Id ? "active" : "")"
+										data-filter-value="@op.Id">
+									@op.Name
+								</button>
+							</li>
 						}
-						else
-						{
-							<option value="@op.Id">
-								@op.Name
-							</option>
-						}
-					}
 
-				</select>
+					</ul>
+
+				</div>
 
 			</div>
-
 		</div>
-		<div class="col-md-6 col-xl-3">
 
+
+		<div class="col-md-6 col-xl-3">
 			<div class="filter-card">
 
 				<label class="filter-label">
@@ -150,33 +206,46 @@
 					Connector
 				</label>
 
-				<select name="connectorType"
-				        class="form-select dashboard-filter"
-				        onchange="this.form.submit()">
+				<div class="dropdown dashboard-dropdown">
 
-					<option value="">All connector types</option>
+					<input type="hidden"
+						   name="connectorType"
+						   value="@Model.SelectedConnectorType" />
 
-					@foreach (ConnectorType connectorType
-					          in Enum.GetValues<ConnectorType>())
-					{
-						if (Model.SelectedConnectorType == connectorType)
+					<button type="button"
+							class="dashboard-dropdown-button dropdown-toggle"
+							data-bs-toggle="dropdown"
+							aria-expanded="false">
+						<span>@selectedConnectorText</span>
+					</button>
+
+					<ul class="dropdown-menu dashboard-dropdown-menu">
+
+						<li>
+							<button type="button"
+									class="dropdown-item @(!Model.SelectedConnectorType.HasValue ? "active" : "")"
+									data-filter-value="">
+								All connector types
+							</button>
+						</li>
+
+						@foreach (ConnectorType connectorType
+								  in Enum.GetValues<ConnectorType>())
 						{
-							<option value="@connectorType" selected>
-								@connectorType
-							</option>
+							<li>
+								<button type="button"
+										class="dropdown-item @(Model.SelectedConnectorType == connectorType ? "active" : "")"
+										data-filter-value="@connectorType">
+									@connectorType
+								</button>
+							</li>
 						}
-						else
-						{
-							<option value="@connectorType">
-								@connectorType
-							</option>
-						}
-					}
 
-				</select>
+					</ul>
+
+				</div>
 
 			</div>
-
 		</div>
 
 	</div>

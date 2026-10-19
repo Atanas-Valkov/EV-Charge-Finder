@@ -458,9 +458,7 @@
             color: white;
             box-shadow: 0 6px 14px rgba(220, 53, 69, 0.20);
         }
-    /* -----------------------------
-           Empty state
-        ----------------------------- */
+    /* ----------------------------Empty state----------------------------- */
 
     .empty-stations {
         padding: 60px 20px;
@@ -577,34 +575,213 @@
             font-size: 20px;
         }
 
-    .dashboard-filter {
+/* -----------------------------Dropdown filters----------------------------- */
+
+.dashboard-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.dashboard-dropdown-button {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 13px;
+    background-color: #fffaf2;
+    border: 1px solid #ddd7ca;
+    border-radius: 10px;
+    color: #263142;
+    font-size: 0.93rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+    .dashboard-dropdown-button:hover {
+        background-color: #fffaf2;
+        border-color: #b8c0cc;
+    }
+
+    .dashboard-dropdown-button:focus,
+    .dashboard-dropdown-button.show {
+        background-color: #fffaf2;
+        border-color: #b8c0cc;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .dashboard-dropdown-button::after {
+        margin-left: auto;
+        color: #697386;
+    }
+
+.dashboard-dropdown-menu {
+    width: 100%;
+    max-height: 280px;
+    margin-top: 6px;
+    padding: 6px;
+    overflow-y: auto;
+    background-color: #fffaf2;
+    border: 1px solid #e3e0d9;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(30, 45, 55, 0.12);
+}
+
+    .dashboard-dropdown-menu .dropdown-item {
         width: 100%;
-        height: 46px;
-        padding-left: 13px;
-        padding-right: 38px;
+        padding: 9px 11px;
+        background-color: transparent;
+        border: 0;
+        border-radius: 7px;
+        color: #34424d;
+        font-size: 14px;
+        text-align: left;
+        transition: background-color 0.15s ease;
+    }
+
+        .dashboard-dropdown-menu .dropdown-item:hover,
+        .dashboard-dropdown-menu .dropdown-item:focus {
+            background-color: #ece9e3;
+            color: #34424d;
+        }
+
+        .dashboard-dropdown-menu .dropdown-item.active,
+        .dashboard-dropdown-menu .dropdown-item:active {
+            background-color: transparent;
+            color: #263142;
+            font-weight: 600;
+        }
+
+            .dashboard-dropdown-menu .dropdown-item.active:hover {
+                background-color: #ece9e3;
+            }
+
+.filter-card:has(.dashboard-dropdown-button.show) {
+    border-color: rgba(60, 50, 35, 0.12);
+}
+
+      /* -----------------------------Search----------------------------- */
+
+.stations-search {
+    margin-bottom: 16px;
+}
+
+.stations-search-box {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    background-color: #fffaf2;
+    border: 1px solid #ddd7ca;
+    border-radius: 11px;
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .stations-search-box:focus-within {
+        border-color: #9eb8c5;
+        box-shadow: 0 0 0 3px rgba(41, 153, 207, 0.08);
+    }
+
+.stations-search-icon {
+    margin-left: 15px;
+    color: #7b8794;
+    font-size: 16px;
+}
+
+.stations-search-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 14px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #263142;
+    font-size: 0.95rem;
+}
+
+    .stations-search-input::placeholder {
+        color: #8a94a3;
+    }
+
+.stations-search-button {
+    align-self: stretch;
+    padding: 0 22px;
+    background-color: #2999cf;
+    border: 0;
+    color: #ffffff;
+    font-size: 0.93rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+    .stations-search-button:hover {
+        background-color: #2186b6;
+    }
+
+    .stations-search-button:focus {
+        outline: none;
+    }
+
+/* -----------------------------Pagination----------------------------- */
+
+.stations-pagination {
+    margin-top: 24px;
+}
+
+    .stations-pagination .pagination {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .stations-pagination .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 42px;
+        height: 42px;
+        margin: 0;
+        padding: 0 10px;
         background-color: #fffdf8;
         border: 1px solid #ddd7ca;
-        border-radius: 10px;
+        border-radius: 6px;
         color: #263142;
-        font-size: 0.93rem;
-        font-weight: 600;
-        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1;
+        text-decoration: none;
         box-shadow: none;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     }
 
-        .dashboard-filter:hover {
-            background-color: #ffffff;
-            border-color: #b8c0cc;
+        .stations-pagination .page-link:hover {
+            background-color: #e9f5fb;
+            border-color: #2999cf;
+            color: #2186b6;
         }
 
-        .dashboard-filter:focus {
-            background-color: #ffffff;
-            border-color: #7aa7ef;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10);
-        }
-
-    .filter-card:has(.dashboard-filter:focus) {
-        border-color: rgba(13, 110, 253, 0.18);
+    .stations-pagination .page-item.active .page-link {
+        background-color: #2999cf;
+        border-color: #2999cf;
+        color: #ffffff;
     }
+
+    .stations-pagination .page-link[title] {
+        font-size: 1.8rem;
+    }
+
+    .stations-pagination .page-link:focus-visible {
+        outline: 2px solid #2999cf;
+        outline-offset: 3px;
+    }
+
 
