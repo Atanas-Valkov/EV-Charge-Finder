@@ -23,5 +23,8 @@
         public string ChargingType { get; set; } = null!;
 
         public decimal MaxPowerKw { get; set; }
+
+        public ChargingStationIndexItemViewModel[] MapStations { get; set; }
+            = Array.Empty<ChargingStationIndexItemViewModel>();
     }
 }

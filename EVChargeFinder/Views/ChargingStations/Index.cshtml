@@ -4,7 +4,7 @@
 @{
 	ViewData["Title"] = "Charging Stations";
 
-	var mapStations = Model.Stations
+	var mapStations = Model.MapStations
 		.Select(station => new
 		{
 			station.Id,
@@ -70,7 +70,13 @@
 <partial name="Partials/_ChargingStationsList"
          model="Model" />
 
+<partial name="Partials/_ChargingStationsPagination"
+         model="Model" />
+
 </div> <!-- close .container stations-page -->
+
+
+
 
 <script id="stationsData" type="application/json">
     @Html.Raw(stationsJson)

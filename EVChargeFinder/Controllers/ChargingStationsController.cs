@@ -3,10 +3,9 @@
     using Data;
     using DbModels;
     using DbModels.Enums;
-    using ViewModels.ChargingStations;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    
+    using ViewModels.ChargingStations;
 
 
     public class ChargingStationsController : Controller
@@ -19,8 +18,10 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
+            const int pageSize = 10;
+
             ChargingStation[] chargingStations = await _dbContext
                 .ChargingStations
                 .AsNoTracking()
@@ -29,25 +30,56 @@
                 .ToArrayAsync();
 
 
-            ChargingStationIndexItemViewModel[] chargingStationViewModels = chargingStations
-                .Select(cs => new ChargingStationIndexItemViewModel
-                {
-                    Id = cs.Id,
-                    Name = cs.Name,
-                    Address = cs.Address,
-                    City = cs.City,
-                    OperatorName = cs.Operator.Name,
-                    Status = cs.ChargingStationStatus,
-                    Latitude = cs.Latitude,
-                    Longitude = cs.Longitude,
-                    MaxPowerKw = cs.Connectors.Any()
-                        ? cs.Connectors.Max(c => c.PowerKw)
-                        : 0,
-                    ChargingType = GetChargingType(cs)
-                })
-                .ToArray();
+            int totalStations = chargingStations.Length;
 
-            string[] cities = await _dbContext.ChargingStations
+            int totalPages = (int)Math.Ceiling(
+                totalStations / (double)pageSize
+            );
+
+
+            pageNumber = Math.Max(1, pageNumber);
+
+            if (totalPages > 0)
+            {
+                pageNumber = Math.Min(
+                    pageNumber,
+                    totalPages
+                );
+            }
+
+
+            ChargingStationIndexItemViewModel[] mapStationViewModels =
+                chargingStations
+                    .Select(cs => new ChargingStationIndexItemViewModel
+                    {
+                        Id = cs.Id,
+                        Name = cs.Name,
+                        Address = cs.Address,
+                        City = cs.City,
+                        OperatorName = cs.Operator.Name,
+                        Status = cs.ChargingStationStatus,
+                        Latitude = cs.Latitude,
+                        Longitude = cs.Longitude,
+
+                        MaxPowerKw = cs.Connectors.Any()
+                            ? cs.Connectors.Max(c => c.PowerKw)
+                            : 0,
+
+                        ChargingType = GetChargingType(cs)
+                    })
+                    .ToArray();
+
+
+            ChargingStationIndexItemViewModel[] chargingStationViewModels =
+                mapStationViewModels
+                    .OrderBy(cs => cs.Id)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToArray();
+
+
+            string[] cities = await _dbContext
+                .ChargingStations
                 .AsNoTracking()
                 .Where(cs => cs.City != null)
                 .Select(cs => cs.City!)
@@ -55,7 +87,9 @@
                 .OrderBy(c => c)
                 .ToArrayAsync();
 
-            OperatorFilterViewModel[] operators = await _dbContext.Operators
+
+            OperatorFilterViewModel[] operators = await _dbContext
+                .Operators
                 .AsNoTracking()
                 .OrderBy(o => o.Name)
                 .Select(o => new OperatorFilterViewModel
@@ -65,17 +99,25 @@
                 })
                 .ToArrayAsync();
 
+
             ChargingStationsIndexViewModel model = new ChargingStationsIndexViewModel
-            {
-                Stations = chargingStationViewModels,
-                Cities = cities,
-                Operators = operators,
-                StationsCount = chargingStations.Length,
-                ActiveStationsCount =
-                    chargingStations.Count(cs => cs.ChargingStationStatus == ChargingStationStatus.Active),
-                OperatorsCount = operators.Length,
-                ConnectorsCount = chargingStations.Sum(cs => cs.Connectors.Count)
-            };
+                {
+                    Stations = chargingStationViewModels,
+                    MapStations = mapStationViewModels,
+                    Cities = cities,
+                    Operators = operators,
+                    StationsCount = chargingStations.Length,
+                    ActiveStationsCount = chargingStations
+                        .Count(cs =>
+                            cs.ChargingStationStatus ==
+                            ChargingStationStatus.Active),
+
+                    OperatorsCount = operators.Length,
+                    ConnectorsCount = chargingStations
+                        .Sum(cs => cs.Connectors.Count),
+                    PageNumber = pageNumber,
+                    TotalPages = totalPages
+                };
 
             return View(model);
         }
@@ -136,13 +178,14 @@
         }
 
 
-        public async Task<IActionResult> Search(string? searchTerm, string? city, ChargingStationStatus? status, int? operatorId,
-            ConnectorType? connectorType)
+        [HttpGet]
+        public async Task<IActionResult> Search(string? searchTerm, string? city, ChargingStationStatus? status, int? operatorId, ConnectorType? connectorType, int pageNumber = 1)
         {
             IQueryable<ChargingStation> chargingStationsQuery = _dbContext.ChargingStations
                 .AsNoTracking()
                 .Include(cs => cs.Operator)
                 .Include(cs => cs.Connectors);
+
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -153,51 +196,104 @@
                     cs.Operator.Name.Contains(searchTerm));
             }
 
-
             if (!string.IsNullOrWhiteSpace(city))
             {
-                chargingStationsQuery = chargingStationsQuery.Where(cs => cs.City != null && cs.City == city);
+                chargingStationsQuery = chargingStationsQuery
+                    .Where(cs =>
+                        cs.City != null &&
+                        cs.City == city);
             }
+
 
             if (status.HasValue)
             {
-                chargingStationsQuery = chargingStationsQuery.Where(cs => cs.ChargingStationStatus == status.Value);
+                chargingStationsQuery = chargingStationsQuery
+                    .Where(cs =>
+                        cs.ChargingStationStatus == status.Value);
             }
+
 
             if (operatorId.HasValue)
             {
-                chargingStationsQuery = chargingStationsQuery.Where(cs => cs.OperatorId == operatorId.Value);
+                chargingStationsQuery = chargingStationsQuery
+                    .Where(cs =>
+                        cs.OperatorId == operatorId.Value);
             }
+
 
             if (connectorType.HasValue)
             {
-                chargingStationsQuery =
-                    chargingStationsQuery.Where(cs => cs.Connectors.Any(c => c.ConnectorType == connectorType.Value));
+                chargingStationsQuery = chargingStationsQuery
+                    .Where(cs =>
+                        cs.Connectors.Any(c =>
+                            c.ConnectorType == connectorType.Value));
             }
 
-            ChargingStation[] chargingStationsDbModels = await chargingStationsQuery.ToArrayAsync();
 
-            ChargingStationIndexItemViewModel[] chargingStationViewModels = chargingStationsDbModels
-                .Select(cs => new ChargingStationIndexItemViewModel
-                {
-                    Id = cs.Id,
-                    Name = cs.Name,
-                    Address = cs.Address,
-                    City = cs.City,
-                    OperatorName = cs.Operator.Name,
-                    Status = cs.ChargingStationStatus,
-                    Latitude = cs.Latitude,
-                    Longitude = cs.Longitude,
+            const int pageSize = 10;
 
-                    MaxPowerKw = cs.Connectors.Any()
-                        ? cs.Connectors.Max(c => c.PowerKw)
-                        : 0,
+            int totalStations = await chargingStationsQuery.CountAsync();
 
-                    ChargingType = GetChargingType(cs)
-                })
-                .ToArray();
+            int activeStationsCount = await chargingStationsQuery
+                .CountAsync(cs =>
+                    cs.ChargingStationStatus == ChargingStationStatus.Active);
 
-            string[] cities = await _dbContext.ChargingStations
+            int operatorsCount = await chargingStationsQuery
+                .Select(cs => cs.OperatorId)
+                .Distinct()
+                .CountAsync();
+
+            int connectorsCount = await chargingStationsQuery
+                .SelectMany(cs => cs.Connectors)
+                .CountAsync();
+
+
+            int totalPages = (int)Math.Ceiling(
+                totalStations / (double)pageSize);
+
+
+            pageNumber = Math.Max(1, pageNumber);
+
+            if (totalPages > 0)
+            {
+                pageNumber = Math.Min(
+                    pageNumber,
+                    totalPages);
+            }
+
+
+            ChargingStation[] chargingStationsDbModels =
+                await chargingStationsQuery
+                    .OrderBy(cs => cs.Id)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToArrayAsync();
+
+
+            ChargingStationIndexItemViewModel[] chargingStationViewModels =
+                chargingStationsDbModels
+                    .Select(cs => new ChargingStationIndexItemViewModel
+                    {
+                        Id = cs.Id,
+                        Name = cs.Name,
+                        Address = cs.Address,
+                        City = cs.City,
+                        OperatorName = cs.Operator.Name,
+                        Status = cs.ChargingStationStatus,
+                        Latitude = cs.Latitude,
+                        Longitude = cs.Longitude,
+
+                        MaxPowerKw = cs.Connectors.Any()
+                            ? cs.Connectors.Max(c => c.PowerKw)
+                            : 0,
+
+                        ChargingType = GetChargingType(cs)
+                    })
+                    .ToArray();
+
+
+            string[] cities = await _dbContext
+                .ChargingStations
                 .AsNoTracking()
                 .Where(cs => cs.City != null)
                 .Select(cs => cs.City!)
@@ -206,7 +302,8 @@
                 .ToArrayAsync();
 
 
-            OperatorFilterViewModel[] operators = await _dbContext.Operators
+            OperatorFilterViewModel[] operators = await _dbContext
+                .Operators
                 .AsNoTracking()
                 .OrderBy(o => o.Name)
                 .Select(o => new OperatorFilterViewModel
@@ -217,27 +314,25 @@
                 .ToArrayAsync();
 
 
-            ChargingStationsIndexViewModel chargingStationsViewModel = new ChargingStationsIndexViewModel
-            {
-                Stations = chargingStationViewModels,
-                Cities = cities,
-                Operators = operators,
-                StationsCount = chargingStationsDbModels.Length,
-                ActiveStationsCount = chargingStationsDbModels
-                    .Count(cs => cs.ChargingStationStatus == ChargingStationStatus.Active),
-                OperatorsCount = chargingStationsDbModels
-                    .Select(cs => cs.OperatorId)
-                    .Distinct()
-                    .Count(),
+            ChargingStationsIndexViewModel chargingStationsViewModel =
+                new ChargingStationsIndexViewModel
+                {
+                    Stations = chargingStationViewModels,
 
-                ConnectorsCount = chargingStationsDbModels.Sum(cs => cs.Connectors.Count),
-
-                SearchTerm = searchTerm,
-                SelectedCity = city,
-                SelectedStatus = status,
-                SelectedOperatorId = operatorId,
-                SelectedConnectorType = connectorType
-            };
+                    Cities = cities,
+                    Operators = operators,
+                    StationsCount = totalStations,
+                    ActiveStationsCount = activeStationsCount,
+                    OperatorsCount = operatorsCount,
+                    ConnectorsCount = connectorsCount,
+                    SearchTerm = searchTerm,
+                    SelectedCity = city,
+                    SelectedStatus = status,
+                    SelectedOperatorId = operatorId,
+                    SelectedConnectorType = connectorType,
+                    PageNumber = pageNumber,
+                    TotalPages = totalPages
+                };
 
 
             return View("Index", chargingStationsViewModel);

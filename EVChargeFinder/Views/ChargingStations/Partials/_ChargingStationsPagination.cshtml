@@ -1,0 +1,114 @@
+﻿@model EVChargeFinder.ViewModels.ChargingStations.ChargingStationsIndexViewModel
+
+@{
+	int totalPages = Model.TotalPages;
+	int currentPage = Model.PageNumber;
+
+	int firstPage = Math.Max(1, currentPage - 4);
+	int lastPage = Math.Min(totalPages, firstPage + 8);
+
+	firstPage = Math.Max(1, lastPage - 8);
+
+	var routeValues = new Dictionary<string, string>
+	{
+		["searchTerm"] = Model.SearchTerm ?? "",
+		["city"] = Model.SelectedCity ?? "",
+		["status"] = Model.SelectedStatus?.ToString() ?? "",
+		["operatorId"] = Model.SelectedOperatorId?.ToString() ?? "",
+		["connectorType"] = Model.SelectedConnectorType?.ToString() ?? ""
+	};
+}
+
+@if (totalPages > 1)
+{
+
+	<nav class="stations-pagination"
+	     aria-label="Charging stations pages">
+
+		<ul class="pagination">
+			@if (currentPage > 1)
+			{
+				<li class="page-item">
+					<a class="page-link"
+					   asp-controller="ChargingStations"
+					   asp-action="Search"
+					   asp-all-route-data="routeValues"
+					   asp-route-pageNumber="1"
+					   aria-label="First page"
+					   title="First page">
+						&laquo;
+					</a>
+				</li>
+
+				<li class="page-item">
+					<a class="page-link"
+					   asp-controller="ChargingStations"
+					   asp-action="Search"
+					   asp-all-route-data="routeValues"
+					   asp-route-pageNumber="@(currentPage - 1)"
+					   aria-label="Previous page"
+					   title="Previous page">
+						&lsaquo;
+					</a>
+				</li>
+			}
+
+			@for (int pageIndex = firstPage;
+			      pageIndex <= lastPage;
+			      pageIndex++)
+			{
+				if (pageIndex == currentPage)
+				{
+					<li class="page-item active">
+						<span class="page-link"
+						      aria-current="page">
+							@pageIndex
+						</span>
+					</li>
+				}
+				else
+				{
+					<li class="page-item">
+						<a class="page-link"
+						   asp-controller="ChargingStations"
+						   asp-action="Search"
+						   asp-all-route-data="routeValues"
+						   asp-route-pageNumber="@pageIndex"
+						   aria-label="Page @pageIndex">
+							@pageIndex
+						</a>
+					</li>
+				}
+			}
+
+			@if (currentPage < totalPages)
+			{
+				<li class="page-item">
+					<a class="page-link"
+					   asp-controller="ChargingStations"
+					   asp-action="Search"
+					   asp-all-route-data="routeValues"
+					   asp-route-pageNumber="@(currentPage + 1)"
+					   aria-label="Next page"
+					   title="Next page">
+						&rsaquo;
+					</a>
+				</li>
+
+				<li class="page-item">
+					<a class="page-link"
+					   asp-controller="ChargingStations"
+					   asp-action="Search"
+					   asp-all-route-data="routeValues"
+					   asp-route-pageNumber="@totalPages"
+					   aria-label="Last page"
+					   title="Last page">
+						&raquo;
+					</a>
+				</li>
+			}
+
+		</ul>
+
+	</nav>
+}
