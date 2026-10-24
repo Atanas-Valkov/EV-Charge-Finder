@@ -2,6 +2,7 @@
 {
     using Data;
     using DbModels;
+    using InputModels;
     using ViewModels.ChargingSessions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,8 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string? searchTerm, int? chargingStationId, int? connectorId, DateTime? from, DateTime? to, int pageNumber = 1)
+        public async Task<IActionResult> Index(string? searchTerm, int? chargingStationId, int? connectorId,
+            DateTime? from, DateTime? to, int pageNumber = 1)
         {
             const int pageSize = 10;
 
@@ -193,6 +195,129 @@
             };
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            IEnumerable<ChargingStation> allChargingStations = await _dbContext.ChargingStations
+                .AsNoTracking()
+                .OrderBy(s => s.Name)
+                .ToArrayAsync();
+
+            DateTime currentDateTime = DateTime.Now;
+
+            currentDateTime = new DateTime
+            (
+                currentDateTime.Year,
+                currentDateTime.Month,
+                currentDateTime.Day,
+                currentDateTime.Hour,
+                currentDateTime.Minute,
+                0
+            );
+
+            ChargingSessionsCreateViewModel viewModel = new ChargingSessionsCreateViewModel
+            {
+                ChargingStations = allChargingStations,
+
+                InputModel = new ChargingSessionsCreateInputModel
+                {
+                    StartedAt = currentDateTime,
+                    EndedAt = currentDateTime.AddMinutes(30)
+                }
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetConnectorsByStation(int stationId)
+        {
+            ConnectorSelectViewModel[] connectors = await _dbContext.Connectors
+                .AsNoTracking()
+                .Where(c => c.ChargingStationId == stationId)
+                .OrderBy(c => c.ConnectorNumber)
+                .Select(c => new ConnectorSelectViewModel
+                {
+                    Id = c.Id,
+                    Text = $"Connector {c.ConnectorNumber} - {c.ConnectorType} - {c.PowerKw:F0} kW",
+                    PowerKw = c.PowerKw,
+                    PricePerKWh = c.PricePerKWh
+                })
+                .ToArrayAsync();
+
+            return Json(connectors);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ChargingSessionsCreateViewModel viewModel)
+        {
+            IEnumerable<ChargingStation> allChargingStations = FetchChargingStations();
+            viewModel.ChargingStations = allChargingStations;
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
             }
+
+            ChargingSessionsCreateInputModel inputModel = viewModel.InputModel;
+
+            Connector connector = await _dbContext.Connectors
+                .AsNoTracking()
+                .Where(c => c.Id == inputModel.ConnectorId)
+                .FirstAsync(c => c.Id == inputModel.ConnectorId);
+
+            TimeSpan chargingDuration = inputModel.EndedAt - inputModel.StartedAt;
+            decimal durationHours = (decimal)chargingDuration.TotalHours;
+            decimal maximumEnergyKWh = connector.PowerKw * durationHours;
+
+            if (durationHours > 96)
+            {
+                ModelState.AddModelError(nameof(inputModel.EndedAt),
+                    "Charging session cannot exceed 96 hours.");
+
+                return View(viewModel);
+            }
+
+            if (inputModel.EnergyKWh > maximumEnergyKWh )
+            {
+                ModelState.AddModelError(nameof(inputModel.EnergyKWh),
+                    $"Maximum energy for this charging period is {maximumEnergyKWh:F0} kWh.");
+
+                return View(viewModel);
+            }
+
+            if (inputModel.AppliedPricePerKWh > connector.PricePerKWh)
+            {
+                ModelState.AddModelError(nameof(inputModel.AppliedPricePerKWh),
+                    $"The applied price cannot exceed {connector.PricePerKWh:F2} €/kWh.");
+
+                return View(viewModel);
+            }
+
+
+            ChargingSession newSession = new ChargingSession()
+            {
+                StartedAt = inputModel.StartedAt,
+                EndedAt = inputModel.EndedAt,
+                EnergyKWh = inputModel.EnergyKWh,
+                AppliedPricePerKWh = inputModel.AppliedPricePerKWh,
+                TotalCost = inputModel.EnergyKWh * inputModel.AppliedPricePerKWh,
+                ConnectorId = inputModel.ConnectorId
+            };
+
+            _dbContext.ChargingSessions.Add(newSession);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private IEnumerable<ChargingStation> FetchChargingStations()
+        {
+            return _dbContext.ChargingStations
+                .AsNoTracking()
+                .OrderBy(s => s.Name)
+                .ToArray();
         }
     }
+}

@@ -25,6 +25,9 @@
             public const int ExternalIdMinLength = 1;
             public const int ExternalIdMaxLength = 100;
 
+            public const int ChargingStationIdMinValue = 1;
+            public const int ChargingStationIdMaxValue = int.MaxValue;  
+
         }
 
         public static class Operator
@@ -39,6 +42,18 @@
         public static class Connector
         {
             public const int ExternalIdMaxLength = 100;
+        }
+
+        public static class ChargingSessions
+        {
+            public const int ConnectorIdMinValue = 1;
+            public const int ConnectorIdMaxValue = int.MaxValue;
+
+            public const double EnergyKWhMinValue = 0.01;
+            public const double EnergyKWhMaxValue = 9999.99;
+
+            public const double AppliedPricePerKWhMinValue = 0.01;
+            public const double AppliedPricePerKWhMaxValue = 9999.99;
         }
     }
 }
