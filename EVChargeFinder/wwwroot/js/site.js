@@ -1,4 +1,23 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener('DOMContentLoaded', function () {
 
-// Write your JavaScript code.
+    document.querySelectorAll('.searchable-select').forEach(function (select) {
+
+        new TomSelect(select, {
+            create: false,
+            allowEmptyOption: true,
+            maxOptions: null,
+            placeholder: select.dataset.placeholder || 'Select option',
+
+            onDropdownOpen: function () {
+
+                this.setTextboxValue('');
+
+                this.control_input.focus();
+
+                this.control_input.setSelectionRange(0, 0);
+            }
+        });
+
+    });
+
+});
