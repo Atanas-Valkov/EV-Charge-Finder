@@ -1,0 +1,386 @@
+﻿```cshtml
+@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsCreateViewModel
+
+@{
+	ViewData["Title"] = "Create Charging Session";
+}
+
+<div class="container sessions-page">
+
+	<div class="sessions-header mb-4">
+		<div>
+			<h1 class="sessions-title">
+				Create Charging Session
+			</h1>
+
+			<p class="sessions-subtitle">
+				Add a new charging session.
+			</p>
+		</div>
+	</div>
+
+
+	<div class="sessions-panel">
+
+		<form asp-controller="ChargingSessions"
+			  asp-action="Create"
+			  method="post">
+
+			@Html.AntiForgeryToken()
+
+
+			<div asp-validation-summary="ModelOnly"
+				 class="text-danger mb-3">
+			</div>
+
+
+			<div class="row g-4">
+
+				<div class="col-md-6">
+
+					<label asp-for="InputModel.ChargingStationId"
+						   class="form-label">
+					</label>
+
+					<select asp-for="InputModel.ChargingStationId"
+							id="chargingStationSelect"
+							class="form-select searchable-select"
+							data-placeholder="Select charging station">
+
+						<option value=""></option>
+
+						@foreach (var station in Model.ChargingStations)
+						{
+							<option value="@station.Id">
+								@station.Name - @station.City
+							</option>
+						}
+
+					</select>
+
+					<span asp-validation-for="InputModel.ChargingStationId"
+						  class="text-danger">
+					</span>
+
+				</div>
+
+
+				<div class="col-md-6">
+
+					<label asp-for="InputModel.ConnectorId"
+						   class="form-label">
+					</label>
+
+					<select asp-for="InputModel.ConnectorId"
+							id="connectorSelect"
+							class="form-select searchable-select"
+							data-placeholder="Select connector"
+							data-selected-connector-id="@Model.InputModel.ConnectorId">
+
+						<option value=""></option>
+
+					</select>
+
+					<span asp-validation-for="InputModel.ConnectorId"
+						  class="text-danger">
+					</span>
+
+				</div>
+
+
+				<div class="col-md-6">
+
+					<label asp-for="InputModel.StartedAt"
+						   class="form-label">
+					</label>
+
+					<input asp-for="InputModel.StartedAt"
+						   type="datetime-local"
+						   class="form-control" />
+
+					<span asp-validation-for="InputModel.StartedAt"
+						  class="text-danger">
+					</span>
+
+				</div>
+
+
+				<div class="col-md-6">
+
+					<label asp-for="InputModel.EndedAt"
+						   class="form-label">
+					</label>
+
+					<input asp-for="InputModel.EndedAt"
+						   type="datetime-local"
+						   class="form-control" />
+
+					<span asp-validation-for="InputModel.EndedAt"
+						  class="text-danger">
+					</span>
+
+					@Html.ValidationMessage(
+						nameof(Model.InputModel.EndedAt),
+						null,
+						new { @class = "text-danger" })
+
+				</div>
+
+
+				<div class="col-md-6">
+
+					<label asp-for="InputModel.EnergyKWh"
+						   class="form-label">
+					</label>
+
+					<div class="input-group">
+
+						<input asp-for="InputModel.EnergyKWh"
+							   id="energyKWhInput"
+							   type="number"
+							   step="0.01"
+							   class="form-control"
+							   placeholder="0.00" />
+
+						<span class="input-group-text">
+							kWh
+						</span>
+
+					</div>
+
+					<span asp-validation-for="InputModel.EnergyKWh"
+						  class="text-danger">
+					</span>
+
+					@Html.ValidationMessage(
+						nameof(Model.InputModel.EnergyKWh),
+						null,
+						new { @class = "text-danger" })
+
+					<div id="maximumEnergyInfo"
+						 class="form-text">
+					</div>
+
+				</div>
+
+
+				<div class="col-md-6">
+
+					<label asp-for="InputModel.AppliedPricePerKWh"
+						   class="form-label">
+					</label>
+
+					<div class="input-group">
+
+						<input asp-for="InputModel.AppliedPricePerKWh"
+							   id="pricePerKWhInput"
+							   type="number"
+							   step="0.0001"
+							   class="form-control"
+							   placeholder="0.0000" />
+
+						<span class="input-group-text">
+							€/kWh
+						</span>
+
+					</div>
+
+					<span asp-validation-for="InputModel.AppliedPricePerKWh"
+						  class="text-danger">
+					</span>
+
+					@Html.ValidationMessage(
+						nameof(Model.InputModel.AppliedPricePerKWh),
+						null,
+						new { @class = "text-danger" })
+
+					<div id="maximumPriceInfo"
+						 class="form-text">
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<div class="d-flex justify-content-between mt-4">
+
+				<a asp-controller="ChargingSessions"
+				   asp-action="Index"
+				   class="btn btn-outline-secondary">
+
+					Back
+
+				</a>
+
+				<button type="submit"
+						class="btn btn-primary">
+
+					Create Session
+
+				</button>
+
+			</div>
+
+		</form>
+
+	</div>
+
+</div>
+
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial" />
+
+	<script>
+		window.addEventListener('load', async function () {
+
+			const chargingStationSelect =
+				document.getElementById('chargingStationSelect');
+
+			const connectorSelect =
+				document.getElementById('connectorSelect');
+
+			const pricePerKWhInput =
+				document.getElementById('pricePerKWhInput');
+
+			const maximumPriceInfo =
+				document.getElementById('maximumPriceInfo');
+
+			const stationTomSelect =
+				chargingStationSelect.tomselect;
+
+			const connectorTomSelect =
+				connectorSelect.tomselect;
+
+			const connectorsData =
+				new Map();
+
+
+			function setConnectorPrice(connectorId) {
+
+				const connector =
+					connectorsData.get(connectorId.toString());
+
+				if (!connector) {
+					return;
+				}
+
+				const price =
+					Number(connector.pricePerKWh);
+
+				pricePerKWhInput.value =
+					price.toFixed(4);
+
+				pricePerKWhInput.max =
+					price;
+
+				maximumPriceInfo.textContent =
+					`Maximum connector price: ${price.toFixed(2)} €/kWh`;
+			}
+
+
+			async function loadConnectors(
+				stationId,
+				selectedConnectorId = null) {
+
+				connectorTomSelect.clear();
+				connectorTomSelect.clearOptions();
+
+				connectorsData.clear();
+
+				maximumPriceInfo.textContent = '';
+
+				if (!stationId || stationId === '0') {
+					return;
+				}
+
+				const response = await fetch(
+					`/ChargingSessions/GetConnectorsByStation?stationId=${stationId}`
+				);
+
+				const connectors =
+					await response.json();
+
+				connectors.forEach(connector => {
+
+					const connectorId =
+						connector.id.toString();
+
+					connectorsData.set(
+						connectorId,
+						connector
+					);
+
+					connectorTomSelect.addOption({
+						value: connectorId,
+						text: connector.text
+					});
+
+				});
+
+				connectorTomSelect.refreshOptions(false);
+
+				if (selectedConnectorId &&
+					selectedConnectorId !== '0') {
+
+					connectorTomSelect.setValue(
+						selectedConnectorId.toString(),
+						true
+					);
+
+					setConnectorPrice(
+						selectedConnectorId
+					);
+				}
+			}
+
+
+			stationTomSelect.on(
+				'change',
+				async function (stationId) {
+
+					pricePerKWhInput.value = '';
+
+					maximumPriceInfo.textContent = '';
+
+					await loadConnectors(stationId);
+				});
+
+
+			connectorTomSelect.on(
+				'change',
+				function (connectorId) {
+
+					if (!connectorId) {
+
+						pricePerKWhInput.value = '';
+
+						maximumPriceInfo.textContent = '';
+
+						return;
+					}
+
+					setConnectorPrice(connectorId);
+				});
+
+
+			const stationId =
+				stationTomSelect.getValue();
+
+			const selectedConnectorId =
+				connectorSelect.dataset.selectedConnectorId;
+
+			if (stationId &&
+				stationId !== '0') {
+
+				await loadConnectors(
+					stationId,
+					selectedConnectorId
+				);
+			}
+
+		});
+	</script>
+}
