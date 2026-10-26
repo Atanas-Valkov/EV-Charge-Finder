@@ -31,7 +31,9 @@
       class="sessions-filters">
 
     <div class="d-flex flex-wrap gap-2 mb-3">
-        <label for="sessions-search" class="visually-hidden">
+
+        <label for="sessions-search"
+               class="visually-hidden">
             Search by station name
         </label>
 
@@ -42,7 +44,8 @@
                class="form-control flex-grow-1 w-auto"
                placeholder="Search by station name..." />
 
-        <button type="submit" class="btn btn-primary">
+        <button type="submit"
+                class="btn btn-primary">
             Search
         </button>
 
@@ -60,40 +63,56 @@
            class="btn btn-outline-secondary">
             Clear
         </a>
+
     </div>
 
     <div class="collapse @(hasFilters ? "show" : "")"
          id="sessions-filter-options">
 
         <div class="row g-3 mb-3">
+
             <div class="col-12 col-md-6 col-xl-3">
-                <label for="sessions-station" class="form-label">
+
+                <label for="sessions-station"
+                       class="form-label">
                     Charging Station
                 </label>
 
                 <select id="sessions-station"
                         name="chargingStationId"
-                        class="form-select"
+                        class="form-select searchable-select"
+                        data-placeholder="All stations"
                         asp-items="stationOptions">
+
                     <option value="">All stations</option>
+
                 </select>
+
             </div>
 
             <div class="col-12 col-md-6 col-xl-3">
-                <label for="sessions-connector" class="form-label">
+
+                <label for="sessions-connector"
+                       class="form-label">
                     Connector
                 </label>
 
                 <select id="sessions-connector"
                         name="connectorId"
-                        class="form-select"
+                        class="form-select searchable-select"
+                        data-placeholder="All connectors"
                         asp-items="connectorOptions">
+
                     <option value="">All connectors</option>
+
                 </select>
+
             </div>
 
             <div class="col-12 col-md-6 col-xl-3">
-                <label for="sessions-from" class="form-label">
+
+                <label for="sessions-from"
+                       class="form-label">
                     From
                 </label>
 
@@ -102,10 +121,13 @@
                        type="date"
                        value="@(Model.From?.ToString("yyyy-MM-dd"))"
                        class="form-control" />
+
             </div>
 
             <div class="col-12 col-md-6 col-xl-3">
-                <label for="sessions-to" class="form-label">
+
+                <label for="sessions-to"
+                       class="form-label">
                     To
                 </label>
 
@@ -114,7 +136,11 @@
                        type="date"
                        value="@(Model.To?.ToString("yyyy-MM-dd"))"
                        class="form-control" />
+
             </div>
+
         </div>
+
     </div>
+
 </form>

@@ -24,6 +24,7 @@
 {
     <nav class="sessions-pagination" aria-label="Charging sessions pages">
         <ul class="pagination">
+
             @if (currentPage > 1)
             {
                 <li class="page-item">
@@ -34,7 +35,7 @@
                        asp-route-pageNumber="1"
                        aria-label="First page"
                        title="First page">
-                        &laquo;
+                        <i class="bi bi-chevron-double-left"></i>
                     </a>
                 </li>
 
@@ -46,11 +47,10 @@
                        asp-route-pageNumber="@(currentPage - 1)"
                        aria-label="Previous page"
                        title="Previous page">
-                        &lsaquo;
+                        <i class="bi bi-chevron-left"></i>
                     </a>
                 </li>
             }
-       
 
             @for (int pageIndex = firstPage; pageIndex <= lastPage; pageIndex++)
             {
@@ -87,7 +87,7 @@
                        asp-route-pageNumber="@(currentPage + 1)"
                        aria-label="Next page"
                        title="Next page">
-                        &rsaquo;
+                        <i class="bi bi-chevron-right"></i>
                     </a>
                 </li>
 
@@ -99,11 +99,11 @@
                        asp-route-pageNumber="@totalPages"
                        aria-label="Last page"
                        title="Last page">
-                        &raquo;
+                        <i class="bi bi-chevron-double-right"></i>
                     </a>
                 </li>
             }
-            
+
         </ul>
     </nav>
 }

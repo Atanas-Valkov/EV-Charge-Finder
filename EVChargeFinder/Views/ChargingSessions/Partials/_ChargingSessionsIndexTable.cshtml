@@ -1,4 +1,6 @@
-﻿@model IEnumerable<EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionIndexItemViewModel>
+﻿@using System.Globalization
+@using static EVChargeFinder.Common.ApplicationConstants
+@model IEnumerable<EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionIndexItemViewModel>
 
 @if (!Model.Any())
 {
@@ -50,13 +52,13 @@ else
                         </td>
 
                         <td class="text-nowrap">
-                            @session.StartedAt.ToString("dd.MM.yyyy HH:mm")
+	                        @session.StartedAt.ToString(ApplicationDateTimeFormat, CultureInfo.InvariantCulture)
                         </td>
 
                         <td class="text-nowrap">
                             @if (session.EndedAt.HasValue)
                             {
-                                @session.EndedAt.Value.ToString("dd.MM.yyyy HH:mm")
+                                @session.EndedAt.Value.ToString(ApplicationDateTimeFormat, CultureInfo.InvariantCulture)
                             }
                             else
                             {
@@ -92,32 +94,36 @@ else
                         </td>
 
                         <td>
-                            <div class="d-flex justify-content-end gap-2">
-                                <a asp-controller="ChargingSessions"
-                                   asp-action="Details"
-                                   asp-route-id="@session.Id"
-                                   class="btn btn-sm btn-outline-primary"
-                                   aria-label="@($"Details for session {session.Id}")">
-                                    Details
-                                </a>
+	                        <div class="sessions-actions">
 
-                                <a asp-controller="ChargingSessions"
-                                   asp-action="Edit"
-                                   asp-route-id="@session.Id"
-                                   class="btn btn-sm btn-outline-secondary"
-                                   aria-label="@($"Edit session {session.Id}")">
-                                    Edit
-                                </a>
+		                        <a asp-controller="ChargingSessions"
+		                           asp-action="Details"
+		                           asp-route-id="@session.Id"
+		                           class="btn btn-sm btn-outline-primary"
+		                           title="Details"
+		                           aria-label="@($"Details for session {session.Id}")">
+			                        <i class="bi bi-eye"></i>
+		                        </a>
 
-                                <a asp-controller="ChargingSessions"
-                                   asp-action="Delete"
-                                   asp-route-id="@session.Id"
-                                   class="btn btn-sm btn-outline-danger"
-                                   aria-label="@($"Delete session {session.Id}")">
-                                    Delete
-                                </a>
-                            </div>
-                        </td>
+		                        <a asp-controller="ChargingSessions"
+		                           asp-action="Edit"
+		                           asp-route-id="@session.Id"
+		                           class="btn btn-sm btn-outline-secondary"
+		                           title="Edit"
+		                           aria-label="@($"Edit session {session.Id}")">
+			                        <i class="bi bi-pencil"></i>
+		                        </a>
+
+		                        <a asp-controller="ChargingSessions"
+		                           asp-action="Delete"
+		                           asp-route-id="@session.Id"
+		                           class="btn btn-sm btn-outline-danger"
+		                           title="Delete"
+		                           aria-label="@($"Delete session {session.Id}")">
+			                        <i class="bi bi-trash"></i>
+		                        </a>
+
+	                        </div>                        </td>
                     </tr>
                 }
             </tbody>
