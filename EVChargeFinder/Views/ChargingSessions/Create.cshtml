@@ -1,221 +1,256 @@
-﻿```cshtml
-@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsCreateViewModel
+﻿@model EVChargeFinder.ViewModels.ChargingSessions.ChargingSessionsCreateViewModel
 
 @{
 	ViewData["Title"] = "Create Charging Session";
 }
 
-<div class="container sessions-page">
+@section Styles
+{
+	<link rel="stylesheet"
+	      href="~/css/charging-sessions-create.css"
+	      asp-append-version="true" />
+}
 
-	<div class="sessions-header mb-4">
+<div class="container sessions-create-page">
+
+	<div class="sessions-create-header">
 		<div>
-			<h1 class="sessions-title">
+			<h1 class="sessions-create-title">
 				Create Charging Session
 			</h1>
 
-			<p class="sessions-subtitle">
+			<p class="sessions-create-subtitle">
 				Add a new charging session.
 			</p>
 		</div>
 	</div>
 
-
-	<div class="sessions-panel">
+	<div class="sessions-create-panel">
 
 		<form asp-controller="ChargingSessions"
-			  asp-action="Create"
-			  method="post">
+		      asp-action="Create"
+		      method="post">
 
 			@Html.AntiForgeryToken()
 
-
 			<div asp-validation-summary="ModelOnly"
-				 class="text-danger mb-3">
+			     class="text-danger sessions-validation-summary">
 			</div>
 
+			<div class="sessions-form-section">
 
-			<div class="row g-4">
+				<div class="sessions-form-section-header">
+					<div class="sessions-form-section-icon">
+						<i class="bi bi-ev-station"></i>
+					</div>
 
-				<div class="col-md-6">
-
-					<label asp-for="InputModel.ChargingStationId"
-						   class="form-label">
-					</label>
-
-					<select asp-for="InputModel.ChargingStationId"
-							id="chargingStationSelect"
-							class="form-select searchable-select"
-							data-placeholder="Select charging station">
-
-						<option value=""></option>
-
-						@foreach (var station in Model.ChargingStations)
-						{
-							<option value="@station.Id">
-								@station.Name - @station.City
-							</option>
-						}
-
-					</select>
-
-					<span asp-validation-for="InputModel.ChargingStationId"
-						  class="text-danger">
-					</span>
-
+					<div>
+						<h2>Charging Details</h2>
+						<p>Select the charging station and connector.</p>
+					</div>
 				</div>
 
+				<div class="row g-4">
 
-				<div class="col-md-6">
+					<div class="col-md-6">
 
-					<label asp-for="InputModel.ConnectorId"
-						   class="form-label">
-					</label>
+						<label asp-for="InputModel.ChargingStationId"
+						       class="form-label">
+						</label>
 
-					<select asp-for="InputModel.ConnectorId"
-							id="connectorSelect"
-							class="form-select searchable-select"
-							data-placeholder="Select connector"
-							data-selected-connector-id="@Model.InputModel.ConnectorId">
+						<select asp-for="InputModel.ChargingStationId"
+						        id="chargingStationSelect"
+						        class="form-select searchable-select"
+						        data-placeholder="Select charging station">
 
-						<option value=""></option>
+							<option value=""></option>
 
-					</select>
+							@foreach (var station in Model.ChargingStations)
+							{
+								<option value="@station.Id">
+									@station.Name - @station.City
+								</option>
+							}
 
-					<span asp-validation-for="InputModel.ConnectorId"
-						  class="text-danger">
-					</span>
+						</select>
 
-				</div>
-
-
-				<div class="col-md-6">
-
-					<label asp-for="InputModel.StartedAt"
-						   class="form-label">
-					</label>
-
-					<input asp-for="InputModel.StartedAt"
-						   type="datetime-local"
-						   class="form-control" />
-
-					<span asp-validation-for="InputModel.StartedAt"
-						  class="text-danger">
-					</span>
-
-				</div>
-
-
-				<div class="col-md-6">
-
-					<label asp-for="InputModel.EndedAt"
-						   class="form-label">
-					</label>
-
-					<input asp-for="InputModel.EndedAt"
-						   type="datetime-local"
-						   class="form-control" />
-
-					<span asp-validation-for="InputModel.EndedAt"
-						  class="text-danger">
-					</span>
-
-					@Html.ValidationMessage(
-						nameof(Model.InputModel.EndedAt),
-						null,
-						new { @class = "text-danger" })
-
-				</div>
-
-
-				<div class="col-md-6">
-
-					<label asp-for="InputModel.EnergyKWh"
-						   class="form-label">
-					</label>
-
-					<div class="input-group">
-
-						<input asp-for="InputModel.EnergyKWh"
-							   id="energyKWhInput"
-							   type="number"
-							   step="0.01"
-							   class="form-control"
-							   placeholder="0.00" />
-
-						<span class="input-group-text">
-							kWh
+						<span asp-validation-for="InputModel.ChargingStationId"
+						      class="text-danger">
 						</span>
 
 					</div>
 
-					<span asp-validation-for="InputModel.EnergyKWh"
-						  class="text-danger">
-					</span>
+					<div class="col-md-6">
 
-					@Html.ValidationMessage(
-						nameof(Model.InputModel.EnergyKWh),
-						null,
-						new { @class = "text-danger" })
+						<label asp-for="InputModel.ConnectorId"
+						       class="form-label">
+						</label>
 
-					<div id="maximumEnergyInfo"
-						 class="form-text">
-					</div>
+						<select asp-for="InputModel.ConnectorId"
+						        id="connectorSelect"
+						        class="form-select searchable-select"
+						        data-placeholder="Select connector"
+						        data-selected-connector-id="@Model.InputModel.ConnectorId">
 
-				</div>
+							<option value=""></option>
 
+						</select>
 
-				<div class="col-md-6">
-
-					<label asp-for="InputModel.AppliedPricePerKWh"
-						   class="form-label">
-					</label>
-
-					<div class="input-group">
-
-						<input asp-for="InputModel.AppliedPricePerKWh"
-							   id="pricePerKWhInput"
-							   type="number"
-							   step="0.0001"
-							   class="form-control"
-							   placeholder="0.0000" />
-
-						<span class="input-group-text">
-							€/kWh
+						<span asp-validation-for="InputModel.ConnectorId"
+						      class="text-danger">
 						</span>
 
-					</div>
-
-					<span asp-validation-for="InputModel.AppliedPricePerKWh"
-						  class="text-danger">
-					</span>
-
-					@Html.ValidationMessage(
-						nameof(Model.InputModel.AppliedPricePerKWh),
-						null,
-						new { @class = "text-danger" })
-
-					<div id="maximumPriceInfo"
-						 class="form-text">
 					</div>
 
 				</div>
 
 			</div>
 
+			<div class="sessions-form-divider"></div>
 
-			<div class="d-flex justify-content-between mt-4">
+			<div class="sessions-form-section">
+
+				<div class="sessions-form-section-header">
+					<div class="sessions-form-section-icon">
+						<i class="bi bi-clock"></i>
+					</div>
+
+					<div>
+						<h2>Session Information</h2>
+						<p>Enter the charging period, energy and applied price.</p>
+					</div>
+				</div>
+
+				<div class="row g-4">
+
+					<div class="col-md-6">
+
+						<label asp-for="InputModel.StartedAt"
+						       class="form-label">
+						</label>
+
+						<input asp-for="InputModel.StartedAt"
+						       type="datetime-local"
+						       class="form-control" />
+
+						<span asp-validation-for="InputModel.StartedAt"
+						      class="text-danger">
+						</span>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<label asp-for="InputModel.EndedAt"
+						       class="form-label">
+						</label>
+
+						<input asp-for="InputModel.EndedAt"
+						       type="datetime-local"
+						       class="form-control" />
+
+						<span asp-validation-for="InputModel.EndedAt"
+						      class="text-danger">
+						</span>
+
+						@Html.ValidationMessage(
+							nameof(Model.InputModel.EndedAt),
+							null,
+							new { @class = "text-danger" })
+
+					</div>
+
+					<div class="col-md-6">
+
+						<label asp-for="InputModel.EnergyKWh"
+						       class="form-label">
+						</label>
+
+						<div class="input-group">
+
+							<input asp-for="InputModel.EnergyKWh"
+							       id="energyKWhInput"
+							       type="number"
+							       step="0.01"
+							       class="form-control"
+							       placeholder="0.00" />
+
+							<span class="input-group-text">
+								kWh
+							</span>
+
+						</div>
+
+						<span asp-validation-for="InputModel.EnergyKWh"
+						      class="text-danger">
+						</span>
+
+						@Html.ValidationMessage(
+							nameof(Model.InputModel.EnergyKWh),
+							null,
+							new { @class = "text-danger" })
+
+						<div id="maximumEnergyInfo"
+						     class="form-text">
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<label asp-for="InputModel.AppliedPricePerKWh"
+						       class="form-label">
+						</label>
+
+						<div class="input-group">
+
+							<input asp-for="InputModel.AppliedPricePerKWh"
+							       id="pricePerKWhInput"
+							       type="number"
+							       step="0.01"
+							       class="form-control"
+							       placeholder="0.00" />
+
+							<span class="input-group-text">
+								€/kWh
+							</span>
+
+						</div>
+
+						<span asp-validation-for="InputModel.AppliedPricePerKWh"
+						      class="text-danger">
+						</span>
+
+						@Html.ValidationMessage(
+							nameof(Model.InputModel.AppliedPricePerKWh),
+							null,
+							new { @class = "text-danger" })
+
+						<div id="maximumPriceInfo"
+						     class="form-text">
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="sessions-create-actions">
 
 				<a asp-controller="ChargingSessions"
 				   asp-action="Index"
-				   class="btn btn-outline-secondary">
+				   class="btn btn-outline-secondary sessions-back-button">
 
+					<i class="bi bi-arrow-left"></i>
 					Back
 
 				</a>
 
 				<button type="submit"
-						class="btn btn-primary">
+				        class="btn btn-primary sessions-create-button">
 
+					<i class="bi bi-plus-lg"></i>
 					Create Session
 
 				</button>
@@ -271,7 +306,7 @@
 					Number(connector.pricePerKWh);
 
 				pricePerKWhInput.value =
-					price.toFixed(4);
+					price.toFixed(2);
 
 				pricePerKWhInput.max =
 					price;
