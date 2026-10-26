@@ -10,7 +10,7 @@
         [Display(Name = "Charging Station")]
         public int ChargingStationId { get; set; }
 
-        [Range(ConnectorIdMinValue, ConnectorIdMaxValue, ErrorMessage = "Please select a valid connector.")]
+        [Required]
         [Display(Name = "Connector")]
         public int ConnectorId { get; set; }
 
