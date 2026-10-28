@@ -20,7 +20,7 @@ const map = L.map('stationMap')
 
 
 L.tileLayer(
-    `https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}?access_token=${mapboxToken}`,
+    `https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/512/{z}/{x}/{y}?access_token=${mapboxToken}`,
     {
         tileSize: 512,
         zoomOffset: -1,
