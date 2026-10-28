@@ -1,581 +1,567 @@
-﻿  .stations-page {
-        padding-top: 28px;
-        padding-bottom: 60px;
+﻿.stations-page {
+    --stations-panel: var(--surface);
+    --stations-panel-secondary: var(--surface-secondary);
+    --stations-border: var(--border);
+    --stations-text: var(--text-primary);
+    --stations-muted: var(--text-secondary);
+    --stations-accent: #2999cf;
+    --stations-accent-soft: rgba(41, 153, 207, 0.14);
+    color: var(--stations-text);
+    padding-top: 28px;
+    padding-bottom: 60px;
+}
+/* SHARED DASHBOARD CARD */
+
+.dashboard-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+/* HEADER */
+
+.stations-header {
+    padding: 30px 32px;
+    margin-bottom: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.stations-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 750;
+}
+
+.stations-subtitle {
+    margin-top: 8px;
+    margin-bottom: 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.add-station-btn {
+    padding: 10px 17px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.16);
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+    .add-station-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(13, 110, 253, 0.22);
     }
-    /* -----------------------------Shared dashboard card----------------------------- */
+/* KPI CARDS */
 
-    .dashboard-card {
-        background: rgba(255, 251, 242, 0.96);
-        border: 1px solid rgba(60, 50, 35, 0.08);
-        border-radius: 18px;
-        box-shadow: 0 10px 30px rgba(50, 45, 35, 0.06);
+.metric-card {
+    height: 100%;
+    padding: 40px 30px;
+}
+
+.metric-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 18px;
+    background-color: rgba(38, 117, 232, 0.15);
+    color: #2999cf;
+    font-size: 33px;
+    border-radius: 13px;
+}
+
+.metric-icon-green {
+    background-color: rgba(76, 175, 120, 0.15);
+    color: #69d298;
+}
+
+.metric-icon-orange {
+    background-color: rgba(223, 136, 0, 0.16);
+    color: #f5ae43;
+}
+
+.metric-icon-purple {
+    background-color: rgba(117, 88, 213, 0.16);
+    color: #a991ff;
+}
+
+.metric-label {
+    margin-bottom: 7px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.metric-value {
+    color: var(--text-primary);
+    font-size: 1.65rem;
+    font-weight: 750;
+    line-height: 1.15;
+}
+
+.metric-subtext {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+/* SECTION HEADERS */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 19px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+    .section-title i {
+        font-size: 20px;
     }
-    /* -----------------------------Header----------------------------- */
+/* MAP */
 
-    .stations-header {
-        padding: 30px 32px;
-        margin-bottom: 20px;
-        background: rgba(255, 251, 242, 0.96);
-        border: 1px solid rgba(60, 50, 35, 0.08);
-        border-radius: 18px;
-        box-shadow: 0 10px 30px rgba(50, 45, 35, 0.06);
-    }
+.map-card {
+    overflow: hidden;
+}
 
-    .stations-title {
-        margin: 0;
-        color: #172033;
-        font-size: 2rem;
-        font-weight: 750;
-    }
+.map-body {
+    padding: 14px;
+}
 
-    .stations-subtitle {
-        margin-top: 8px;
-        margin-bottom: 0;
-        color: #697386;
-        font-size: 1rem;
-    }
+#stationsMap {
+    width: 100%;
+    height: 500px;
+    border-radius: 14px;
+}
 
-    .add-station-btn {
-        padding: 10px 17px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border-radius: 10px;
-        box-shadow: 0 6px 15px rgba(13, 110, 253, 0.16);
-        transition: transform 0.16s ease, box-shadow 0.16s ease;
-    }
+.map-legend {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
 
-        .add-station-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 9px 20px rgba(13, 110, 253, 0.22);
-        }
-    /* -----------------------------KPI cards----------------------------- */
-
-    .metric-card {
-        height: 100%;
-        padding: 40px 30px;
-    }
-
-    .metric-icon {
+    .map-legend span {
         display: flex;
         align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        margin-bottom: 18px;
-        background-color: #e9f2ff;
-        color: #0d6efd;
-        font-size: 33px;
-        border-radius: 13px;
+        gap: 6px;
     }
 
-    .metric-icon-green {
-        background-color: #e8f8ef;
-        color: #16864b;
+.legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-ac {
+    background-color: #2ecc71;
+}
+
+.legend-dc {
+    background-color: #f59e0b;
+}
+
+.legend-mixed {
+    background-color: #2999cf;
+}
+
+.map-container {
+    position: relative;
+    flex: 1 1 0;
+    width: 100%;
+    min-height: 300px;
+}
+
+#stationMap {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    border-radius: 14px 14px 0 0;
+}
+
+.gps-location-btn {
+    position: absolute;
+    top: 82px;
+    left: 10px;
+    bottom: auto;
+    right: auto;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+    .gps-location-btn:hover {
+        background: var(--surface-hover);
+        color: #2999cf;
     }
 
-    .metric-icon-orange {
-        background-color: #fff1df;
-        color: #e58a00;
+    .gps-location-btn:active {
+        transform: scale(0.96);
     }
 
-    .metric-icon-purple {
-        background-color: #f1ebff;
-        color: #7654c4;
+.map-container {
+    position: relative;
+}
+
+.gps-location-btn {
+    position: absolute;
+    top: 82px;
+    left: 10px;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+    .gps-location-btn:hover {
+        background-color: var(--surface-hover);
+        color: #2999cf;
+    }
+/* CUSTOM LEAFLET PIN */
+
+.charging-station-marker {
+    background: transparent;
+    border: none;
+}
+/* STATIONS TABLE */
+
+.stations-list-card {
+    overflow: hidden;
+}
+
+    .stations-list-card .stations-table {
+        --bs-table-bg: transparent;
+        --bs-table-hover-bg: var(--surface-hover);
     }
 
-    .metric-label {
-        margin-bottom: 7px;
-        color: #8a94a3;
-        font-size: 1rem;
-        font-weight: 600;
-    }
-
-    .metric-value {
-        color: #172033;
-        font-size: 1.65rem;
-        font-weight: 750;
-        line-height: 1.15;
-    }
-
-    .metric-subtext {
-        margin-top: 6px;
-        color: #8a94a3;
-        font-size: 0.95rem;
-    }
-    /* -----------------------------Section headers----------------------------- */
-
-    .section-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 19px 22px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    }
-
-    .section-title {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        margin: 0;
-        color: #263142;
-        font-size: 1.3rem;
-        font-weight: 700;
-    }
-
-        .section-title i {
-            font-size: 20px;
-        }
-    /* -----------------------------Map----------------------------- */
-
-    .map-card {
-        overflow: hidden;
-    }
-
-    .map-body {
-        padding: 14px;
-    }
-
-    #stationsMap {
-        width: 100%;
-        height: 500px;
-        border-radius: 14px;
-    }
-
-    .map-legend {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
-        color: #697386;
-        font-size: 1.1rem;
-        font-weight: 600;
-    }
-
-        .map-legend span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-    .legend-dot {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-    }
-
-    .legend-ac {
-        background-color: #2ecc71;
-    }
-
-    .legend-dc {
-        background-color: #f59e0b;
-    }
-
-    .legend-mixed {
-        background-color: #0d6efd;
-    }
-
-    .map-container {
-        position: relative;
-        flex: 1 1 0;
-        width: 100%;
-        min-height: 300px;
-    }
-
-    #stationMap {
-        width: 100%;
-        height: 100%;
-        min-height: 300px;
-        border-radius: 14px 14px 0 0;
-    }
-
-    .gps-location-btn {
-        position: absolute;
-        top: 82px;
-        left: 10px;
-        bottom: auto;
-        right: auto;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        background-color: white;
-        color: #334155;
-        border: 1px solid rgba(0, 0, 0, 0.25);
-        border-radius: 4px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-        font-size: 18px;
-        cursor: pointer;
-    }
-
-        .gps-location-btn:hover {
-            background: #f4f6f8;
-            color: #0d6efd;
-        }
-
-        .gps-location-btn:active {
-            transform: scale(0.96);
-        }
-
-    .map-container {
-        position: relative;
-    }
-
-    .gps-location-btn {
-        position: absolute;
-        top: 82px;
-        left: 10px;
-        z-index: 1100;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        background-color: white;
-        color: #334155;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-        font-size: 18px;
-        cursor: pointer;
-    }
-
-        .gps-location-btn:hover {
-            background-color: #f4f6f8;
-            color: #0d6efd;
-        }
-    /* -----------------------------Custom Leaflet pin----------------------------- */
-
-    .charging-station-marker {
-        background: transparent;
-        border: none;
-    }
-    /* -----------------------------Stations table----------------------------- */
-
-    .stations-list-card {
-        overflow: hidden;
-    }
-
-        .stations-list-card .stations-table {
-            --bs-table-bg: transparent;
-            --bs-table-hover-bg: rgba(255, 255, 255, 0.18);
-        }
-
-    .stations-total {
-        padding: 6px 12px;
-        background-color: #ead9bb;
-        color: #697386;
-        font-size: 0.95rem;
-        font-weight: 650;
-        border-radius: 20px;
-    }
-
-    .stations-table {
-        margin-bottom: 0;
-        font-size: 1rem;
-    }
-
-        .stations-table thead th {
-            padding: 18px 16px;
-            background-color: #faf8f2;
-            color: #737d8c;
-            font-size: 0.95rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.035em;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        }
-
-        .stations-table tbody td {
-            padding: 18px 16px;
-            color: #364152;
-            vertical-align: middle;
-            border-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .stations-table tbody tr {
-            transition: background-color 0.16s ease;
-        }
-
-            .stations-table tbody tr:hover {
-                background-color: #fcfaf5;
-            }
-
-    .station-name {
-        color: #172033;
-        font-size: 0.96rem;
-        font-weight: 700;
-    }
-
-    .operator-name {
-        color: #475569;
-    }
-
-    .city-name {
-        color: #475569;
-    }
-
-    .station-address {
-        color: #64748b;
-    }
-    /* -----------------------------Status badges----------------------------- */
-
-    .status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 7px 11px;
-        font-size: 0.82rem;
-        font-weight: 700;
-        border-radius: 30px;
-    }
-
-    .status-dot {
-        width: 7px;
-        height: 7px;
-        background-color: currentColor;
-        border-radius: 50%;
-    }
-
-    .status-active {
-        background-color: #e8f8ef;
-        color: #16864b;
-    }
-
-
-    .status-inactive {
-        background-color: #f1f3f5;
-        color: #6c757d;
-    }
-
-
-    .status-partial {
-        background-color: #fff5d9;
-        color: #a66a00;
-    }
-
-
-    .status-unavailable {
-        background-color: #ffe9e9;
-        color: #dc3545;
-    }
-
-
-    .status-maintenance {
-        background-color: #e8f4ff;
-        color: #087bbf;
-    }
-
-
-    .status-faulted {
-        background-color: #ffe7e7;
-        color: #b42318;
-    }
-
-
-    .status-offline {
-        background-color: #eceff3;
-        color: #343a40;
-    }
-
-
-    .status-unknown {
-        background-color: #f1f3f5;
-        color: #6c757d;
-    }
-    /* -----------------------------Action buttons----------------------------- */
-
-    .action-buttons {
-        display: flex;
-        justify-content: flex-end;
-        gap: 7px;
-    }
-
-    .action-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 38px;
-        height: 38px;
-        padding: 0;
-        font-size: 15px;
-        border-radius: 10px;
-        transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
-    }
-
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-        }
-
-
-    .details-btn {
-        background-color: #eef6ff;
-        border-color: #cfe4ff;
-        color: #0d6efd;
-    }
-
-
-        .details-btn:hover {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-            color: white;
-            box-shadow: 0 6px 14px rgba(13, 110, 253, 0.20);
-        }
-
-
-    .edit-btn {
-        background-color: #f5f6f8;
-        border-color: #dfe3e8;
-        color: #5b6470;
-    }
-
-
-        .edit-btn:hover {
-            background-color: #5b6470;
-            border-color: #5b6470;
-            color: white;
-            box-shadow: 0 6px 14px rgba(80, 90, 105, 0.18);
-        }
-
-
-    .delete-btn {
-        background-color: #fff1f2;
-        border-color: #ffd5da;
-        color: #dc3545;
-    }
-
-
-        .delete-btn:hover {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: white;
-            box-shadow: 0 6px 14px rgba(220, 53, 69, 0.20);
-        }
-    /* ----------------------------Empty state----------------------------- */
-
-    .empty-stations {
-        padding: 60px 20px;
-        color: #64748b;
-        text-align: center;
-    }
-
-
-        .empty-stations i {
-            display: block;
-            margin-bottom: 15px;
-            color: #94a3b8;
-            font-size: 2.7rem;
-        }
-
-
-    @@media (max-width: 767px) {
-
-        .stations-header {
-            padding: 24px;
-        }
-
-
-        .stations-title {
-            font-size: 1.7rem;
-        }
-
-
-        .section-header {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-
-        .map-legend {
-            width: 100%;
-        }
-
-
-        #stationsMap {
-            height: 420px;
-        }
-    }
-
-
-    .station-name-link {
-        color: #172033;
-        font-weight: 700;
-        text-decoration: none;
-        transition: color 0.15s ease;
-    }
-
-        .station-name-link:hover {
-            color: #0d6efd;
-        }
-
-
-    .station-map-card .gps-location-btn {
-        position: absolute !important;
-        top: 82px !important;
-        left: 10px !important;
-        right: auto !important;
-        bottom: auto !important;
-        z-index: 1100;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        background-color: #ffffff;
-        color: #334155;
-        border: 1px solid rgba(0, 0, 0, 0.25);
-        border-radius: 4px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-        font-size: 18px;
-        cursor: pointer;
-    }
-
-    .station-map-card .map-container {
-        position: relative;
-        flex: 1 1 0;
-        width: 100%;
-        min-height: 300px;
-    }
-
-    .filters-row {
-        margin-bottom: 24px;
-    }
-
-    .filter-card {
-        height: 100%;
-        padding: 16px 18px;
-        background: rgba(255, 251, 242, 0.96);
-        border: 1px solid rgba(60, 50, 35, 0.08);
-        border-radius: 14px;
-        box-shadow: 0 6px 18px rgba(50, 45, 35, 0.05);
-    }
-
-    .filter-label {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        margin-bottom: 10px;
-        color: #697386;
+.stations-total {
+    padding: 6px 12px;
+    background-color: #16394b;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 650;
+    border-radius: 20px;
+}
+
+.stations-table {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+    .stations-table thead th {
+        padding: 18px 16px;
+        background-color: var(--surface-secondary);
+        color: #b7c2ca;
         font-size: 0.95rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.035em;
+        border-bottom: 1px solid var(--border);
     }
 
-        .filter-label i {
-            color: #0d6efd;
-            font-size: 20px;
+    .stations-table tbody td {
+        padding: 18px 16px;
+        color: var(--text-primary);
+        vertical-align: middle;
+        border-color: var(--border);
+    }
+
+    .stations-table tbody tr {
+        transition: background-color 0.16s ease;
+    }
+
+        .stations-table tbody tr:hover {
+            background-color: var(--surface-hover);
         }
 
-/* -----------------------------Dropdown filters----------------------------- */
+.station-name {
+    color: var(--text-primary);
+    font-size: 0.96rem;
+    font-weight: 700;
+}
+
+.operator-name {
+    color: var(--text-secondary);
+}
+
+.city-name {
+    color: var(--text-secondary);
+}
+
+.station-address {
+    color: var(--text-secondary);
+}
+/* STATUS BADGES */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border-radius: 30px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    background-color: currentColor;
+    border-radius: 50%;
+}
+
+.status-active {
+    background-color: rgba(76, 175, 120, 0.15);
+    color: #69d298;
+}
+
+.status-inactive {
+    background-color: rgba(143, 157, 167, 0.13);
+    color: var(--text-secondary);
+}
+
+.status-partial {
+    background-color: rgba(229, 168, 75, 0.15);
+    color: #f0bd6a;
+}
+
+.status-unavailable {
+    background-color: rgba(217, 101, 101, 0.15);
+    color: #d96565;
+}
+
+.status-maintenance {
+    background-color: rgba(91, 155, 213, 0.15);
+    color: #83bde8;
+}
+
+.status-faulted {
+    background-color: rgba(217, 101, 101, 0.18);
+    color: #ed8f8f;
+}
+
+.status-offline {
+    background-color: rgba(119, 133, 143, 0.14);
+    color: var(--text-secondary);
+}
+
+.status-unknown {
+    background-color: rgba(143, 157, 167, 0.13);
+    color: var(--text-secondary);
+}
+/* ACTION BUTTONS */
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    font-size: 15px;
+    border-radius: 10px;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+}
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+    }
+
+.details-btn {
+    background-color: #192b35;
+    border-color: #355565;
+    color: #2999cf;
+}
+
+    .details-btn:hover {
+        background-color: #2999cf;
+        border-color: #2999cf;
+        color: white;
+        box-shadow: 0 6px 14px rgba(13, 110, 253, 0.20);
+    }
+
+.edit-btn {
+    background-color: var(--surface-secondary);
+    border-color: var(--border);
+    color: #8f9da7;
+}
+
+    .edit-btn:hover {
+        background-color: #8f9da7;
+        border-color: #8f9da7;
+        color: white;
+        box-shadow: 0 6px 14px rgba(80, 90, 105, 0.18);
+    }
+
+.delete-btn {
+    background-color: rgba(217, 101, 101, 0.06);
+    border-color: #65464a;
+    color: #d96565;
+}
+
+    .delete-btn:hover {
+        background-color: #d96565;
+        border-color: #d96565;
+        color: white;
+        box-shadow: 0 6px 14px rgba(220, 53, 69, 0.20);
+    }
+/* EMPTY STATE */
+
+.empty-stations {
+    padding: 60px 20px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+    .empty-stations i {
+        display: block;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+        font-size: 2.7rem;
+    }
+
+@media (max-width: 767px) {
+
+    .stations-header {
+        padding: 24px;
+    }
+
+    .stations-title {
+        font-size: 1.7rem;
+    }
+
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .map-legend {
+        width: 100%;
+    }
+
+    #stationsMap {
+        height: 420px;
+    }
+}
+
+.station-name-link {
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+    .station-name-link:hover {
+        color: #2999cf;
+    }
+
+.station-map-card .gps-location-btn {
+    position: absolute !important;
+    top: 82px !important;
+    left: 10px !important;
+    right: auto !important;
+    bottom: auto !important;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.station-map-card .map-container {
+    position: relative;
+    flex: 1 1 0;
+    width: 100%;
+    min-height: 300px;
+}
+
+.filters-row {
+    margin-bottom: 24px;
+}
+
+.filter-card {
+    height: 100%;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+    .filter-label i {
+        color: #2999cf;
+        font-size: 20px;
+    }
+
+/* DROPDOWN FILTERS */
 
 .dashboard-dropdown {
     position: relative;
@@ -589,10 +575,10 @@
     align-items: center;
     gap: 10px;
     padding: 0 13px;
-    background-color: #fffaf2;
-    border: 1px solid #ddd7ca;
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--border);
     border-radius: 10px;
-    color: #263142;
+    color: var(--text-primary);
     font-size: 0.93rem;
     font-weight: 600;
     text-align: left;
@@ -602,21 +588,21 @@
 }
 
     .dashboard-dropdown-button:hover {
-        background-color: #fffaf2;
-        border-color: #b8c0cc;
+        background-color: var(--surface-secondary);
+        border-color: var(--border-light);
     }
 
     .dashboard-dropdown-button:focus,
     .dashboard-dropdown-button.show {
-        background-color: #fffaf2;
-        border-color: #b8c0cc;
+        background-color: var(--surface-secondary);
+        border-color: var(--border-light);
         box-shadow: none;
         outline: none;
     }
 
     .dashboard-dropdown-button::after {
         margin-left: auto;
-        color: #697386;
+        color: var(--text-secondary);
     }
 
 .dashboard-dropdown-menu {
@@ -625,8 +611,8 @@
     margin-top: 6px;
     padding: 6px;
     overflow-y: auto;
-    background-color: #fffaf2;
-    border: 1px solid #e3e0d9;
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--border);
     border-radius: 10px;
     box-shadow: 0 10px 28px rgba(30, 45, 55, 0.12);
 }
@@ -637,7 +623,7 @@
         background-color: transparent;
         border: 0;
         border-radius: 7px;
-        color: #34424d;
+        color: var(--text-primary);
         font-size: 14px;
         text-align: left;
         transition: background-color 0.15s ease;
@@ -645,26 +631,26 @@
 
         .dashboard-dropdown-menu .dropdown-item:hover,
         .dashboard-dropdown-menu .dropdown-item:focus {
-            background-color: #ece9e3;
-            color: #34424d;
+            background-color: var(--surface-hover);
+            color: var(--text-primary);
         }
 
         .dashboard-dropdown-menu .dropdown-item.active,
         .dashboard-dropdown-menu .dropdown-item:active {
             background-color: transparent;
-            color: #263142;
+            color: var(--text-primary);
             font-weight: 600;
         }
 
             .dashboard-dropdown-menu .dropdown-item.active:hover {
-                background-color: #ece9e3;
+                background-color: var(--surface-hover);
             }
 
 .filter-card:has(.dashboard-dropdown-button.show) {
-    border-color: rgba(60, 50, 35, 0.12);
+    border-color: var(--border-light);
 }
 
-      /* -----------------------------Search----------------------------- */
+/* SEARCH */
 
 .stations-search {
     margin-bottom: 16px;
@@ -675,21 +661,21 @@
     height: 48px;
     display: flex;
     align-items: center;
-    background-color: #fffaf2;
-    border: 1px solid #ddd7ca;
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--border);
     border-radius: 11px;
     overflow: hidden;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
     .stations-search-box:focus-within {
-        border-color: #9eb8c5;
+        border-color: #5b9bd5;
         box-shadow: 0 0 0 3px rgba(41, 153, 207, 0.08);
     }
 
 .stations-search-icon {
     margin-left: 15px;
-    color: #7b8794;
+    color: var(--text-muted);
     font-size: 16px;
 }
 
@@ -701,12 +687,12 @@
     background: transparent;
     border: 0;
     outline: 0;
-    color: #263142;
+    color: var(--text-primary);
     font-size: 0.95rem;
 }
 
     .stations-search-input::placeholder {
-        color: #8a94a3;
+        color: var(--text-secondary);
     }
 
 .stations-search-button {
@@ -722,66 +708,399 @@
 }
 
     .stations-search-button:hover {
-        background-color: #2186b6;
+        background-color: #38a9df;
     }
 
     .stations-search-button:focus {
         outline: none;
     }
 
-/* -----------------------------Pagination----------------------------- */
+/* PAGINATION */
 
 .stations-pagination {
     margin-top: 24px;
 }
 
-    .stations-pagination .pagination {
-        display: flex;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin: 0;
-        padding: 0;
+.stations-pagination-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 36px;
+    padding: 16px 20px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.stations-page-size-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .stations-page-size-form label {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        white-space: nowrap;
     }
 
-    .stations-pagination .page-link {
-        display: flex;
+.stations-page-size-select {
+    width: 70px;
+    padding: 7px 9px;
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text-primary);
+    color-scheme: dark;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+    .stations-page-size-select:hover {
+        border-color: var(--border-light);
+    }
+
+    .stations-page-size-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(91, 155, 213, 0.15);
+    }
+
+/* PAGINATION INFO */
+
+.stations-pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.stations-pagination-count {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+/* PAGINATION ARROWS */
+
+.stations-pagination .pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+}
+
+.stations-pagination .page-link,
+.stations-pagination .page-link[title] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #9aaabd;
+    text-decoration: none;
+    box-shadow: none;
+    line-height: 1;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .stations-pagination .page-link i {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 42px;
-        height: 42px;
         margin: 0;
-        padding: 0 10px;
-        background-color: #fffdf8;
-        border: 1px solid #ddd7ca;
-        border-radius: 6px;
-        color: #263142;
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: 1.15rem;
         line-height: 1;
-        text-decoration: none;
-        box-shadow: none;
     }
 
-        .stations-pagination .page-link:hover {
-            background-color: #e9f5fb;
-            border-color: #2999cf;
-            color: #2186b6;
-        }
-
-    .stations-pagination .page-item.active .page-link {
-        background-color: #2999cf;
-        border-color: #2999cf;
-        color: #ffffff;
+    .stations-pagination .page-link:hover {
+        background-color: var(--surface-hover);
+        border-color: var(--accent);
+        color: var(--text-primary);
+        box-shadow: 0 0 0 2px rgba(91, 155, 213, 0.12);
     }
+
+    .stations-pagination .page-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+
+/* RESPONSIVE PAGINATION */
+
+@media (max-width: 767.98px) {
+    .stations-pagination-toolbar {
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px;
+    }
+
+    .stations-pagination-info {
+        gap: 12px;
+    }
+
+    .stations-pagination-count {
+        font-size: 0.85rem;
+    }
+}
+
+    /* PAGINATION ARROWS */
 
     .stations-pagination .page-link[title] {
-        font-size: 1.8rem;
+        width: 42px;
+        min-width: 42px;
+        height: 42px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
     }
+
+        .stations-pagination .page-link[title] i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-size: 0.8rem;
+            line-height: 1;
+        }
 
     .stations-pagination .page-link:focus-visible {
         outline: 2px solid #2999cf;
         outline-offset: 3px;
     }
 
+/* BOOTSTRAP FORM CONTROLS */
+
+.stations-page :is(.form-control, .form-select, input[type="search"], input[type="text"], select) {
+    background-color: var(--surface-secondary);
+    border-color: var(--border);
+    color: var(--text-primary);
+    color-scheme: dark;
+    min-height: 46px;
+}
+
+.stations-page :is(.form-control, input[type="search"], input[type="text"])::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+}
+
+.stations-page :is(.form-control, .form-select, select):focus {
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+    border-color: var(--stations-accent);
+    box-shadow: 0 0 0 3px rgba(41, 153, 207, 0.12);
+}
+
+.stations-page select option {
+    background: var(--surface-secondary);
+    color: var(--text-primary);
+}
+
+/* BOOTSTRAP TABLE CELLS */
+
+.stations-page .table,
+.stations-list-card .table,
+.stations-page table,
+.stations-list-card table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-primary);
+    --bs-table-border-color: var(--border);
+    --bs-table-hover-bg: var(--surface-hover);
+    --bs-table-hover-color: var(--text-primary);
+}
+
+    .stations-page table > :not(caption) > * > *,
+    .stations-list-card table > :not(caption) > * > * {
+        background-color: var(--surface);
+        border-bottom-color: var(--border);
+        color: var(--text-primary);
+    }
+
+    .stations-page table > thead > tr > th,
+    .stations-list-card table > thead > tr > th {
+        background-color: var(--surface-secondary);
+        color: #b7c2ca;
+    }
+
+    .stations-page table > tbody > tr:hover > *,
+    .stations-list-card table > tbody > tr:hover > * {
+        background-color: var(--surface-hover);
+    }
+
+/* SEARCH BUTTON FALLBACK */
+
+.stations-page form button[type="submit"] {
+    background-color: var(--stations-accent);
+    border: 1px solid var(--stations-accent);
+    border-radius: 9px;
+    color: #ffffff;
+    min-height: 42px;
+    padding: 8px 16px;
+}
+
+    .stations-page form button[type="submit"]:hover {
+        background-color: #38a9df;
+        border-color: #38a9df;
+    }
+
+/* BOOTSTRAP PAGINATION */
+
+.stations-page .pagination .page-link {
+    background-color: var(--surface-secondary);
+    border-color: var(--border);
+    color: var(--text-secondary);
+}
+
+    .stations-page .pagination .page-link:hover {
+        background-color: var(--stations-accent-soft);
+        border-color: var(--stations-accent);
+        color: #8edcff;
+    }
+
+.stations-page .pagination .page-item.active .page-link {
+    background-color: var(--stations-accent);
+    border-color: var(--stations-accent);
+    color: #ffffff;
+}
+
+/* LEAFLET MAP SURFACE */
+
+.stations-page .leaflet-container {
+    min-height: 300px;
+}
+
+/* LEAFLET ZOOM CONTROLS */
+
+.stations-page .leaflet-control-zoom {
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+    .stations-page .leaflet-control-zoom a {
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        background-color: var(--surface-secondary);
+        color: var(--text-primary);
+        border-color: var(--border-light);
+        font-size: 20px;
+        font-weight: 500;
+        transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+        .stations-page .leaflet-control-zoom a:hover {
+            background-color: var(--surface-hover);
+            color: var(--accent-hover);
+            box-shadow: inset 0 0 0 1px var(--accent);
+        }
+
+        .stations-page .leaflet-control-zoom a.leaflet-disabled {
+            background-color: var(--surface);
+            color: var(--text-muted);
+            cursor: default;
+        }
+
+/* LEAFLET POPUP */
+
+.stations-page .leaflet-popup-content-wrapper {
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
+}
+
+.stations-page .leaflet-popup-content {
+    margin: 17px 18px;
+    min-width: 210px;
+    padding-right: 8px;
+    color: var(--text-primary);
+    font-size: 0.91rem;
+    line-height: 1.5;
+}
+
+    .stations-page .leaflet-popup-content strong,
+    .stations-page .leaflet-popup-content b {
+        color: var(--text-primary);
+        font-weight: 700;
+    }
+
+    .stations-page .leaflet-popup-content p {
+        margin: 8px 0;
+        color: var(--text-primary);
+    }
+
+    .stations-page .leaflet-popup-content small,
+    .stations-page .leaflet-popup-content .text-muted {
+        color: var(--text-secondary) !important;
+    }
+
+    .stations-page .leaflet-popup-content a {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 6px;
+        padding: 5px 10px;
+        background-color: var(--accent-soft);
+        border: 1px solid rgba(91, 155, 213, 0.28);
+        border-radius: 7px;
+        color: #9ac7ea;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+        .stations-page .leaflet-popup-content a:hover {
+            background-color: var(--surface-hover);
+            border-color: var(--accent-hover);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 2px rgba(91, 155, 213, 0.12);
+        }
+
+.stations-page .leaflet-container a.leaflet-popup-close-button {
+    top: 9px;
+    right: 9px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 19px;
+    line-height: 1;
+}
+
+    .stations-page .leaflet-container a.leaflet-popup-close-button:hover {
+        background-color: var(--surface-hover);
+        border-color: var(--accent);
+        color: var(--text-primary);
+    }
+
+.stations-page .leaflet-popup-tip {
+    background-color: var(--surface);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+/* LEAFLET POPUP TITLE */
+
+.stations-page .leaflet-popup-content strong,
+.stations-page .leaflet-popup-content b,
+.stations-page .leaflet-popup-content h3,
+.stations-page .leaflet-popup-content h4,
+.stations-page .leaflet-popup-content > div:first-child,
+.stations-page .leaflet-popup-content > div:first-child > div:first-child {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
 

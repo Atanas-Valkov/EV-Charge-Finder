@@ -16,7 +16,7 @@ const map = L.map('stationsMap')
     );
 
 L.tileLayer(
-    `https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}?access_token=${mapboxToken}`,
+    `https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/512/{z}/{x}/{y}?access_token=${mapboxToken}`,
     {
         tileSize: 512,
         zoomOffset: -1,
@@ -112,14 +112,17 @@ stations.forEach(station => {
               `;
 
     const stationIcon = L.divIcon({
-        className: 'charging-station-marker',
+    className: 'charging-station-marker',
+    iconSize: [44, 60],
+    iconAnchor: [22, 58],
+
 
         html: `
             <svg
-                width="60"
-                height="82"
-                viewBox="0 0 60 82"
-                xmlns="http://www.w3.org/2000/svg">
+              width="44"
+    height="60"
+    viewBox="0 0 60 82"
+    xmlns="http://www.w3.org/2000/svg">
 
                 <defs>
                     <filter
@@ -129,41 +132,43 @@ stations.forEach(station => {
                         width="180%"
                         height="190%">
 
-                        <feDropShadow
-                            dx="2"
-                            dy="3"
-                            stdDeviation="2"
-                            flood-color="#000"
-                            flood-opacity="0.45"/>
+                     <feDropShadow
+    dx="1"
+    dy="2"
+    stdDeviation="1.5"
+    flood-color="#000000"
+    flood-opacity="0.25"/>
                     </filter>
                 </defs>
 
                 <path
-                    d="
-                        M 30 2
-                        C 14 2, 4 13, 4 28
-                        C 4 40, 10 48, 16 56
-                        L 30 79
-                        L 44 56
-                        C 50 48, 56 40, 56 28
-                        C 56 13, 46 2, 30 2
-                        Z
-                    "
-                    fill="#171717"
-                    filter="url(#pinShadow-${station.Id})"
-                />
+    d="
+        M 30 2
+        C 14 2, 4 13, 4 28
+        C 4 40, 10 48, 16 56
+        L 30 79
+        L 44 56
+        C 50 48, 56 40, 56 28
+        C 56 13, 46 2, 30 2
+        Z
+    "
+    fill="#607789"
+    stroke="#a9bec9"
+    stroke-width="1.5"
+    filter="url(#pinShadow-${station.Id})"
+/>
 
                 <circle
                     cx="30"
                     cy="27"
-                    r="21"
+                    r="22"
                     fill="${pinColor}"
                 />
 
                 <circle
                     cx="30"
                     cy="27"
-                    r="17"
+                    r="16"
                     fill="#eeeeea"
                 />
 
