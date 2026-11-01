@@ -1,0 +1,300 @@
+﻿/* PAGE */
+
+.sessions-details-page {
+    padding-top: 28px;
+    padding-bottom: 60px;
+    color: var(--text-primary);
+}
+
+/* HEADER */
+
+.sessions-details-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sessions-details-title {
+    margin: 0 0 6px;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 750;
+}
+
+.sessions-details-subtitle {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.sessions-details-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+}
+
+    .sessions-details-back:hover {
+        background: var(--surface-hover);
+        color: var(--text-primary);
+        border-color: var(--border-light);
+    }
+
+/* OVERVIEW */
+
+.sessions-details-overview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.sessions-details-eyebrow {
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.sessions-details-overview h2 {
+    margin: 9px 0;
+    color: var(--text-primary);
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.sessions-details-overview p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+    .sessions-details-overview p i {
+        margin-right: 5px;
+    }
+
+/* STATUS */
+
+.sessions-details-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+    .sessions-details-status.completed {
+        background: rgba(76, 175, 120, 0.14);
+        color: #65d69a;
+    }
+
+    .sessions-details-status.in-progress {
+        background: rgba(229, 168, 75, 0.14);
+        color: #e5a84b;
+    }
+
+/* METRICS */
+
+.sessions-details-metrics {
+    margin-bottom: 22px;
+}
+
+.sessions-details-metric {
+    height: 100%;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+.sessions-details-metric-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 11px;
+    font-size: 1.35rem;
+}
+
+.sessions-details-metric-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.sessions-details-metric-value {
+    color: var(--text-primary);
+    font-size: 1.65rem;
+    font-weight: 750;
+}
+
+    .sessions-details-metric-value small {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+/* INFORMATION CARDS */
+
+.sessions-details-content {
+    margin-bottom: 22px;
+}
+
+.sessions-details-card {
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+.sessions-details-card-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+    .sessions-details-card-header h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        color: var(--text-primary);
+        font-size: 1.15rem;
+        font-weight: 700;
+    }
+
+        .sessions-details-card-header h3 i {
+            color: var(--accent);
+        }
+
+.sessions-details-card-body {
+    padding: 12px 22px 22px;
+}
+
+/* INFORMATION ROWS */
+
+.sessions-details-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+    .sessions-details-info-row:last-of-type {
+        border-bottom: none;
+    }
+
+.sessions-details-info-label {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.sessions-details-info-value {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+/* STATION LINK */
+
+.sessions-details-station-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 9px 13px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+    .sessions-details-station-link:hover {
+        background: var(--surface-hover);
+        color: var(--accent-hover);
+    }
+
+/* CHARGING PERIOD */
+
+.sessions-details-period .sessions-details-card-body {
+    padding: 20px 22px;
+}
+
+.sessions-details-period-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.sessions-details-period-value {
+    color: var(--text-primary);
+    font-size: 1.08rem;
+    font-weight: 700;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 767.98px) {
+    .sessions-details-header {
+        align-items: flex-start;
+    }
+
+    .sessions-details-title {
+        font-size: 1.6rem;
+    }
+
+    .sessions-details-overview {
+        padding: 20px;
+    }
+
+    .sessions-details-metric {
+        padding: 16px;
+    }
+
+    .sessions-details-metric-value {
+        font-size: 1.35rem;
+    }
+
+    .sessions-details-info-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .sessions-details-info-value {
+        text-align: left;
+    }
+}

@@ -1,0 +1,66 @@
+﻿@model ChargingSessionsDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Charging Session";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/charging-sessions-create.css" asp-append-version="true" />
+}
+
+<div class="container sessions-create-page">
+    <div class="sessions-create-header">
+        <div>
+            <h1 class="sessions-create-title">Delete Charging Session</h1>
+            <p class="sessions-create-subtitle">Review session #@Model.Id before deleting it.</p>
+        </div>
+    </div>
+
+    <div class="sessions-create-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger sessions-validation-summary"></div>
+
+        <div class="sessions-form-section">
+            <div class="sessions-form-section-header">
+                <div class="sessions-form-section-icon"><i class="bi bi-trash3"></i></div>
+                <div>
+                    <h2>Confirm Deletion</h2>
+                    <p>Are you sure you want to delete this charging session? This action cannot be undone.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label">Charging Station</label>
+                    <div class="form-control">@Model.ChargingStationName - @Model.ChargingStationCity</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Connector</label>
+                    <div class="form-control">Connector @Model.ConnectorNumber</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Started At</label>
+                    <div class="form-control">@Model.StartedAt.ToString("dd-MM-yyyy HH:mm")</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Ended At</label>
+                    <div class="form-control">@(Model.EndedAt?.ToString("dd-MM-yyyy HH:mm") ?? "In progress")</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Total Energy Used</label>
+                    <div class="form-control">@Model.EnergyKWh.ToString("0.##") kWh</div>
+                </div>
+            </div>
+        </div>
+
+        <form asp-controller="ChargingSessions" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <div class="sessions-create-actions">
+                <a asp-controller="ChargingSessions" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary sessions-back-button"><i class="bi bi-arrow-left"></i> Cancel</a>
+                <button type="submit" class="btn btn-danger sessions-create-button"><i class="bi bi-trash3"></i> Delete Session</button>
+            </div>
+        </form>
+    </div>
+</div>

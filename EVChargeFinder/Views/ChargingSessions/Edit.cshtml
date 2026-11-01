@@ -1,0 +1,224 @@
+﻿
+@model ChargingSessionsEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Charging Session";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/charging-sessions-create.css" asp-append-version="true" />
+}
+
+<div class="container sessions-create-page">
+    <div class="sessions-create-header">
+        <div>
+            <h1 class="sessions-create-title">Edit Charging Session</h1>
+            <p class="sessions-create-subtitle">Update charging session #@Model.Id.</p>
+        </div>
+    </div>
+
+    <div class="sessions-create-panel">
+        <form asp-controller="ChargingSessions" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+            <input asp-for="Id" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger sessions-validation-summary"></div>
+
+            <div class="sessions-form-section">
+                <div class="sessions-form-section-header">
+                    <div class="sessions-form-section-icon"><i class="bi bi-ev-station"></i></div>
+                    <div>
+                        <h2>Charging Details</h2>
+                        <p>Select the charging station and connector.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label asp-for="InputModel.ChargingStationId" class="form-label"></label>
+                        <select asp-for="InputModel.ChargingStationId" id="chargingStationSelect" class="form-select searchable-select" data-placeholder="Select charging station">
+                            <option value=""></option>
+                            @foreach (var station in Model.ChargingStations)
+                            {
+                                <option value="@station.Id">@station.Name - @station.City</option>
+                            }
+                        </select>
+                        <span asp-validation-for="InputModel.ChargingStationId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InputModel.ConnectorId" class="form-label"></label>
+                        <select asp-for="InputModel.ConnectorId" id="connectorSelect" class="form-select searchable-select" data-placeholder="Select connector" data-selected-connector-id="@Model.InputModel.ConnectorId">
+                            <option value=""></option>
+                        </select>
+                        <span asp-validation-for="InputModel.ConnectorId" class="text-danger"></span>
+                        <div id="connectorsLoadError" class="text-danger" role="alert"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sessions-form-divider"></div>
+
+            <div class="sessions-form-section">
+                <div class="sessions-form-section-header">
+                    <div class="sessions-form-section-icon"><i class="bi bi-clock"></i></div>
+                    <div>
+                        <h2>Session Information</h2>
+                        <p>Update the charging period, energy and applied price.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label asp-for="InputModel.StartedAt" class="form-label"></label>
+                        <input asp-for="InputModel.StartedAt" asp-format="{0:yyyy-MM-ddTHH:mm}" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="InputModel.StartedAt" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InputModel.EndedAt" class="form-label"></label>
+                        <input asp-for="InputModel.EndedAt" asp-format="{0:yyyy-MM-ddTHH:mm}" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="InputModel.EndedAt" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InputModel.EnergyKWh" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="InputModel.EnergyKWh" asp-format="{0:0.##}" id="energyKWhInput" type="number" step="any" class="form-control" placeholder="0.00" />
+                            <span class="input-group-text">kWh</span>
+                        </div>
+                        <span asp-validation-for="InputModel.EnergyKWh" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InputModel.AppliedPricePerKWh" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="InputModel.AppliedPricePerKWh" asp-format="{0:0.##}" id="pricePerKWhInput" type="number" step="any" class="form-control" placeholder="0.00" />
+                            <span class="input-group-text">€/kWh</span>
+                        </div>
+                        <span asp-validation-for="InputModel.AppliedPricePerKWh" class="text-danger"></span>
+                        <div id="maximumPriceInfo" class="form-text"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sessions-create-actions">
+                <a asp-controller="ChargingSessions" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary sessions-back-button"><i class="bi bi-arrow-left"></i> Back</a>
+                <button type="submit" class="btn btn-primary sessions-create-button"><i class="bi bi-check-lg"></i> Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        window.addEventListener('load', async function () {
+            const chargingStationSelect = document.getElementById('chargingStationSelect');
+            const connectorSelect = document.getElementById('connectorSelect');
+            const pricePerKWhInput = document.getElementById('pricePerKWhInput');
+            const maximumPriceInfo = document.getElementById('maximumPriceInfo');
+            const connectorsLoadError = document.getElementById('connectorsLoadError');
+
+            const stationTomSelect = chargingStationSelect.tomselect;
+            const connectorTomSelect = connectorSelect.tomselect;
+            const connectorsData = new Map();
+            const connectorsUrl = '@Url.Action("GetConnectorsByStation", "ChargingSessions")';
+
+            let latestRequestId = 0;
+
+            if (!stationTomSelect || !connectorTomSelect) {
+                connectorsLoadError.textContent = 'Unable to initialize charging station and connector selection.';
+                return;
+            }
+
+            function setConnectorPrice(connectorId, updatePrice = true) {
+                const connector = connectorsData.get(String(connectorId));
+
+                if (!connector) return;
+
+                const price = Number(connector.pricePerKWh);
+
+                if (!Number.isFinite(price)) return;
+
+                pricePerKWhInput.max = String(price);
+                maximumPriceInfo.textContent = `Maximum connector price: ${price.toFixed(2)} €/kWh`;
+
+                if (updatePrice) {
+                    pricePerKWhInput.value = price.toFixed(2);
+                }
+            }
+
+            async function loadConnectors(stationId, selectedConnectorId = null) {
+                const requestId = ++latestRequestId;
+
+                connectorTomSelect.clear(true);
+                connectorTomSelect.clearOptions();
+                connectorsData.clear();
+
+                maximumPriceInfo.textContent = '';
+                connectorsLoadError.textContent = '';
+                pricePerKWhInput.removeAttribute('max');
+
+                if (!stationId || stationId === '0') return;
+
+                try {
+                    const response = await fetch(`${connectorsUrl}?stationId=${encodeURIComponent(stationId)}`);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const connectors = await response.json();
+
+                    if (requestId !== latestRequestId) return;
+
+                    connectors.forEach(connector => {
+                        const connectorId = String(connector.id);
+
+                        connectorsData.set(connectorId, connector);
+                        connectorTomSelect.addOption({
+                            value: connectorId,
+                            text: connector.text
+                        });
+                    });
+
+                    connectorTomSelect.refreshOptions(false);
+
+                    if (selectedConnectorId && connectorsData.has(String(selectedConnectorId))) {
+                        connectorTomSelect.setValue(String(selectedConnectorId), true);
+                        setConnectorPrice(selectedConnectorId, false);
+                    }
+                }
+                catch (error) {
+                    if (requestId !== latestRequestId) return;
+
+                    console.error('Failed to load connectors:', error);
+                    connectorsLoadError.textContent = 'Unable to load connectors. Please reload the page.';
+                }
+            }
+
+            stationTomSelect.on('change', async function (stationId) {
+                pricePerKWhInput.value = '';
+                await loadConnectors(stationId);
+            });
+
+            connectorTomSelect.on('change', function (connectorId) {
+                if (!connectorId) {
+                    pricePerKWhInput.value = '';
+                    pricePerKWhInput.removeAttribute('max');
+                    maximumPriceInfo.textContent = '';
+                    return;
+                }
+
+                setConnectorPrice(connectorId);
+            });
+
+            const stationId = stationTomSelect.getValue();
+            const selectedConnectorId = connectorSelect.dataset.selectedConnectorId;
+
+            if (stationId && stationId !== '0') {
+                await loadConnectors(stationId, selectedConnectorId);
+            }
+        });
+    </script>
+}

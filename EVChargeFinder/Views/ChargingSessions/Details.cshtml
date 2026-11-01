@@ -1,0 +1,186 @@
+﻿@using EVChargeFinder.Common
+@model ChargingSessionsDetailsViewModel
+
+@{
+    ViewData["Title"] = "Charging Session Details";
+
+    string durationText = Model.Duration.HasValue
+        ? $"{(int)Model.Duration.Value.TotalHours}h {Model.Duration.Value.Minutes}m"
+        : "In progress";
+
+    string endedAtText = Model.EndedAt.HasValue
+        ? Model.EndedAt.Value.ToString(ApplicationConstants.ApplicationDateTimeFormat)
+        : "In progress";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/charging-sessions-details.css" asp-append-version="true" />
+}
+
+<div class="container sessions-details-page">
+
+    <div class="sessions-details-header">
+        <div>
+            <h1 class="sessions-details-title">Charging Session Details</h1>
+            <p class="sessions-details-subtitle">Detailed information about charging session #@Model.Id</p>
+        </div>
+
+        <a asp-controller="ChargingSessions" asp-action="Index" class="btn sessions-details-back">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div class="sessions-details-overview">
+        <div>
+            <span class="sessions-details-eyebrow">CHARGING SESSION</span>
+            <h2>@Model.ChargingStationName</h2>
+            <p><i class="bi bi-geo-alt"></i> @Model.ChargingStationCity</p>
+        </div>
+
+        @if (Model.EndedAt.HasValue)
+        {
+            <span class="sessions-details-status completed"><i class="bi bi-check-circle-fill"></i> Completed</span>
+        }
+        else
+        {
+            <span class="sessions-details-status in-progress"><i class="bi bi-clock"></i> In Progress</span>
+        }
+    </div>
+
+    <div class="row g-3 sessions-details-metrics">
+
+        <div class="col-6 col-xl-3">
+            <div class="sessions-details-metric">
+                <div class="sessions-details-metric-icon"><i class="bi bi-lightning-charge"></i></div>
+                <span class="sessions-details-metric-label">Energy Delivered</span>
+                <div class="sessions-details-metric-value">@Model.EnergyKWh.ToString("F2") <small>kWh</small></div>
+            </div>
+        </div>
+
+        <div class="col-6 col-xl-3">
+            <div class="sessions-details-metric">
+                <div class="sessions-details-metric-icon"><i class="bi bi-clock-history"></i></div>
+                <span class="sessions-details-metric-label">Duration</span>
+                <div class="sessions-details-metric-value">@durationText</div>
+            </div>
+        </div>
+
+        <div class="col-6 col-xl-3">
+            <div class="sessions-details-metric">
+                <div class="sessions-details-metric-icon"><i class="bi bi-currency-euro"></i></div>
+                <span class="sessions-details-metric-label">Price per kWh</span>
+                <div class="sessions-details-metric-value">@Model.AppliedPricePerKWh.ToString("F2") <small>€/kWh</small></div>
+            </div>
+        </div>
+
+        <div class="col-6 col-xl-3">
+            <div class="sessions-details-metric">
+                <div class="sessions-details-metric-icon"><i class="bi bi-wallet2"></i></div>
+                <span class="sessions-details-metric-label">Total Cost</span>
+                <div class="sessions-details-metric-value">@Model.TotalCost.ToString("F2") <small>€</small></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-3 sessions-details-content">
+
+        <div class="col-lg-6">
+            <section class="sessions-details-card h-100">
+                <div class="sessions-details-card-header">
+                    <h3><i class="bi bi-ev-station"></i> Charging Station</h3>
+                </div>
+
+                <div class="sessions-details-card-body">
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Station Name</span>
+                        <span class="sessions-details-info-value">@Model.ChargingStationName</span>
+                    </div>
+
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">City</span>
+                        <span class="sessions-details-info-value">@(Model.ChargingStationCity ?? "N/A")</span>
+                    </div>
+
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Address</span>
+                        <span class="sessions-details-info-value">@(Model.ChargingStationAddress ?? "N/A")</span>
+                    </div>
+
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Operator</span>
+                        <span class="sessions-details-info-value">@Model.OperatorName</span>
+                    </div>
+
+                    <a asp-controller="ChargingStations" asp-action="Details" asp-route-id="@Model.ChargingStationId" class="sessions-details-station-link">
+                        View Charging Station <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-6">
+            <section class="sessions-details-card h-100">
+                <div class="sessions-details-card-header">
+                    <h3><i class="bi bi-plug"></i> Connector Information</h3>
+                </div>
+
+                <div class="sessions-details-card-body">
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Connector Number</span>
+                        <span class="sessions-details-info-value">#@Model.ConnectorNumber</span>
+                    </div>
+
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Connector Type</span>
+                        <span class="sessions-details-info-value">@Model.ConnectorType</span>
+                    </div>
+
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Maximum Power</span>
+                        <span class="sessions-details-info-value">@Model.ConnectorPowerKw.ToString("0.##") kW</span>
+                    </div>
+
+                    <div class="sessions-details-info-row">
+                        <span class="sessions-details-info-label">Connector ID</span>
+                        <span class="sessions-details-info-value">#@Model.ConnectorId</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <section class="sessions-details-card sessions-details-period">
+        <div class="sessions-details-card-header">
+            <h3><i class="bi bi-calendar3"></i> Charging Period</h3>
+        </div>
+
+        <div class="sessions-details-card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="sessions-details-period-item">
+                        <span class="sessions-details-info-label">Started At</span>
+                        <span class="sessions-details-period-value">@Model.StartedAt.ToString(ApplicationConstants.ApplicationDateTimeFormat)</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="sessions-details-period-item">
+                        <span class="sessions-details-info-label">Ended At</span>
+                        <span class="sessions-details-period-value">@endedAtText</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="sessions-details-period-item">
+                        <span class="sessions-details-info-label">Total Duration</span>
+                        <span class="sessions-details-period-value">@durationText</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
