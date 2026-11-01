@@ -14,33 +14,19 @@
 
 <div class="station-details-page">
 
-	<partial name="Partials/_ChargingStationDetailsHeader"
-	         model="Model"/>
-
-	<partial name="Partials/_ChargingStationDetailsMetrics"
-	         model="Model"/>
-
+	<partial name="Partials/_ChargingStationDetailsHeader" model="Model"/>
+	<partial name="Partials/_ChargingStationDetailsMetrics" model="Model"/>
 
 	<div class="station-overview-grid">
-
-		<partial name="Partials/_ChargingStationDetailsInformation"
-		         model="Model"/>
-
-		<partial name="Partials/_ChargingStationDetailsMap"
-		         model="Model"/>
-
+		<partial name="Partials/_ChargingStationDetailsInformation" model="Model"/>
+		<partial name="Partials/_ChargingStationDetailsMap" model="Model"/>
 	</div>
 
-
-	<partial name="Partials/_ChargingStationDetailsConnectors"
-	         model="Model"/>
-
+	<partial name="Partials/_ChargingStationDetailsConnectors" model="Model"/>
 </div>
 
 
 @section Scripts
 {
-	<script src="~/js/charging-station-details.js"
-	        asp-append-version="true">
-	</script>
+	<script src="~/js/charging-station-details.js"asp-append-version="true"></script>
 }

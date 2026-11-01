@@ -1,145 +1,85 @@
 ﻿@model ChargingStationsIndexViewModel
 @using EVChargeFinder.DbModels.Enums
 
-<form asp-controller="ChargingStations"
-	  asp-action="Search"
-	  method="get">
+<form asp-controller="ChargingStations" asp-action="Search" method="get">
 
-	<div class="stations-search">
-		<div class="stations-search-box">
+    <div class="stations-search">
+        <div class="stations-search-box">
+            <i class="bi bi-search stations-search-icon"></i>
+            <input type="search" name="searchTerm" value="@Model.SearchTerm" class="stations-search-input" placeholder="Search station, city, address or operator..." />
+            <button type="submit" class="stations-search-button">Search</button>
+        </div>
+    </div>
 
-			<i class="bi bi-search stations-search-icon"></i>
+    <div class="row g-3 filters-row">
 
-			<input type="search"
-				   name="searchTerm"
-				   value="@Model.SearchTerm"
-				   class="stations-search-input"
-				   placeholder="Search station, city, address or operator..." />
+        <div class="col-md-6 col-xl-3">
+            <div class="filter-card">
+                <label class="filter-label" for="chargingType">
+                    <i class="bi bi-lightning-charge"></i>
+                    Charging Type
+                </label>
 
-			<button type="submit"
-					class="stations-search-button">
-				Search
-			</button>
+                <select id="chargingType" name="chargingType" class="form-select searchable-select" data-placeholder="All charging types">
+                    <option value="">All charging types</option>
+                    <option value="AC" selected="@(Model.SelectedChargingType == "AC")">AC</option>
+                    <option value="DC" selected="@(Model.SelectedChargingType == "DC")">DC</option>
+                    <option value="AC/DC" selected="@(Model.SelectedChargingType == "AC/DC")">AC/DC</option>
+                </select>
+            </div>
+        </div>
 
-		</div>
-	</div>
+        <div class="col-md-6 col-xl-3">
+            <div class="filter-card">
+                <label class="filter-label" for="status">
+                    <i class="bi bi-activity"></i>
+                    Status
+                </label>
 
+                <select id="status" name="status" class="form-select searchable-select" data-placeholder="All statuses">
+                    <option value="">All statuses</option>
+                    @foreach (ChargingStationStatus status in Enum.GetValues<ChargingStationStatus>())
+                    {
+                        <option value="@status" selected="@(Model.SelectedStatus == status)">@status</option>
+                    }
+                </select>
+            </div>
+        </div>
 
-	<div class="row g-3 filters-row">
+        <div class="col-md-6 col-xl-3">
+            <div class="filter-card">
+                <label class="filter-label" for="operatorId">
+                    <i class="bi bi-building"></i>
+                    Operator
+                </label>
 
-		<div class="col-md-6 col-xl-3">
-			<div class="filter-card">
+                <select id="operatorId" name="operatorId" class="form-select searchable-select" data-placeholder="All operators">
+                    <option value="">All operators</option>
+                    @foreach (var op in Model.Operators)
+                    {
+                        <option value="@op.Id" selected="@(Model.SelectedOperatorId == op.Id)">@op.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
 
-				<label class="filter-label">
-					<i class="bi bi-geo-alt"></i>
-					City
-				</label>
+        <div class="col-md-6 col-xl-3">
+            <div class="filter-card">
+                <label class="filter-label" for="connectorType">
+                    <i class="bi bi-plug"></i>
+                    Connector
+                </label>
 
-				<select name="city"
-						class="form-select searchable-select"
-						data-placeholder="All cities">
+                <select id="connectorType" name="connectorType" class="form-select searchable-select" data-placeholder="All connector types">
+                    <option value="">All connector types</option>
+                    @foreach (ConnectorType connectorType in Enum.GetValues<ConnectorType>())
+                    {
+                        <option value="@connectorType" selected="@(Model.SelectedConnectorType == connectorType)">@connectorType</option>
+                    }
+                </select>
+            </div>
+        </div>
 
-					<option value="">All cities</option>
-
-					@foreach (string city in Model.Cities)
-					{
-						<option value="@city"
-								selected="@(Model.SelectedCity == city)">
-							@city
-						</option>
-					}
-
-				</select>
-
-			</div>
-		</div>
-
-
-		<div class="col-md-6 col-xl-3">
-			<div class="filter-card">
-
-				<label class="filter-label">
-					<i class="bi bi-activity"></i>
-					Status
-				</label>
-
-				<select name="status"
-						class="form-select searchable-select"
-						data-placeholder="All statuses">
-
-					<option value="">All statuses</option>
-
-					@foreach (ChargingStationStatus status
-							  in Enum.GetValues<ChargingStationStatus>())
-					{
-						<option value="@status"
-								selected="@(Model.SelectedStatus == status)">
-							@status
-						</option>
-					}
-
-				</select>
-
-			</div>
-		</div>
-
-
-		<div class="col-md-6 col-xl-3">
-			<div class="filter-card">
-
-				<label class="filter-label">
-					<i class="bi bi-building"></i>
-					Operator
-				</label>
-
-				<select name="operatorId"
-						class="form-select searchable-select"
-						data-placeholder="All operators">
-
-					<option value="">All operators</option>
-
-					@foreach (var op in Model.Operators)
-					{
-						<option value="@op.Id"
-								selected="@(Model.SelectedOperatorId == op.Id)">
-							@op.Name
-						</option>
-					}
-
-				</select>
-
-			</div>
-		</div>
-
-
-		<div class="col-md-6 col-xl-3">
-			<div class="filter-card">
-
-				<label class="filter-label">
-					<i class="bi bi-plug"></i>
-					Connector
-				</label>
-
-				<select name="connectorType"
-						class="form-select searchable-select"
-						data-placeholder="All connector types">
-
-					<option value="">All connector types</option>
-
-					@foreach (ConnectorType connectorType
-							  in Enum.GetValues<ConnectorType>())
-					{
-						<option value="@connectorType"
-								selected="@(Model.SelectedConnectorType == connectorType)">
-							@connectorType
-						</option>
-					}
-
-				</select>
-
-			</div>
-		</div>
-
-	</div>
+    </div>
 
 </form>
