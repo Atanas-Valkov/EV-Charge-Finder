@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Microsoft.EntityFrameworkCore;
-    using static EVChargeFinder.Common.EntityValidation.ChargingStation;
+    using static EVChargeFinder.Common.EntityValidation.ChargingStationValidationConst;
     using Enums;
 
 

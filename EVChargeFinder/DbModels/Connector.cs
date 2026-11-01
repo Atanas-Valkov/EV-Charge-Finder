@@ -6,7 +6,7 @@ namespace EVChargeFinder.DbModels
     using Microsoft.EntityFrameworkCore;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using static EntityValidation.Connector;
+    using static EntityValidation.ConnectorValidationConst;
 
     [Index(nameof(ChargingStationId), nameof(ConnectorNumber), IsUnique = true)]
     public class Connector

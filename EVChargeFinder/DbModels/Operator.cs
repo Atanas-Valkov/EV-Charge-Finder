@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using System.ComponentModel.DataAnnotations;
-    using static EVChargeFinder.Common.EntityValidation.Operator;
+    using static Common.EntityValidation.OperatorValidationConst;
 
 
     [Index(nameof(Name), IsUnique = true)]
