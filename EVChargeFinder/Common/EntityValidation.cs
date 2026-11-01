@@ -2,7 +2,7 @@
 {
     public class EntityValidation
     {
-        public static class ChargingStation
+        public static class ChargingStationValidationConst
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 150;
@@ -30,7 +30,7 @@
 
         }
 
-        public static class Operator
+        public static class OperatorValidationConst
         {
             public const int NameMinLength = 2; 
             public const int NameMaxLength = 150;
@@ -39,16 +39,16 @@
             public const int WebsiteMaxLength = 100;
         }
 
-        public static class Connector
+        public static class ConnectorValidationConst
         {
+            public const int ConnectorIdMinValue = 1; 
+            public const int ConnectorIdMaxValue = int.MaxValue; 
             public const int ExternalIdMaxLength = 100;
         }
 
-        public static class ChargingSessions
+        public static class ChargingSessionsValidationConst
         {
-            public const int ConnectorIdMinValue = 1;
-            public const int ConnectorIdMaxValue = int.MaxValue;
-
+            
             public const double EnergyKWhMinValue = 0.01;
             public const double EnergyKWhMaxValue = 9999.99;
 
