@@ -16,16 +16,15 @@
             _dbContext = dbContext;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Index(string? searchTerm, int? chargingStationId, int? connectorId,
-            DateTime? from, DateTime? to, int pageNumber = 1)
+        public async Task<IActionResult> Index([FromQuery] ChargingSessionsSearchInputModel inputModel)
         {
             const int pageSize = 10;
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            ChargingSessionsSearchInputModel filters = ModelState.IsValid
+                ? inputModel
+                : new ChargingSessionsSearchInputModel();
 
             if (from.HasValue && to.HasValue && from.Value.Date > to.Value.Date)
             {
@@ -33,35 +32,23 @@
             }
 
             IQueryable<ChargingSession> query = _dbContext.ChargingSessions
-                .AsNoTracking()
-                .AsQueryable();
+                .AsNoTracking();
 
-            searchTerm = searchTerm?.Trim();
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (!string.IsNullOrWhiteSpace(filters.SearchTerm))
             {
+                string searchTerm = filters.SearchTerm.Trim();
                 query = query.Where(s => s.Connector.ChargingStation.Name.Contains(searchTerm));
             }
 
-            if (chargingStationId.HasValue)
+            if (filters.From.HasValue)
             {
-                query = query.Where(s => s.Connector.ChargingStationId == chargingStationId.Value);
-            }
-
-            if (connectorId.HasValue)
-            {
-                query = query.Where(s => s.ConnectorId == connectorId.Value);
-            }
-
-            if (from.HasValue)
-            {
-                DateTime startDate = from.Value.Date;
+                DateTime startDate = filters.From.Value.Date;
                 query = query.Where(s => s.StartedAt >= startDate);
             }
 
-            if (to.HasValue)
+            if (filters.To.HasValue)
             {
-                DateTime endDate = to.Value.Date;
+                DateTime endDate = filters.To.Value.Date;
                 query = query.Where(s => s.StartedAt.Date <= endDate);
             }
 
@@ -84,7 +71,9 @@
 
             if (completedSessions.Count > 0)
             {
-                double averageTicks = completedSessions.Average(s => (double)(s.EndedAt - s.StartedAt).Ticks);
+                double averageTicks = completedSessions
+                    .Average(s => (double)(s.EndedAt - s.StartedAt).Ticks);
+
                 averageDuration = TimeSpan.FromTicks((long)averageTicks);
             }
 
@@ -120,8 +109,7 @@
                 .ToListAsync();
 
             int totalPages = (int)Math.Ceiling((double)sessionsCount / pageSize);
-
-            pageNumber = Math.Clamp(pageNumber, 1, Math.Max(1, totalPages));
+            int pageNumber = Math.Clamp(filters.PageNumber, 1,Math.Max(1, totalPages));
 
             List<ChargingSessionIndexItemViewModel> sessions = await query
                 .OrderByDescending(s => s.StartedAt)
@@ -143,38 +131,7 @@
                 })
                 .ToListAsync();
 
-            List<ChargingStationFilterViewModel> chargingStations = await _dbContext.ChargingStations
-                .AsNoTracking()
-                .OrderBy(s => s.Name)
-                .Select(s => new ChargingStationFilterViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name
-                })
-                .ToListAsync();
-
-            IQueryable<Connector> connectorsQuery = _dbContext.Connectors
-                .AsNoTracking()
-                .AsQueryable();
-
-            if (chargingStationId.HasValue)
-            {
-                connectorsQuery = connectorsQuery.Where(c => c.ChargingStationId == chargingStationId.Value);
-            }
-
-            List<ConnectorFilterViewModel> connectors = await connectorsQuery
-                .OrderBy(c => c.ChargingStation.Name)
-                .ThenBy(c => c.ConnectorNumber)
-                .Select(c => new ConnectorFilterViewModel
-                {
-                    Id = c.Id,
-                    ConnectorNumber = c.ConnectorNumber,
-                    ChargingStationId = c.ChargingStationId,
-                    ChargingStationName = c.ChargingStation.Name
-                })
-                .ToListAsync();
-
-            ChargingSessionsIndexViewModel model = new ChargingSessionsIndexViewModel
+            ChargingSessionsIndexViewModel viewModel = new ChargingSessionsIndexViewModel
             {
                 Sessions = sessions,
                 SessionsCount = sessionsCount,
@@ -183,19 +140,16 @@
                 AverageDuration = averageDuration,
                 DailyEnergy = dailyEnergy,
                 MostUsedConnectors = mostUsedConnectors,
-                ChargingStations = chargingStations,
-                Connectors = connectors,
-                SearchTerm = searchTerm,
-                SelectedChargingStationId = chargingStationId,
-                SelectedConnectorId = connectorId,
-                From = from,
-                To = to,
+                SearchTerm = inputModel.SearchTerm?.Trim(),
+                From = inputModel.From,
+                To = inputModel.To,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
 
-            return View(model);
+            return View(viewModel);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Create()
