@@ -1,14 +1,28 @@
 ﻿@model ChargingStationsIndexViewModel
-@using EVChargeFinder.DbModels.Enums
+@using EVChargeFinder.Data.DbModels.Enums
+
+@{
+    string? searchTermError = ViewData.ModelState["SearchTerm"]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string? chargingTypeError = ViewData.ModelState["ChargingType"]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string? statusError = ViewData.ModelState["Status"]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string? operatorIdError = ViewData.ModelState["OperatorId"]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string? connectorTypeError = ViewData.ModelState["ConnectorType"]?.Errors.FirstOrDefault()?.ErrorMessage;
+    string? pageNumberError = ViewData.ModelState["PageNumber"]?.Errors.FirstOrDefault()?.ErrorMessage;
+}
 
 <form asp-controller="ChargingStations" asp-action="Search" method="get">
 
     <div class="stations-search">
-        <div class="stations-search-box">
+        <div class="stations-search-box @(searchTermError != null ? "input-validation-error" : "")">
             <i class="bi bi-search stations-search-icon"></i>
-            <input type="search" name="searchTerm" value="@Model.SearchTerm" class="stations-search-input" placeholder="Search station, city, address or operator..." />
+            <input type="search" name="searchTerm" value="@Model.SearchTerm" class="stations-search-input" placeholder="Search station, city, address or operator..." aria-invalid="@(searchTermError != null ? "true" : "false")" />
             <button type="submit" class="stations-search-button">Search</button>
         </div>
+
+        @if (searchTermError != null)
+        {
+            <span class="field-validation-error" data-valmsg-for="SearchTerm">@searchTermError</span>
+        }
     </div>
 
     <div class="row g-3 filters-row">
@@ -20,12 +34,17 @@
                     Charging Type
                 </label>
 
-                <select id="chargingType" name="chargingType" class="form-select searchable-select" data-placeholder="All charging types">
+                <select id="chargingType" name="chargingType" class="form-select searchable-select @(chargingTypeError != null ? "input-validation-error" : "")" data-placeholder="All charging types" aria-invalid="@(chargingTypeError != null ? "true" : "false")">
                     <option value="">All charging types</option>
                     <option value="AC" selected="@(Model.SelectedChargingType == "AC")">AC</option>
                     <option value="DC" selected="@(Model.SelectedChargingType == "DC")">DC</option>
                     <option value="AC/DC" selected="@(Model.SelectedChargingType == "AC/DC")">AC/DC</option>
                 </select>
+
+                @if (chargingTypeError != null)
+                {
+                    <span class="field-validation-error" data-valmsg-for="ChargingType">@chargingTypeError</span>
+                }
             </div>
         </div>
 
@@ -36,13 +55,18 @@
                     Status
                 </label>
 
-                <select id="status" name="status" class="form-select searchable-select" data-placeholder="All statuses">
+                <select id="status" name="status" class="form-select searchable-select @(statusError != null ? "input-validation-error" : "")" data-placeholder="All statuses" aria-invalid="@(statusError != null ? "true" : "false")">
                     <option value="">All statuses</option>
                     @foreach (ChargingStationStatus status in Enum.GetValues<ChargingStationStatus>())
                     {
                         <option value="@status" selected="@(Model.SelectedStatus == status)">@status</option>
                     }
                 </select>
+
+                @if (statusError != null)
+                {
+                    <span class="field-validation-error" data-valmsg-for="Status">@statusError</span>
+                }
             </div>
         </div>
 
@@ -53,13 +77,18 @@
                     Operator
                 </label>
 
-                <select id="operatorId" name="operatorId" class="form-select searchable-select" data-placeholder="All operators">
+                <select id="operatorId" name="operatorId" class="form-select searchable-select @(operatorIdError != null ? "input-validation-error" : "")" data-placeholder="All operators" aria-invalid="@(operatorIdError != null ? "true" : "false")">
                     <option value="">All operators</option>
                     @foreach (var op in Model.Operators)
                     {
                         <option value="@op.Id" selected="@(Model.SelectedOperatorId == op.Id)">@op.Name</option>
                     }
                 </select>
+
+                @if (operatorIdError != null)
+                {
+                    <span class="field-validation-error" data-valmsg-for="OperatorId">@operatorIdError</span>
+                }
             </div>
         </div>
 
@@ -70,16 +99,28 @@
                     Connector
                 </label>
 
-                <select id="connectorType" name="connectorType" class="form-select searchable-select" data-placeholder="All connector types">
+                <select id="connectorType" name="connectorType" class="form-select searchable-select @(connectorTypeError != null ? "input-validation-error" : "")" data-placeholder="All connector types" aria-invalid="@(connectorTypeError != null ? "true" : "false")">
                     <option value="">All connector types</option>
                     @foreach (ConnectorType connectorType in Enum.GetValues<ConnectorType>())
                     {
                         <option value="@connectorType" selected="@(Model.SelectedConnectorType == connectorType)">@connectorType</option>
                     }
                 </select>
+
+                @if (connectorTypeError != null)
+                {
+                    <span class="field-validation-error" data-valmsg-for="ConnectorType">@connectorTypeError</span>
+                }
             </div>
         </div>
 
     </div>
+
+    @if (pageNumberError != null)
+    {
+        <div class="validation-summary-errors" role="alert">
+            @pageNumberError
+        </div>
+    }
 
 </form>
