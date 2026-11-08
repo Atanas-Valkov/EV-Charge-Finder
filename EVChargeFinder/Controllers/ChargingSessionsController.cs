@@ -283,6 +283,7 @@
                     EndedAt = inputModel.EndedAt,
                     EnergyKWh = inputModel.EnergyKWh,
                     AppliedPricePerKWh = inputModel.AppliedPricePerKWh
+                    TotalCost = Math.Round(inputModel.EnergyKWh * inputModel.AppliedPricePerKWh,2,MidpointRounding.AwayFromZero)
                 };
 
                 _dbContext.ChargingSessions.Add(newSession);
