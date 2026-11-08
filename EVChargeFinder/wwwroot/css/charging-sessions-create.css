@@ -325,12 +325,7 @@
 
 /* VALIDATION */
 
-.sessions-create-page .text-danger {
-    display: block;
-    margin-top: 6px;
-    color: var(--create-danger) !important;
-    font-size: 0.82rem;
-}
+
 
 .sessions-validation-summary:empty {
     display: none;

@@ -339,3 +339,58 @@ input[type="datetime-local"] {
             padding: 9px 10px !important;
         }
 }
+
+/* VALIDATION */
+.field-validation-error {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #ff7b7b;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error,
+select.input-validation-error,
+textarea.input-validation-error {
+    border: 1px solid #dc3545 !important;
+    box-shadow: none !important;
+}
+
+    .input-validation-error:focus,
+    select.input-validation-error:focus,
+    textarea.input-validation-error:focus {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+    }
+
+.validation-summary-errors {
+    color: #ff7b7b;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+    .validation-summary-errors ul {
+        margin: 0;
+        padding-left: 1.25rem;
+    }
+
+/* TOMSELECT VALIDATION */
+
+.ts-wrapper.input-validation-error,
+.ts-wrapper.is-invalid,
+select.input-validation-error + .ts-wrapper {
+    border: 1px solid #dc3545 !important;
+    box-shadow: none !important;
+}
+
+    .ts-wrapper.input-validation-error:focus-within,
+    .ts-wrapper.is-invalid:focus-within,
+    select.input-validation-error + .ts-wrapper:focus-within {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+    }
