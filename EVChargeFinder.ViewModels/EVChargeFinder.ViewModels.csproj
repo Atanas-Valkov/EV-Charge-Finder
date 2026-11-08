@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EVChargeFinder.Data.DbModels\EVChargeFinder.Data.DbModels.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.GCommon\EVChargeFinder.GCommon.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.InputModels\EVChargeFinder.InputModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ChargingSessions\ChargingSessionDailyEnergyViewModel.cs" Link="ChargingSessions\01-Index\ChargingSessionDailyEnergyViewModel.cs" />
+    <Compile Update="ChargingSessions\ChargingSessionIndexItemViewModel.cs" Link="ChargingSessions\01-Index\ChargingSessionIndexItemViewModel.cs" />
+    <Compile Update="ChargingSessions\ChargingSessionsCreateViewModel.cs" Link="ChargingSessions\02-Create\ChargingSessionsCreateViewModel.cs" />
+    <Compile Update="ChargingSessions\ChargingSessionsDeleteViewModel.cs" Link="ChargingSessions\05-Delete\ChargingSessionsDeleteViewModel.cs" />
+    <Compile Update="ChargingSessions\ChargingSessionsDetailsViewModel.cs" Link="ChargingSessions\03-Details\ChargingSessionsDetailsViewModel.cs" />
+    <Compile Update="ChargingSessions\ChargingSessionsEditViewModel.cs" Link="ChargingSessions\04-Edit\ChargingSessionsEditViewModel.cs" />
+    <Compile Update="ChargingSessions\ChargingSessionsIndexViewModel.cs" Link="ChargingSessions\01-Index\ChargingSessionsIndexViewModel.cs" />
+    <Compile Update="ChargingSessions\ConnectorSelectViewModel.cs" Link="ChargingSessions\02-Create\ConnectorSelectViewModel.cs" />
+    <Compile Update="ChargingSessions\MostUsedConnectorViewModel.cs" Link="ChargingSessions\01-Index\MostUsedConnectorViewModel.cs" />
+  </ItemGroup>
+
+</Project>

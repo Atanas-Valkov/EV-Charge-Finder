@@ -1,3 +1,17 @@
 <Solution>
-  <Project Path="EVChargeFinder/EVChargeFinder.csproj" />
+  <Folder Name="/01-Web/">
+    <Project Path="EVChargeFinder.InputModels/EVChargeFinder.InputModels.csproj" Id="ef38d32c-0ffa-4183-842a-6a1b6e6c5dce" />
+    <Project Path="EVChargeFinder.ViewModels/EVChargeFinder.ViewModels.csproj" Id="9e79d7fc-5a3e-4bee-8458-fdc8c80e76a9" />
+    <Project Path="EVChargeFinder/EVChargeFinder.csproj" />
+  </Folder>
+  <Folder Name="/02-Services/">
+    <Project Path="EVChargeFinder.Services.Core/EVChargeFinder.Services.Core.csproj" Id="d85b2824-0cd0-4870-8ff5-b29493efedbc" />
+  </Folder>
+  <Folder Name="/03-Data/">
+    <Project Path="EVChargeFinder.Data.DbModels/EVChargeFinder.Data.DbModels.csproj" Id="b34db5b1-99ba-4ff4-ab38-51f616c0ebe4" />
+    <Project Path="EVChargeFinder.Data/EVChargeFinder.Data.csproj" Id="e7979964-6848-4fee-ac80-4abade2d2ae5" />
+  </Folder>
+  <Folder Name="/04-Shared/">
+    <Project Path="EVChargeFinder.GCommon/EVChargeFinder.GCommon.csproj" Id="24ebb276-5149-4ffd-b231-33b583195447" />
+  </Folder>
 </Solution>

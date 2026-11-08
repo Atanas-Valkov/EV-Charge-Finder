@@ -19,31 +19,16 @@
 		
 
   <ItemGroup>
-    <Folder Include="InputModels\" />
     <Folder Include="wwwroot\images\connectors\" />
   </ItemGroup>
-
-	<ItemGroup>
 		
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionsIndexViewModel.cs" Link="ViewModels\ChargingSessions\01-Index\ChargingSessionsIndexViewModel.cs" />
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionIndexItemViewModel.cs" Link="ViewModels\ChargingSessions\01-Index\ChargingSessionIndexItemViewModel.cs" />
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionDailyEnergyViewModel.cs" Link="ViewModels\ChargingSessions\01-Index\ChargingSessionDailyEnergyViewModel.cs" />
-		<Compile Update="ViewModels\ChargingSessions\MostUsedConnectorViewModel.cs" Link="ViewModels\ChargingSessions\01-Index\MostUsedConnectorViewModel.cs" />
-		<Compile Update="ViewModels\ChargingSessions\ChargingStationFilterViewModel.cs" Link="ViewModels\ChargingSessions\01-Index\ChargingStationFilterViewModel.cs" />
-		<Compile Update="ViewModels\ChargingSessions\ConnectorFilterViewModel.cs" Link="ViewModels\ChargingSessions\01-Index\ConnectorFilterViewModel.cs" />
 
-		
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionsCreateViewModel.cs" Link="ViewModels\ChargingSessions\02-Create\ChargingSessionsCreateViewModel.cs" />
-		<Compile Update="ViewModels\ChargingSessions\ConnectorSelectViewModel.cs" Link="ViewModels\ChargingSessions\02-Create\ConnectorSelectViewModel.cs" />
-
-		
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionsDetailsViewModel.cs" Link="ViewModels\ChargingSessions\03-Details\ChargingSessionsDetailsViewModel.cs" />
-
-
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionsEditViewModel.cs" Link="ViewModels\ChargingSessions\04-Edit\ChargingSessionsEditViewModel.cs" />
-		
-		<Compile Update="ViewModels\ChargingSessions\ChargingSessionsDeleteViewModel.cs" Link="ViewModels\ChargingSessions\05-Delete\ChargingSessionsDeleteViewModel.cs" />
-		
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EVChargeFinder.Data.DbModels\EVChargeFinder.Data.DbModels.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.Data\EVChargeFinder.Data.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.GCommon\EVChargeFinder.GCommon.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.InputModels\EVChargeFinder.InputModels.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.ViewModels\EVChargeFinder.ViewModels.csproj" />
+  </ItemGroup>
 
 </Project>

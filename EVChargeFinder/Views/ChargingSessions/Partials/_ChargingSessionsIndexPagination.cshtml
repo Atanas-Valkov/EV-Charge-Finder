@@ -12,9 +12,6 @@
 
     var routeValues = new Dictionary<string, string>
     {
-        ["searchTerm"] = Model.SearchTerm ?? "",
-        ["chargingStationId"] = Model.SelectedChargingStationId?.ToString() ?? "",
-        ["connectorId"] = Model.SelectedConnectorId?.ToString() ?? "",
         ["from"] = Model.From?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "",
         ["to"] = Model.To?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? ""
     };

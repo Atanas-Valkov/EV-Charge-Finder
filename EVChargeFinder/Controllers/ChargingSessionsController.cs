@@ -1,11 +1,11 @@
 ﻿namespace EVChargeFinder.Controllers
 {
     using Data;
-    using DbModels;
+    using Data.DbModels;
     using InputModels;
+    using ViewModels.ChargingSessions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using ViewModels.ChargingSessions;
 
     public class ChargingSessionsController : Controller
     {
@@ -25,11 +25,6 @@
             ChargingSessionsSearchInputModel filters = ModelState.IsValid
                 ? inputModel
                 : new ChargingSessionsSearchInputModel();
-
-            if (from.HasValue && to.HasValue && from.Value.Date > to.Value.Date)
-            {
-                return BadRequest("The start date must not be after the end date.");
-            }
 
             IQueryable<ChargingSession> query = _dbContext.ChargingSessions
                 .AsNoTracking();
@@ -53,9 +48,7 @@
             }
 
             int sessionsCount = await query.CountAsync();
-
             decimal totalEnergyKWh = await query.SumAsync(s => (decimal?)s.EnergyKWh) ?? 0m;
-
             decimal totalCost = await query.SumAsync(s => (decimal?)s.TotalCost) ?? 0m;
 
             var completedSessions = await query
@@ -236,7 +229,7 @@
                     StartedAt = inputModel.StartedAt,
                     EndedAt = inputModel.EndedAt,
                     EnergyKWh = inputModel.EnergyKWh,
-                    AppliedPricePerKWh = inputModel.AppliedPricePerKWh
+                    AppliedPricePerKWh = inputModel.AppliedPricePerKWh,
                     TotalCost = Math.Round(inputModel.EnergyKWh * inputModel.AppliedPricePerKWh,2,MidpointRounding.AwayFromZero)
                 };
 
@@ -305,7 +298,7 @@
                 AppliedPricePerKWh = selectedChargingSession.AppliedPricePerKWh,
                 TotalCost = selectedChargingSession.TotalCost,
 
-                ConnectorId = selectedChargingSession.ConnectorId,
+                
                 ConnectorNumber = selectedChargingSession.ConnectorId.ToString(),
                 ConnectorType = selectedChargingSession.Connector.ConnectorType.ToString(),
                 ConnectorPowerKw = selectedChargingSession.Connector.PowerKw,
@@ -497,7 +490,6 @@
                 return RedirectToAction(nameof(Delete), new { id, saveChangesError = true });
             }
         }
-
 
         private async Task<ChargingStation[]> FetchChargingStationsAsync()
         {

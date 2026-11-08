@@ -1,4 +1,4 @@
-﻿@using EVChargeFinder.Common
+﻿@using EVChargeFinder.GCommon
 @model ChargingSessionsDetailsViewModel
 
 @{
@@ -142,10 +142,6 @@
                         <span class="sessions-details-info-value">@Model.ConnectorPowerKw.ToString("0.##") kW</span>
                     </div>
 
-                    <div class="sessions-details-info-row">
-                        <span class="sessions-details-info-label">Connector ID</span>
-                        <span class="sessions-details-info-value">#@Model.ConnectorId</span>
-                    </div>
                 </div>
             </section>
         </div>
