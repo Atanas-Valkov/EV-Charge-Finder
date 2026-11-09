@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <ProjectReference Include="..\EVChargeFinder.Data.DbModels\EVChargeFinder.Data.DbModels.csproj" />
     <ProjectReference Include="..\EVChargeFinder.Data\EVChargeFinder.Data.csproj" />
     <ProjectReference Include="..\EVChargeFinder.GCommon\EVChargeFinder.GCommon.csproj" />
   </ItemGroup>

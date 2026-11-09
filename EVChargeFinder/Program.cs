@@ -1,7 +1,9 @@
 namespace EVChargeFinder
 {
-    using EVChargeFinder.Data;
-    using EVChargeFinder.Data.Seeding;
+    using Services.Core.Interfaces;
+    using Services.Core;
+    using Data;
+    using Data.Seeding;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +16,11 @@ namespace EVChargeFinder
 
             // Add services to the container.
             var connectionString = builder.Configuration
-                .GetConnectionString("DevConnectionString") ?? throw new InvalidOperationException("Connection string 'DevConnectionString' not found.");
+                                       .GetConnectionString("DevConnectionString") ??
+                                   throw new InvalidOperationException(
+                                       "Connection string 'DevConnectionString' not found.");
+
+            // Add DbContext with SQL Server and async seeding
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options
@@ -33,6 +39,11 @@ namespace EVChargeFinder
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+            // Register custom services in DI container
+            builder.Services.AddScoped<IChargingStationService, ChargingStationService>();
+
+
+            // Register Identity in DI container
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -61,8 +72,8 @@ namespace EVChargeFinder
 
             app.MapStaticAssets();
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.MapRazorPages()

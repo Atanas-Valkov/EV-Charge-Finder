@@ -28,6 +28,7 @@
     <ProjectReference Include="..\EVChargeFinder.Data\EVChargeFinder.Data.csproj" />
     <ProjectReference Include="..\EVChargeFinder.GCommon\EVChargeFinder.GCommon.csproj" />
     <ProjectReference Include="..\EVChargeFinder.InputModels\EVChargeFinder.InputModels.csproj" />
+    <ProjectReference Include="..\EVChargeFinder.Services.Core\EVChargeFinder.Services.Core.csproj" />
     <ProjectReference Include="..\EVChargeFinder.ViewModels\EVChargeFinder.ViewModels.csproj" />
   </ItemGroup>
 

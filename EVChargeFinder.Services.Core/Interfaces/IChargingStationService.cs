@@ -1,13 +1,14 @@
 ﻿namespace EVChargeFinder.Services.Core.Interfaces
 {
+    using EVChargeFinder.InputModels;
+    using EVChargeFinder.ViewModels.ChargingStations;
+
     public interface IChargingStationService
     {
-      //  Task<IEnumerable<ChargingStationsIndexViewModel>> GetIndexAsync(int pageNumber = 1);
+        Task<ChargingStationsIndexViewModel> GetIndexAsync(int pageNumber = 1);
 
-//        Task<IEnumerable<ChargingStationDetailsViewModel?>> GetDetailsAsync(int id);
+        Task<ChargingStationDetailsViewModel?> GetDetailsAsync(int id);
 
-
-  //      Task<ChargingStationsIndexViewModel> SearchAsync(string? searchTerm, string? chargingType, ChargingStationStatus? status, int? operatorId,
-    //        ConnectorType? connectorType, int pageNumber = 1);
+        Task<ChargingStationsIndexViewModel> SearchAsync(ChargingStationsSearchInputModel inputModel);
     }
 }
