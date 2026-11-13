@@ -1,7 +1,9 @@
 ﻿namespace EVChargeFinder.Services.Core.Interfaces
 {
-    using EVChargeFinder.InputModels;
-    using EVChargeFinder.ViewModels.ChargingStations;
+    using Data.DbModels;
+    using EVChargeFinder.ViewModels.ChargingSessions;
+    using InputModels;
+    using ViewModels.ChargingStations;
 
     public interface IChargingStationService
     {
@@ -10,5 +12,7 @@
         Task<ChargingStationDetailsViewModel?> GetDetailsAsync(int id);
 
         Task<ChargingStationsIndexViewModel> SearchAsync(ChargingStationsSearchInputModel inputModel);
+
+
     }
 }

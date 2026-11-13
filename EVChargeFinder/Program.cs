@@ -41,7 +41,7 @@ namespace EVChargeFinder
 
             // Register custom services in DI container
             builder.Services.AddScoped<IChargingStationService, ChargingStationService>();
-
+            builder.Services.AddScoped<IChargingSessionService, ChargingSessionService>();
 
             // Register Identity in DI container
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

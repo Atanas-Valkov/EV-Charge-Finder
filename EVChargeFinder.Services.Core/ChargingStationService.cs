@@ -11,10 +11,12 @@
     public class ChargingStationService : IChargingStationService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IChargingSessionService _chargingSessionService;
 
-        public ChargingStationService(ApplicationDbContext dbContext)
+        public ChargingStationService(ApplicationDbContext dbContext, IChargingSessionService chargingSessionService)
         {
             _dbContext = dbContext;
+            _chargingSessionService = chargingSessionService;
         }
 
         public async Task<ChargingStationsIndexViewModel> GetIndexAsync(int pageNumber = 1)
