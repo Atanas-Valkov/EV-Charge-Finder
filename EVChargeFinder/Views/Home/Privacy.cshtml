@@ -1,6 +1,248 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="privacy-page">
+    <div class="privacy-heading">
+        <span class="privacy-label">
+            <i class="bi bi-shield-lock"></i>
+            Your Privacy Matters
+        </span>
+
+        <h1>Privacy Policy</h1>
+
+        <p>
+            Learn how EVChargeFinder handles account information
+            and charging session data.
+        </p>
+
+        <span class="privacy-updated">
+            Last updated: November 15, 2026
+        </span>
+    </div>
+
+    <div class="privacy-content">
+
+        <article class="privacy-section">
+            <h2>
+                <i class="bi bi-person-circle"></i>
+                Account Information
+            </h2>
+
+            <p>
+                EVChargeFinder processes account information,
+                including your email address, to support
+                registration, authentication and account management.
+            </p>
+
+            <p>
+                Passwords are handled through ASP.NET Core Identity
+                and stored as password hashes rather than plain text.
+            </p>
+        </article>
+
+        <article class="privacy-section">
+            <h2>
+                <i class="bi bi-lightning-charge"></i>
+                Charging Session Data
+            </h2>
+
+            <p>
+                When you create a charging session, EVChargeFinder
+                stores information such as the charging station,
+                connector, charging dates, energy consumption
+                and charging cost.
+            </p>
+
+            <p>
+                Regular users can access their own charging
+                sessions. Administrators can access all charging
+                sessions for application administration.
+            </p>
+        </article>
+
+        <article class="privacy-section">
+            <h2>
+                <i class="bi bi-shield-check"></i>
+                Security and Cookies
+            </h2>
+
+            <p>
+                EVChargeFinder uses ASP.NET Core Identity to
+                manage authentication and authorization.
+            </p>
+
+            <p>
+                Authentication cookies help maintain your
+                signed-in session. The application also uses
+                anti-forgery protection for relevant forms.
+            </p>
+        </article>
+
+        <article class="privacy-section">
+            <h2>
+                <i class="bi bi-trash3"></i>
+                Account Deletion
+            </h2>
+
+            <p>
+                You can request account deletion through the
+                account management section.
+            </p>
+
+            <p>
+                Deleting your account removes your account
+                record and its associated charging sessions
+                from the application's main database.
+            </p>
+
+            <a class="privacy-account-link"
+               asp-area="Identity"
+               asp-page="/Account/Manage/DeletePersonalData">
+                Manage personal data
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </article>
+
+        <article class="privacy-section">
+            <h2>
+                <i class="bi bi-person-check"></i>
+                Your Rights
+            </h2>
+
+            <p>
+                Depending on the circumstances and applicable
+                data protection law, you may have rights to
+                access, correct, delete or restrict the
+                processing of your personal data.
+            </p>
+
+            <p>
+                You may also have rights to data portability,
+                object to certain processing and lodge a
+                complaint with a data protection authority.
+            </p>
+        </article>
+
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        /* Privacy page */
+        .privacy-page {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 28px 0 60px;
+            color: #e2eaf0;
+        }
+
+        /* Privacy heading */
+        .privacy-heading {
+            margin-bottom: 34px;
+        }
+
+        .privacy-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: rgba(46, 204, 113, 0.12);
+            color: #2ecc71;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .privacy-heading h1 {
+            margin: 22px 0 10px;
+            color: #f5f8fb;
+            font-size: clamp(32px, 4vw, 46px);
+            font-weight: 700;
+        }
+
+        .privacy-heading p {
+            color: #bfd0db;
+            font-size: 16px;
+        }
+
+        .privacy-updated {
+            display: inline-block;
+            margin-top: 8px;
+            color: #93a8b7;
+            font-size: 13px;
+        }
+
+        /* Privacy sections */
+        .privacy-content {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .privacy-section {
+            padding: 26px;
+            background: #152330;
+            border: 1px solid #293e4d;
+            border-radius: 12px;
+        }
+
+        .privacy-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: #f5f8fb;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .privacy-section h2 i {
+            color: #2ecc71;
+            font-size: 22px;
+        }
+
+        .privacy-section p {
+            margin-bottom: 12px;
+            color: #bfd0db;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .privacy-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Account link */
+        .privacy-account-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 10px;
+            color: #2ecc71;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .privacy-account-link:hover {
+            color: #77e5a4;
+        }
+
+        /* Responsive layout */
+        @@media (max-width: 767.98px) {
+            .privacy-page {
+                padding: 20px 0 40px;
+            }
+
+            .privacy-content {
+                grid-template-columns: 1fr;
+            }
+
+            .privacy-section {
+                padding: 20px;
+            }
+        }
+    </style>
+}
