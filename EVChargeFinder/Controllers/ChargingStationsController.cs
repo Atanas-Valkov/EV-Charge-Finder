@@ -1,18 +1,15 @@
 ﻿using EVChargeFinder.InputModels;
 using EVChargeFinder.Services.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EVChargeFinder.Controllers
 {
     using Data;
-    using Data.DbModels;
-    using Data.DbModels.Enums;
-    using EVChargeFinder.Services.Core;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using ViewModels.ChargingStations;
 
 
-    public class ChargingStationsController : Controller
+    public class ChargingStationsController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IChargingStationService _chargingStationService;
@@ -25,6 +22,7 @@ namespace EVChargeFinder.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Index(int pageNumber = 1)
         {
             ChargingStationsIndexViewModel model = await _chargingStationService.GetIndexAsync(pageNumber);

@@ -1,18 +1,15 @@
-﻿
-namespace EVChargeFinder.Services.Core
+﻿namespace EVChargeFinder.Services.Core
 {
-
     using Data;
     using Data.DbModels;
     using InputModels;
     using Interfaces;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using System.ComponentModel.DataAnnotations;
     using ViewModels.ChargingSessions;
+   
 
     public class ChargingSessionService : IChargingSessionService
-
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -21,12 +18,12 @@ namespace EVChargeFinder.Services.Core
             _dbContext = dbContext;
         }
 
-        public async Task<ChargingSessionsIndexViewModel> GetIndexAsync(ChargingSessionsSearchInputModel filters)
+        public async Task<ChargingSessionsIndexViewModel> GetIndexAsync(ChargingSessionsSearchInputModel filters, string currentUserId, bool isAdmin)
         {
+            
             const int pageSize = 10;
 
-            IQueryable<ChargingSession> query = _dbContext.ChargingSessions
-                .AsNoTracking();
+            IQueryable<ChargingSession> query = GetAccessibleSessionsQuery(currentUserId, isAdmin);
 
             if (!string.IsNullOrWhiteSpace(filters.SearchTerm))
             {
@@ -147,11 +144,13 @@ namespace EVChargeFinder.Services.Core
             return viewModel;
         }
 
-        public async Task<ChargingSessionsDetailsViewModel?> GetDetailsAsync(int id)
+        public async Task<ChargingSessionsDetailsViewModel?> GetDetailsAsync(int id, string currentUserId, bool isAdmin)
         {
-            ChargingSessionsDetailsViewModel? viewModel = await _dbContext.ChargingSessions
-                .AsNoTracking()
-                .Where(cs => cs.Id == id)
+            IQueryable<ChargingSession> query = GetAccessibleSessionsQuery(currentUserId, isAdmin)
+                 .AsNoTracking()
+                 .Where(cs => cs.Id == id);
+
+            ChargingSessionsDetailsViewModel? viewModel = await query
                 .Select(cs => new ChargingSessionsDetailsViewModel
                 {
                     Id = cs.Id,
@@ -175,12 +174,12 @@ namespace EVChargeFinder.Services.Core
 
             return viewModel;
         }
-       
+
 
         public async Task<ChargingSessionsCreateViewModel> GetCreateAsync()
         {
             ChargingStation[] allChargingStations = await FetchChargingStationsAsync();
-            DateTime currentDateTime = DateTime.Now;
+            DateTime currentDateTime = DateTime.UtcNow;
 
             currentDateTime = new DateTime
             (
@@ -206,8 +205,13 @@ namespace EVChargeFinder.Services.Core
             return viewModel;
         }
 
-        public async Task<IEnumerable<ValidationResult>> CreateAsync(ChargingSessionsCreateInputModel inputModel)
+        public async Task<IEnumerable<ValidationResult>> CreateAsync(ChargingSessionsCreateInputModel inputModel, string currentUserId)
         {
+            if (string.IsNullOrWhiteSpace(currentUserId))
+            {
+                throw new ArgumentException("User ID cannot be empty.", nameof(currentUserId));
+            }
+
             List<ValidationResult> validationErrors = await ValidateChargingSessionAsync(inputModel);
 
             if (validationErrors.Count > 0)
@@ -217,6 +221,7 @@ namespace EVChargeFinder.Services.Core
 
             ChargingSession newSession = new ChargingSession
             {
+                UserId = currentUserId,
                 ConnectorId = inputModel.ConnectorId,
                 StartedAt = inputModel.StartedAt,
                 EndedAt = inputModel.EndedAt,
@@ -235,12 +240,15 @@ namespace EVChargeFinder.Services.Core
         }
 
 
-        public async Task<(ChargingSessionsEditViewModel? ViewModel, bool IsUnfinished)> GetEditAsync(int id)
+        public async Task<(ChargingSessionsEditViewModel? ViewModel, bool IsUnfinished)> GetEditAsync(int id, string currentUserId, bool isAdmin)
         {
-            ChargingSession? selectedChargingSession = await _dbContext.ChargingSessions
+
+            IQueryable<ChargingSession> query = GetAccessibleSessionsQuery(currentUserId, isAdmin)
                 .AsNoTracking()
                 .Include(cs => cs.Connector)
-                .SingleOrDefaultAsync(cs => cs.Id == id);
+                .Where(cs => cs.Id == id);
+
+            ChargingSession? selectedChargingSession = await query.SingleOrDefaultAsync();
 
             if (selectedChargingSession == null)
             {
@@ -270,10 +278,15 @@ namespace EVChargeFinder.Services.Core
 
             return (viewModel, false);
         }
-        public async Task<(IEnumerable<ValidationResult>? ValidationErrors, bool IsUnfinished)> EditAsync(int id, ChargingSessionsCreateInputModel inputModel)
+
+
+        public async Task<(IEnumerable<ValidationResult>? ValidationErrors, bool IsUnfinished)> EditAsync(int id, ChargingSessionsCreateInputModel inputModel, string currentUserId, bool isAdmin)
         {
-            ChargingSession? selectedChargingSession = await _dbContext.ChargingSessions
-                .SingleOrDefaultAsync(cs => cs.Id == id);
+
+            IQueryable<ChargingSession> query = GetAccessibleSessionsQuery(currentUserId, isAdmin)
+                   .Where(cs => cs.Id == id);
+
+            ChargingSession? selectedChargingSession = await query.SingleOrDefaultAsync();
 
             if (selectedChargingSession == null)
             {
@@ -298,10 +311,7 @@ namespace EVChargeFinder.Services.Core
             selectedChargingSession.EnergyKWh = inputModel.EnergyKWh;
             selectedChargingSession.AppliedPricePerKWh = inputModel.AppliedPricePerKWh;
 
-            selectedChargingSession.TotalCost = Math.Round(
-                inputModel.EnergyKWh * inputModel.AppliedPricePerKWh,
-                2,
-                MidpointRounding.AwayFromZero);
+            selectedChargingSession.TotalCost = Math.Round( inputModel.EnergyKWh * inputModel.AppliedPricePerKWh, 2, MidpointRounding.AwayFromZero);
 
             await _dbContext.SaveChangesAsync();
 
@@ -309,11 +319,13 @@ namespace EVChargeFinder.Services.Core
         }
 
 
-        public async Task<ChargingSessionsDeleteViewModel?> GetDeleteAsync(int id)
+        public async Task<ChargingSessionsDeleteViewModel?> GetDeleteAsync(int id , string currentUserId, bool isAdmin)
         {
-            ChargingSessionsDeleteViewModel? viewModel = await _dbContext.ChargingSessions
+            IQueryable<ChargingSession> query = GetAccessibleSessionsQuery(currentUserId, isAdmin)
                 .AsNoTracking()
-                .Where(cs => cs.Id == id)
+                .Where(cs => cs.Id == id);
+
+            ChargingSessionsDeleteViewModel? viewModel = await query
                 .Select(cs => new ChargingSessionsDeleteViewModel
                 {
                     Id = cs.Id,
@@ -328,10 +340,13 @@ namespace EVChargeFinder.Services.Core
 
             return viewModel;
         }
-        public async Task<bool> DeleteAsync(int id)
+
+        public async Task<bool> DeleteAsync(int id, string currentUserId, bool isAdmin)
         {
-            ChargingSession? selectedChargingSession = await _dbContext.ChargingSessions
-                .SingleOrDefaultAsync(cs => cs.Id == id);
+            IQueryable<ChargingSession> query = GetAccessibleSessionsQuery(currentUserId, isAdmin)
+                      .Where(cs => cs.Id == id);
+
+            ChargingSession? selectedChargingSession = await query.SingleOrDefaultAsync();
 
             if (selectedChargingSession == null)
             {
@@ -343,7 +358,6 @@ namespace EVChargeFinder.Services.Core
 
             return true;
         }
-
 
 
         public async Task<ConnectorSelectViewModel[]> GetConnectorsByStationAsync(int stationId)
@@ -384,7 +398,8 @@ namespace EVChargeFinder.Services.Core
                 .SingleOrDefaultAsync(c => c.Id == connectorId && c.ChargingStationId == stationId);
         }
 
-        private void ValidateChargingDuration(ChargingSessionsCreateInputModel inputModel, List<ValidationResult> validationErrors)
+        private void ValidateChargingDuration(ChargingSessionsCreateInputModel inputModel,
+            List<ValidationResult> validationErrors)
         {
             TimeSpan duration = inputModel.EndedAt - inputModel.StartedAt;
 
@@ -395,7 +410,6 @@ namespace EVChargeFinder.Services.Core
                     new[] { nameof(inputModel.EndedAt) }));
             }
         }
-
 
         private void ValidateEnergy(ChargingSessionsCreateInputModel inputModel, Connector connector, List<ValidationResult> validationErrors)
         {
@@ -427,7 +441,7 @@ namespace EVChargeFinder.Services.Core
         }
 
 
-        private async Task<List<ValidationResult>> ValidateChargingSessionAsync(ChargingSessionsCreateInputModel inputModel)
+        private async Task<List<ValidationResult>> ValidateChargingSessionAsync( ChargingSessionsCreateInputModel inputModel)
         {
             List<ValidationResult> validationErrors = new List<ValidationResult>();
 
@@ -439,7 +453,8 @@ namespace EVChargeFinder.Services.Core
             }
             else
             {
-                Connector? connector = await GetConnectorForStationAsync(inputModel.ConnectorId, inputModel.ChargingStationId);
+                Connector? connector =
+                    await GetConnectorForStationAsync(inputModel.ConnectorId, inputModel.ChargingStationId);
 
                 if (connector == null)
                 {
@@ -457,5 +472,24 @@ namespace EVChargeFinder.Services.Core
 
             return validationErrors;
         }
+
+
+        private IQueryable<ChargingSession> GetAccessibleSessionsQuery( string currentUserId, bool isAdmin)
+        {
+            if (string.IsNullOrWhiteSpace(currentUserId))
+            {
+                throw new ArgumentException( "User ID cannot be empty.", nameof(currentUserId));
+            }
+
+            IQueryable<ChargingSession> query = _dbContext.ChargingSessions;
+
+            if (!isAdmin)
+            {
+                query = query.Where(cs => cs.UserId == currentUserId);
+            }
+
+            return query;
+        }
+
     }
 }
