@@ -1,7 +1,6 @@
 ﻿namespace EVChargeFinder.Controllers
 {
     using Data;
-    using Data.DbModels;
     using InputModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -9,14 +8,15 @@
     using System.ComponentModel.DataAnnotations;
     using ViewModels.ChargingSessions;
 
-    public class ChargingSessionsController : Controller
+    public class ChargingSessionsController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IChargingSessionService _chargingSessionService;
         private readonly ILogger<ChargingSessionsController> _logger;
 
 
-        public ChargingSessionsController(ApplicationDbContext dbContext, IChargingSessionService chargingSessionService, ILogger<ChargingSessionsController> logger)
+        public ChargingSessionsController(ApplicationDbContext dbContext,
+            IChargingSessionService chargingSessionService, ILogger<ChargingSessionsController> logger)
         {
             _dbContext = dbContext;
             _chargingSessionService = chargingSessionService;
@@ -27,11 +27,21 @@
         [HttpGet]
         public async Task<IActionResult> Index([FromQuery] ChargingSessionsSearchInputModel inputModel)
         {
+            string currentUserId = GetUserId();
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                return Challenge();
+            }
+
+            bool isAdmin = User.IsInRole("Admin");
+
             ChargingSessionsSearchInputModel filters = ModelState.IsValid
                 ? inputModel
                 : new ChargingSessionsSearchInputModel();
 
-            ChargingSessionsIndexViewModel viewModel = await _chargingSessionService.GetIndexAsync(filters);
+            ChargingSessionsIndexViewModel viewModel =
+                await _chargingSessionService.GetIndexAsync(filters, currentUserId, isAdmin);
 
             viewModel.SearchTerm = inputModel.SearchTerm?.Trim();
             viewModel.From = inputModel.From;
@@ -49,10 +59,11 @@
             return View(viewModel);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Create(ChargingSessionsCreateViewModel viewModel)
         {
+            string currentUserId = GetUserId();
+
             if (!ModelState.IsValid)
             {
                 viewModel.ChargingStations = await _chargingSessionService.FetchChargingStationsAsync();
@@ -61,7 +72,8 @@
 
             try
             {
-                IEnumerable<ValidationResult> validationErrors = await _chargingSessionService.CreateAsync(viewModel.InputModel);
+                IEnumerable<ValidationResult> validationErrors =
+                    await _chargingSessionService.CreateAsync(viewModel.InputModel, currentUserId);
 
                 foreach (ValidationResult error in validationErrors)
                 {
@@ -97,14 +109,6 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> GetConnectorsByStation(int stationId)
-        {
-            ConnectorSelectViewModel[] connectors = await _chargingSessionService.GetConnectorsByStationAsync(stationId);
-
-            return Json(connectors);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             if (id <= 0)
@@ -112,7 +116,18 @@
                 return BadRequest();
             }
 
-            ChargingSessionsDetailsViewModel? selectedChargingSession = await _chargingSessionService.GetDetailsAsync(id);
+            string currentUserId = GetUserId();
+
+            if (string.IsNullOrWhiteSpace(currentUserId))
+            {
+                return Challenge();
+            }
+
+            bool isAdmin = User.IsInRole("Admin");
+            ;
+
+            ChargingSessionsDetailsViewModel? selectedChargingSession =
+                await _chargingSessionService.GetDetailsAsync(id, currentUserId, isAdmin);
 
             if (selectedChargingSession == null)
             {
@@ -122,16 +137,20 @@
             return View(selectedChargingSession);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-
             if (id <= 0)
             {
                 return BadRequest();
             }
 
-            (ChargingSessionsEditViewModel? viewModel, bool isUnfinishedGet) = await _chargingSessionService.GetEditAsync(id);
+            string currentUserId = GetUserId();
+            bool isAdmin = User.IsInRole("Admin");
+
+            (ChargingSessionsEditViewModel? viewModel, bool isUnfinishedGet) =
+                await _chargingSessionService.GetEditAsync(id, currentUserId, isAdmin);
 
             if (isUnfinishedGet)
             {
@@ -155,12 +174,21 @@
                 return BadRequest();
             }
 
+            string currentUserId = GetUserId();
+
+            if (string.IsNullOrWhiteSpace(currentUserId))
+            {
+                return Challenge();
+            }
+
+            bool isAdmin = User.IsInRole("Admin");
+
             try
             {
                 if (!ModelState.IsValid)
                 {
                     (ChargingSessionsEditViewModel? currentViewModel, bool isUnfinishedGet) =
-                        await _chargingSessionService.GetEditAsync(id);
+                        await _chargingSessionService.GetEditAsync(id, currentUserId, isAdmin);
 
                     if (isUnfinishedGet)
                     {
@@ -178,7 +206,7 @@
                 }
 
                 (IEnumerable<ValidationResult>? validationErrors, bool isUnfinishedEdit) =
-                    await _chargingSessionService.EditAsync(id, viewModel.InputModel);
+                    await _chargingSessionService.EditAsync(id, viewModel.InputModel, currentUserId, isAdmin);
 
                 if (isUnfinishedEdit)
                 {
@@ -194,17 +222,14 @@
                 {
                     foreach (string memberName in error.MemberNames)
                     {
-                        ModelState.AddModelError(
-                            $"{nameof(ChargingSessionsEditViewModel.InputModel)}.{memberName}",
+                        ModelState.AddModelError($"{nameof(ChargingSessionsEditViewModel.InputModel)}.{memberName}",
                             error.ErrorMessage ?? "Invalid value.");
                     }
                 }
 
                 if (!ModelState.IsValid)
                 {
-                    viewModel.ChargingStations =
-                        await _chargingSessionService.FetchChargingStationsAsync();
-
+                    viewModel.ChargingStations = await _chargingSessionService.FetchChargingStationsAsync();
                     return View(viewModel);
                 }
 
@@ -212,19 +237,18 @@
             }
             catch (Exception e)
             {
-                _logger.LogError(e,
-                    "An error occurred while editing charging session with ID {SessionId}.", id);
+                _logger.LogError(e, "An error occurred while editing charging session with ID {SessionId}.", id);
 
                 ModelState.AddModelError(
                     string.Empty,
                     "An unexpected error occurred while saving the charging session. Please try again.");
 
-                viewModel.ChargingStations =
-                    await _chargingSessionService.FetchChargingStationsAsync();
+                viewModel.ChargingStations = await _chargingSessionService.FetchChargingStationsAsync();
 
                 return View(viewModel);
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -234,7 +258,11 @@
                 return BadRequest();
             }
 
-            ChargingSessionsDeleteViewModel? viewModel = await _chargingSessionService.GetDeleteAsync(id);
+            string currentUserId = GetUserId();
+            bool isAdmin = User.IsInRole("Admin");
+
+            ChargingSessionsDeleteViewModel? viewModel =
+                await _chargingSessionService.GetDeleteAsync(id, currentUserId, isAdmin);
 
             if (viewModel == null)
             {
@@ -245,8 +273,6 @@
         }
 
         [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed([FromRoute] int id)
         {
             if (id <= 0)
@@ -254,9 +280,12 @@
                 return BadRequest();
             }
 
+            string currentUserId = GetUserId();
+            bool isAdmin = User.IsInRole("Admin");
+
             try
             {
-                bool isDeleted = await _chargingSessionService.DeleteAsync(id);
+                bool isDeleted = await _chargingSessionService.DeleteAsync(id, currentUserId, isAdmin);
 
                 if (!isDeleted)
                 {
@@ -267,15 +296,14 @@
             }
             catch (DbUpdateException e)
             {
-                _logger.LogError(e,
-                    "An error occurred while deleting charging session with ID {SessionId}.", id);
+                _logger.LogError(e, "An error occurred while deleting charging session with ID {SessionId}.", id);
 
                 ModelState.AddModelError(
                     string.Empty,
                     "An error occurred while deleting the charging session. Please try again.");
 
                 ChargingSessionsDeleteViewModel? viewModel =
-                    await _chargingSessionService.GetDeleteAsync(id);
+                    await _chargingSessionService.GetDeleteAsync(id, currentUserId, isAdmin);
 
                 if (viewModel == null)
                 {
@@ -284,6 +312,15 @@
 
                 return View("Delete", viewModel);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetConnectorsByStation(int stationId)
+        {
+            ConnectorSelectViewModel[] connectors =
+                await _chargingSessionService.GetConnectorsByStationAsync(stationId);
+
+            return Json(connectors);
         }
     }
 }
