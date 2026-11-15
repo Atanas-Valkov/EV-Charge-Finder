@@ -25,6 +25,8 @@
         [ForeignKey(nameof(Connector))]
         public int ConnectorId { get; set; }
 
+        public string? UserId { get; set; } = null!;
+
         public virtual Connector Connector { get; set; } = null!;
     }
 }

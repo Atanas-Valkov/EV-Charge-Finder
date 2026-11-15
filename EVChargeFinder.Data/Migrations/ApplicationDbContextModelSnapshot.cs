@@ -17,12 +17,12 @@ namespace EVChargeFinder.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.10")
+                .HasAnnotation("ProductVersion", "10.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.ChargingSession", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.ChargingSession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,14 +51,19 @@ namespace EVChargeFinder.Data.Migrations
                         .HasPrecision(8, 4)
                         .HasColumnType("decimal(8,4)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ConnectorId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("ChargingSessions");
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.ChargingStation", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.ChargingStation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -114,7 +119,7 @@ namespace EVChargeFinder.Data.Migrations
                     b.ToTable("ChargingStations");
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.Connector", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.Connector", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,7 +159,7 @@ namespace EVChargeFinder.Data.Migrations
                     b.ToTable("Connectors");
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.Operator", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.Operator", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,20 +386,25 @@ namespace EVChargeFinder.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.ChargingSession", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.ChargingSession", b =>
                 {
-                    b.HasOne("EVChargeFinder.DbModels.Connector", "Connector")
+                    b.HasOne("EVChargeFinder.Data.DbModels.Connector", "Connector")
                         .WithMany()
                         .HasForeignKey("ConnectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.Navigation("Connector");
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.ChargingStation", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.ChargingStation", b =>
                 {
-                    b.HasOne("EVChargeFinder.DbModels.Operator", "Operator")
+                    b.HasOne("EVChargeFinder.Data.DbModels.Operator", "Operator")
                         .WithMany("ChargingStations")
                         .HasForeignKey("OperatorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -403,10 +413,10 @@ namespace EVChargeFinder.Data.Migrations
                     b.Navigation("Operator");
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.Connector", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.Connector", b =>
                 {
-                    b.HasOne("EVChargeFinder.DbModels.ChargingStation", "ChargingStation")
-                        .WithMany()
+                    b.HasOne("EVChargeFinder.Data.DbModels.ChargingStation", "ChargingStation")
+                        .WithMany("Connectors")
                         .HasForeignKey("ChargingStationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -465,7 +475,12 @@ namespace EVChargeFinder.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EVChargeFinder.DbModels.Operator", b =>
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.ChargingStation", b =>
+                {
+                    b.Navigation("Connectors");
+                });
+
+            modelBuilder.Entity("EVChargeFinder.Data.DbModels.Operator", b =>
                 {
                     b.Navigation("ChargingStations");
                 });
