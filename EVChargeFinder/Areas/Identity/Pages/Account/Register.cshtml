@@ -1,0 +1,67 @@
+@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="identity-page">
+    <div class="identity-card">
+
+        <div class="identity-header">
+            <div class="identity-icon">
+                <i class="bi bi-person-plus"></i>
+            </div>
+
+            <h1>Create Account</h1>
+            <p>Join EVChargeFinder and start tracking your charging sessions.</p>
+        </div>
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="identity-validation text-danger" role="alert"></div>
+
+            <div class="identity-field">
+                <label asp-for="Input.Email" class="form-label">Email Address</label>
+                <div class="identity-input-wrapper">
+                    <i class="bi bi-envelope"></i>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="identity-field">
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <div class="identity-input-wrapper">
+                    <i class="bi bi-lock"></i>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Create a password" />
+                </div>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="identity-field">
+                <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                <div class="identity-input-wrapper">
+                    <i class="bi bi-shield-lock"></i>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm your password" />
+                </div>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="btn identity-submit">
+                <i class="bi bi-person-check"></i>
+                Create Account
+            </button>
+
+            <div class="identity-footer">
+                <span>Already have an account?</span>
+                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/identity.css" asp-append-version="true" />
+}

@@ -1,0 +1,257 @@
+﻿/* Identity Page Layout */
+
+.identity-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 170px);
+    padding: 48px 16px 80px;
+    color: #e5eaf3;
+}
+
+.identity-card {
+    width: 100%;
+    max-width: 470px;
+    padding: 38px;
+    background: linear-gradient(145deg, #1b2639, #151e2e);
+    border: 1px solid #334155;
+    border-radius: 18px;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.22);
+}
+
+.identity-card-center {
+    text-align: center;
+}
+
+/* Identity Header */
+
+.identity-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.identity-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 22px;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    border-radius: 18px;
+    color: #60a5fa;
+    font-size: 30px;
+}
+
+.identity-icon-success {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    border-color: rgba(74, 222, 128, 0.25);
+}
+
+.identity-header h1 {
+    margin-bottom: 10px;
+    color: #f1f5f9;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.identity-header p {
+    margin-bottom: 0;
+    color: #a7b4c7;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Identity Fields */
+
+.identity-field {
+    margin-bottom: 22px;
+}
+
+    .identity-field .form-label {
+        margin-bottom: 9px;
+        color: #dce5f1;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+.identity-input-wrapper {
+    position: relative;
+}
+
+    .identity-input-wrapper > i {
+        position: absolute;
+        top: 50%;
+        left: 16px;
+        z-index: 1;
+        transform: translateY(-50%);
+        color: #91a4bf;
+        font-size: 17px;
+        pointer-events: none;
+    }
+
+    .identity-input-wrapper .form-control {
+        width: 100%;
+        min-height: 48px;
+        padding: 11px 16px 11px 47px;
+        background: #101827;
+        border: 1px solid #3b4a60;
+        border-radius: 9px;
+        color: #f1f5f9;
+        font-size: 14px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+        .identity-input-wrapper .form-control::placeholder {
+            color: #8795ab;
+            opacity: 1;
+        }
+
+        .identity-input-wrapper .form-control:focus {
+            background: #101827;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            color: #f1f5f9;
+            outline: none;
+        }
+
+        .identity-input-wrapper .form-control:-webkit-autofill {
+            -webkit-text-fill-color: #f1f5f9;
+            -webkit-box-shadow: 0 0 0 1000px #101827 inset;
+            caret-color: #f1f5f9;
+        }
+
+/* Remember Me */
+
+.identity-remember {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 24px;
+    padding-left: 0;
+}
+
+    .identity-remember .form-check-input {
+        float: none;
+        margin: 0;
+        width: 17px;
+        height: 17px;
+        background-color: #101827;
+        border-color: #64748b;
+        cursor: pointer;
+    }
+
+        .identity-remember .form-check-input:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+    .identity-remember .form-check-label {
+        color: #c0cddd;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+/* Identity Button */
+
+.identity-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 11px 18px;
+    background: #2563eb;
+    border: 1px solid #3b82f6;
+    border-radius: 9px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+}
+
+    .identity-submit:hover,
+    .identity-submit:focus-visible {
+        background: #1d4ed8;
+        border-color: #60a5fa;
+        color: #ffffff;
+    }
+
+    .identity-submit:active {
+        transform: translateY(1px);
+    }
+
+/* Identity Footer */
+
+.identity-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 25px;
+    color: #a7b4c7;
+    font-size: 14px;
+    text-align: center;
+}
+
+    .identity-footer a {
+        color: #60a5fa;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .identity-footer a:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+/* Identity Validation */
+
+.identity-validation {
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+    .identity-validation:empty {
+        display: none;
+    }
+
+    .identity-validation ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+    }
+
+.identity-field .text-danger {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+    .identity-field .text-danger:empty {
+        display: none;
+    }
+
+.identity-page .input-validation-error {
+    border-color: #ef4444;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 576px) {
+    .identity-page {
+        padding: 24px 12px 50px;
+    }
+
+    .identity-card {
+        padding: 26px 20px;
+        border-radius: 14px;
+    }
+
+    .identity-header h1 {
+        font-size: 25px;
+    }
+}
