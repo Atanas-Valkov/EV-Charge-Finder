@@ -31,6 +31,7 @@ namespace EVChargeFinder.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (!id.HasValue || id <= 0)
@@ -50,6 +51,7 @@ namespace EVChargeFinder.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Search([FromQuery] ChargingStationsSearchInputModel inputModel)
         {
             ChargingStationsSearchInputModel filters = ModelState.IsValid
