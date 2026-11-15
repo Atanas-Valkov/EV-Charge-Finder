@@ -394,3 +394,36 @@ select.input-validation-error + .ts-wrapper {
         border-color: #dc3545 !important;
         box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
     }
+
+
+/* Navbar link styling */
+.navbar .navbar-nav .nav-link {
+    position: relative;
+    color: #c1d0dd;
+    transition: color 0.2s ease;
+}
+
+    /* Navbar underline */
+    .navbar .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.5rem;
+        right: 0.5rem;
+        height: 2px;
+        background-color: #2ecc71;
+        transform: scaleX(0);
+        transition: transform 0.2s ease;
+    }
+
+    /* Navbar active and hover states */
+    .navbar .navbar-nav .nav-link:hover,
+    .navbar .navbar-nav .nav-link.active {
+        color: #2ecc71;
+    }
+
+        /* Navbar active underline */
+        .navbar .navbar-nav .nav-link:hover::after,
+        .navbar .navbar-nav .nav-link.active::after {
+            transform: scaleX(1);
+        }

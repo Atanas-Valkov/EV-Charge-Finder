@@ -1,8 +1,25 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+<section class="ev-home-hero" aria-labelledby="ev-home-title">
+	<div class="ev-home-content">
+		<span class="ev-home-label">
+			<i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+			Electric Vehicle Charging Platform
+		</span>
+
+		<h1 id="ev-home-title" class="ev-home-title">
+			EVCharge<span>Finder</span>
+		</h1>
+
+		<h2 class="ev-home-subtitle">Find your next charging station.</h2>
+
+		<p class="ev-home-description">
+			Explore charging stations, check available connectors and power,
+			and keep track of your charging sessions and costs.
+		</p>
+	</div>
+</section>

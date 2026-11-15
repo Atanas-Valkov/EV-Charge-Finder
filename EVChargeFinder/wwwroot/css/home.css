@@ -1,0 +1,183 @@
+﻿
+/* Home page full-width layout */
+.container:has(.ev-home-hero),
+.container-fluid:has(.ev-home-hero) {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Home hero */
+.ev-home-hero {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: calc(100svh - 90px);
+    padding: clamp(64px, 9vh, 115px) clamp(24px, 5.5vw, 96px);
+    background: #06121d url('../images/ev-home-hero.webp') center 45% / cover no-repeat;
+}
+
+/* Hero content */
+.ev-home-content {
+    position: relative;
+    z-index: 1;
+    max-width: 660px;
+}
+
+/* Hero label */
+.ev-home-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background-color: rgba(46, 204, 113, .14);
+    color: #2ecc71;
+    font-size: clamp(12px, 1vw, 16px);
+    font-weight: 600;
+}
+
+/* Hero title */
+.ev-home-title {
+    margin: 28px 0 14px;
+    color: #f5f8fb;
+    font-size: clamp(52px, 5.2vw, 80px);
+    font-weight: 750;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+}
+
+    .ev-home-title span {
+        color: #2ecc71;
+    }
+
+/* Hero subtitle */
+.ev-home-subtitle {
+    margin: 0 0 20px;
+    color: #e2eaf0;
+    font-size: clamp(24px, 2.3vw, 33px);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* Hero description */
+.ev-home-description {
+    max-width: 580px;
+    margin: 0;
+    color: #bfd0db;
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.65;
+}
+
+/* Tablet */
+@media (max-width: 991.98px) {
+    .ev-home-hero {
+        padding: 56px 24px 420px;
+        
+    }
+
+    .ev-home-content {
+        max-width: 580px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+    .ev-home-hero {
+        min-height: calc(100svh - 105px);
+        padding: 42px 22px 320px;
+      
+    }
+
+    .ev-home-label {
+        padding: 8px 12px;
+    }
+
+    .ev-home-title {
+        margin-top: 20px;
+        font-size: clamp(42px, 10vw, 60px);
+        overflow-wrap: anywhere;
+    }
+
+    .ev-home-subtitle {
+        font-size: clamp(21px, 5vw, 27px);
+    }
+
+    .ev-home-description {
+        max-width: 480px;
+        font-size: 15px;
+    }
+}
+
+/* Full-width Home container */
+.container:has(.ev-home-hero) {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Home content */
+.ev-home-content {
+    position: relative;
+    z-index: 1;
+    max-width: 660px;
+}
+
+/* Home page viewport layout */
+body:has(.ev-home-hero) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    margin-bottom: 0;
+}
+
+    /* Home navbar spacing */
+    body:has(.ev-home-hero) .app-navbar {
+        margin-bottom: 0 !important;
+    }
+
+    /* Home main container */
+    body:has(.ev-home-hero) > .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    /* Home main content */
+    body:has(.ev-home-hero) main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 0 !important;
+    }
+
+    /* Home hero height */
+    body:has(.ev-home-hero) .ev-home-hero {
+        flex: 1;
+        min-height: 0;
+    }
+
+    /* Home footer positioning */
+    body:has(.ev-home-hero) .app-footer {
+        position: static;
+        flex-shrink: 0;
+    }
+
+/* Home page footer overlay */
+body:has(.ev-home-hero) {
+    position: relative;
+}
+
+/* Home footer styling */
+@media (min-width: 768px) {
+    body:has(.ev-home-hero) .app-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2;
+        background: transparent;
+        border: none;
+    }
+}
