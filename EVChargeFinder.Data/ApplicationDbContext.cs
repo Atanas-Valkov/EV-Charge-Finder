@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using EVChargeFinder.Data.DbModels;
+    using DbModels;
 
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -15,5 +15,14 @@
         public virtual DbSet<Connector> Connectors { get; set; } = null!;
         public virtual DbSet<ChargingSession> ChargingSessions { get; set; } = null!;
         public virtual DbSet<Operator> Operators { get; set; } = null!;
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
+
     }
 }
