@@ -70,7 +70,8 @@ namespace EVChargeFinder
                 RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 UserManager<IdentityUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-                await IdentityRoleSeeder.SeedAsync(roleManager, userManager);
+                await IdentityRoleSeeder.SeedAsync(roleManager, userManager, app.Configuration["SeedUsers:Password"]);
+                 
             }
 
             // Configure the HTTP request pipeline.
