@@ -251,6 +251,7 @@
 
 
         [HttpGet]
+        
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (id <= 0)
@@ -273,6 +274,7 @@
         }
 
         [HttpPost]
+        [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed([FromRoute] int id)
         {
             if (id <= 0)
