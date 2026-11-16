@@ -11,20 +11,13 @@ namespace EVChargeFinder.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
 
-            migrationBuilder.RenameColumn(
-                name: "ChargeStationStatus",
-                table: "ChargingStations",
-                newName: "ChargingStationStatus");
+           
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "ChargingStationStatus",
-                table: "ChargingStations",
-                newName: "ChargeStationStatus");
-
+            
         }
     }
 }
