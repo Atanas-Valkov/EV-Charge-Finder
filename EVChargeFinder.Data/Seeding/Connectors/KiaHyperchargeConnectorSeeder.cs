@@ -5,7 +5,7 @@
 
     public static class KiaHyperchargeConnectorSeeder
     {
-      private const decimal DefaultPricePerKWh = 0.39m;
+      
 
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
@@ -16,14 +16,10 @@
             AddConnectorsWithExternalIds(
                 connectors,
                 ChargingStationIds["Kia Hypercharge Tsarigradsko Shose 144"],
-                (ConnectorType.CCS2, 150.00m, DefaultPricePerKWh, "BG*KIA*EE4812E66*1"),
-                (ConnectorType.CCS2, 150.00m, DefaultPricePerKWh, "BG*KIA*EE4812E66*2"));
+                (ConnectorType.CCS2, 150.00m, 0.47m, "BG*KIA*EE4812E66*1"),
+                (ConnectorType.CCS2, 150.00m, 0.47m, "BG*KIA*EE4812E66*2"));
 
 
-            // Kia's own 2025 brochure shows three 150 kW charging points at this
-            // address, while current public roaming data exposes two CCS points
-            // with the verified IDs above. A possible third 150 kW point is not
-            // seeded until it can be verified in the live Kia Hypercharge app.
 
 
             AddConnectors(
@@ -32,7 +28,7 @@
                 ConnectorType.CCS2,
                 1,
                 150.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -41,7 +37,7 @@
                 ConnectorType.CCS2,
                 1,
                 150.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -50,7 +46,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             return connectors.ToArray();

@@ -15,9 +15,11 @@
                 (ConnectorType.CCS2, 2, 120.00m, 0.39m),
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
-            // TODO: "Electrocharge Lozen Saedinenie 127"
-            // Station location is confirmed, but exact connector type/count/power
-            // was not reliably verified from public sources.
+
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Electrocharge Lozen Saedinenie 127"],
+                (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             AddConnectors(
                 connectors,
@@ -50,17 +52,24 @@
                 (ConnectorType.CCS2, 2, 120.00m, 0.39m),
                 (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
-            // TODO: "Electrocharge Petrol Kulata"
-            // Electrocharge officially confirms this as a fast-charging location,
-            // but the public announcement does not publish exact power/count/type.
+          
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Electrocharge Petrol Kulata"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.39m),
+                (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
-            // TODO: "Electrocharge Lukovit"
-            // Public listings confirm a DC location, but exact connector count
-            // and power were not reliably verified.
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Electrocharge Lukovit"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.39m),
+                (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
-            // TODO: "Electrocharge Lom"
-            // Public listings confirm a DC location, but exact connector count
-            // and power were not reliably verified.
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Electrocharge Lom"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.39m),
+                (ConnectorType.Type2, 1, 22.00m, 0.35m));
 
             return connectors.ToArray();
         }

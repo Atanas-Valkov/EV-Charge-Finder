@@ -5,7 +5,6 @@
 
     public static class VarnaChargingConnectorSeeder
     {
-      private const decimal DefaultPricePerKWh = 0.36m;
 
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
@@ -19,7 +18,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
             AddConnectors(
                 connectors,
@@ -27,7 +26,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
             AddConnectors(
                 connectors,
@@ -35,7 +34,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -44,7 +43,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -53,7 +52,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -62,7 +61,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             return connectors.ToArray();

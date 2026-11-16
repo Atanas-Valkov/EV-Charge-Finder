@@ -5,8 +5,7 @@
 
     public static class BullChargeConnectorSeeder
     {
-      private const decimal UnknownPricePerKWh = 0.00m;
-
+      
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
         {
@@ -18,18 +17,24 @@
                 ConnectorType.Type2,
                 5,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
-            //TODO: "BullCharge Bulgarian Industrial Association"
-          
+            AddConnectors(
+                connectors,
+                ChargingStationIds["BullCharge Bulgarian Industrial Association"],
+                ConnectorType.Type2,
+                1,
+                22.00m,
+                0.47m);
+
             AddConnectors(
                 connectors,
                 ChargingStationIds["BullCharge Guesthouse Horizont"],
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             return connectors.ToArray();

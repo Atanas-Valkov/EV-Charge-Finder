@@ -22,8 +22,13 @@
                 (ConnectorType.CCS2, 200.00m, 0.46m, "BG692*1"),
                 (ConnectorType.CCS2, 200.00m, 0.46m, "BG692*2"));
 
-            // TODO: "Eldrive Shell Lyubimets West"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+               connectors,
+               ChargingStationIds["Eldrive Shell Lyubimets West"],
+               (ConnectorType.CCS2, 1, 300.00m, 0.46m),
+               (ConnectorType.CCS2, 1, 300.00m, 0.46m));
+
 
             AddConnectorsWithExternalIds(
                 connectors,
@@ -37,42 +42,114 @@
                 connectors,
                 ChargingStationIds["Eldrive Shell Montana"],
                 (ConnectorType.CCS2, 1, 50.00m, 0.46m),
-                (ConnectorType.CHAdeMO, 1, 50.00m, 0.46m));
+                (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
-            // TODO: "Eldrive Technopolis Nadezhda"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+              connectors,
+              ChargingStationIds["Eldrive Technopolis Nadezhda"],
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Razgrad"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+              connectors,
+              ChargingStationIds["Eldrive Billa Razgrad"],
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Samokov"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+            AddConnectors(
+              connectors,
+              ChargingStationIds["Eldrive Billa Samokov"],
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+              (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Sevlievo"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+            
+            AddConnectors(
+             connectors,
+             ChargingStationIds["Eldrive Billa Sevlievo"],
+             (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+             (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+             (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+             (ConnectorType.CCS2, 1, 50.00m, 0.46m));
 
             AddConnectors(
                 connectors,
                 ChargingStationIds["Eldrive Bulport Logistics"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.46m));
 
-            // TODO: "Eldrive The Mall Sofia"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+            connectors,
+            ChargingStationIds["Eldrive The Mall Sofia"],
+            (ConnectorType.CCS2, 1, 400.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 400.00m, 0.46m),
+            (ConnectorType.Type2, 1, 22.00m, 0.46m),
+            (ConnectorType.Type2, 1, 22.00m, 0.46m),
+            (ConnectorType.Type2, 1, 22.00m, 0.46m),
+            (ConnectorType.Type2, 1, 22.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 180.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 180.00m, 0.46m),
+            (ConnectorType.Type2, 1, 22.00m, 0.46m),
+            (ConnectorType.Type2, 1, 22.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m),
+            (ConnectorType.CCS2, 1, 500.00m, 0.46m));
 
-            // TODO: "Eldrive XO Park Sofia"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+        connectors,
+        ChargingStationIds["Eldrive XO Park Sofia"],
+        (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+        (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+        (ConnectorType.CCS2, 1, 50.00m, 0.46m),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 500.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 500.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 500.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 500.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m,0.46m ),
+        (ConnectorType.CCS2, 1, 250.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Nadezhda"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+          
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Billa Nadezhda"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Lincoln"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+          
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Billa Lincoln"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Hladilnika"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Billa Hladilnika"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Buxton"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+            
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Billa Buxton"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
             AddConnectors(
                 connectors,
@@ -101,8 +178,13 @@
                 ChargingStationIds["Eldrive Retail Park Vidin"],
                 (ConnectorType.CCS2, 2, 120.00m, 0.46m));
 
-            // TODO: "Eldrive Holiday Park Pazardzhik"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+           
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Holiday Park Pazardzhik"],
+                (ConnectorType.CCS2, 2, 120.00m, 0.46m),
+                (ConnectorType.CCS2, 2, 50.00m, 0.46m));
+
 
             AddConnectors(
                 connectors,
@@ -120,8 +202,11 @@
                 ChargingStationIds["Eldrive Technopolis Blagoevgrad"],
                 (ConnectorType.CCS2, 2, 150.00m, 0.46m));
 
-            // TODO: "Eldrive Technopolis Burgas 2"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+          
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Technopolis Burgas 2"],
+                (ConnectorType.CCS2, 2, 150.00m, 0.46m));
 
             AddConnectors(
                 connectors,
@@ -150,14 +235,30 @@
                 ChargingStationIds["Eldrive Metropolitan Hotel Sofia"],
                 (ConnectorType.CCS2, 4, 120.00m, 0.46m));
 
-            // TODO: "Eldrive Billa Lulin"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+            
 
-            // TODO: "Eldrive Via Park North"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+            AddConnectors(
+               connectors,
+               ChargingStationIds["Eldrive Billa Lulin"],
+               (ConnectorType.CCS2, 4, 120.00m, 0.46m));
 
-            // TODO: "Eldrive Toyota Blagoevgrad"
-            // Connector count/type/power is intentionally not seeded until it is verified.
+            AddConnectors(
+                connectors,
+                ChargingStationIds["Eldrive Metropolitan Hotel Sofia"],
+                (ConnectorType.CCS2, 4, 120.00m, 0.46m));
+
+          
+            AddConnectors(
+           connectors,
+           ChargingStationIds["Eldrive Via Park North"],
+           (ConnectorType.CCS2, 4, 120.00m, 0.46m));
+
+         
+            AddConnectors(
+            connectors,
+            ChargingStationIds["Eldrive Toyota Blagoevgrad"],
+            (ConnectorType.CCS2, 4, 120.00m, 0.46m));
+
 
             AddConnectors(
                 connectors,

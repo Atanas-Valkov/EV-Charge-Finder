@@ -6,25 +6,40 @@
     public static class ProCreditChargingConnectorSeeder
     {
  
-        private const decimal UnknownPricePerKWh = 0.00m;
-
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
         {
             List<Connector> connectors = new List<Connector>();
 
 
-            // TODO: "ProCredit Charging Poligrafia"
             
-            // TODO: "ProCredit Charging Lev Tolstoy"
-            
+            AddConnectors(
+    connectors,
+    ChargingStationIds["ProCredit Charging Poligrafia"],
+    ConnectorType.Type2,
+    3,
+    22.00m,
+    0.47m);
+
+          
+            AddConnectors(
+    connectors,
+    ChargingStationIds["ProCredit Charging Lev Tolstoy"],
+
+
+
+    ConnectorType.Type2,
+    3,
+    22.00m,
+    0.47m);
+
             AddConnectors(
                 connectors,
                 ChargingStationIds["ProCredit Charging UNWE"],
                 ConnectorType.Type2,
                 3,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             return connectors.ToArray();

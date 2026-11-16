@@ -5,9 +5,8 @@
 
     public static class VoltspotConnectorSeeder
     {
- 
-        private const decimal DefaultPricePerKWh = 0.35m;
 
+       
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
         {
@@ -286,7 +285,7 @@
                         ConnectorNumber = connectorNumber,
                         ConnectorType = connectorGroup.Type,
                         PowerKw = connectorGroup.PowerKw,
-                        PricePerKWh = DefaultPricePerKWh,
+                        PricePerKWh = 0.47m,
                         ConnectorStatus = ConnectorStatus.Unknown,
                         ExternalId = null,
                         ChargingStationId = ChargingStationId

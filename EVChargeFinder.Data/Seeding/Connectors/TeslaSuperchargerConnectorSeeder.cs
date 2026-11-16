@@ -5,7 +5,7 @@
 
     public static class TeslaSuperchargerConnectorSeeder
     {
-       private const decimal DefaultPricePerKWh = 0.38m;
+
 
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
@@ -18,7 +18,7 @@
                 ConnectorType.CCS2,
                 8,
                 250.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
             AddConnectors(
                 connectors,
@@ -26,7 +26,7 @@
                 ConnectorType.CCS2,
                 6,
                 250.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
             AddConnectors(
                 connectors,
@@ -34,7 +34,7 @@
                 ConnectorType.CCS2,
                 4,
                 125.00m,
-                DefaultPricePerKWh);
+                0.47m);
 
 
             return connectors.ToArray();

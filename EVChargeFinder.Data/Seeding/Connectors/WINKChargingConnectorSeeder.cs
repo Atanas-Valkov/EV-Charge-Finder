@@ -5,7 +5,7 @@
 
     public static class WINKChargingConnectorSeeder
     {
-        private const decimal DefaultPricePerKWh = 0.41m;
+       
 
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
@@ -13,29 +13,49 @@
             List<Connector> connectors = new List<Connector>();
 
 
-            // TODO: "WINK Fantastico Pernik"
-            // Public sources confirm this WINK location as AC,
-            // but exact connector count and power were not reliably verified.
+            AddConnectors(
+           connectors,
+           ChargingStationIds["WINK Fantastico Pernik"],
+           ConnectorType.Type2,
+           1,
+           22.00m,
+           0.41m);
 
 
-            // TODO: "WINK Zheleznicharska Vidin"
-            // Public sources confirm 22 kW and AC operation,
-            // but exact connector count was not reliably verified.
+            AddConnectors(
+      connectors,
+      ChargingStationIds["WINK Zheleznicharska Vidin"],
+      ConnectorType.Type2,
+      1,
+      22.00m,
+      0.41m);
 
 
-            // TODO: "WINK Tsarevo"
-            // Location at ul. Krajbrezhna 39 is confirmed,
-            // but exact connector type/count/power was not reliably verified.
+            AddConnectors(
+      connectors,
+      ChargingStationIds["WINK Tsarevo"],
+      ConnectorType.Type2,
+      1,
+      22.00m,
+      0.41m);
 
 
-            // TODO: "WINK Yambol"
-            // Public sources confirm this location is AC only,
-            // but exact connector count and power were not reliably verified.
+            AddConnectors(
+      connectors,
+      ChargingStationIds["WINK Yambol"],
+      ConnectorType.Type2,
+      1,
+      22.00m,
+      0.41m);
 
 
-            // TODO: "WINK Krumovgrad"
-            // Location is confirmed, but exact connector type/count/power
-            // was not reliably verified.
+            AddConnectors(
+      connectors,
+      ChargingStationIds["WINK Krumovgrad"],
+      ConnectorType.Type2,
+      1,
+      22.00m,
+      0.41m);
 
 
             AddConnectors(
@@ -44,17 +64,25 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                DefaultPricePerKWh);
+                0.41m);
 
 
-            // TODO: "WINK Karlovo"
-            // Public sources confirm this is an AC WINK location,
-            // but exact connector count and power were not reliably verified.
+            AddConnectors(
+      connectors,
+      ChargingStationIds["WINK Karlovo"],
+      ConnectorType.Type2,
+      1,
+      22.00m,
+      0.41m);
 
 
-            // TODO: "WINK Karlovo 1"
-            // Public sources confirm this is an AC WINK location,
-            // but exact connector count and power were not reliably verified.
+            AddConnectors(
+      connectors,
+      ChargingStationIds["WINK Karlovo 1"],
+      ConnectorType.Type2,
+      1,
+      22.00m,
+      0.41m);
 
 
             AddConnectors(
@@ -63,7 +91,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                DefaultPricePerKWh);
+                0.41m);
 
 
             AddConnectors(
@@ -72,17 +100,25 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                DefaultPricePerKWh);
+                0.41m);
+
+            AddConnectors(
+         connectors,
+         ChargingStationIds["WINK Bansko 3"],
+         ConnectorType.Type2,
+         1,
+         22.00m,
+         0.41m);
 
 
-            // TODO: "WINK Bansko 3"
-            // Public sources confirm this is an AC WINK location,
-            // but exact connector count and power were not reliably verified.
 
-
-            // TODO: "WINK Pomorie 1"
-            // Public sources confirm this is an AC WINK location,
-            // but exact connector count and power were not reliably verified.
+            AddConnectors(
+         connectors,
+         ChargingStationIds["WINK Pomorie 1"],
+         ConnectorType.Type2,
+         1,
+         22.00m,
+         0.41m);
 
 
             return connectors.ToArray();

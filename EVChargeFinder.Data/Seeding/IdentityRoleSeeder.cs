@@ -1,10 +1,14 @@
-﻿namespace EVChargeFinder.Data.Seeding
+﻿
+namespace EVChargeFinder.Data.Seeding
 {
     using Microsoft.AspNetCore.Identity;
 
     public static class IdentityRoleSeeder
     {
-        public static async Task SeedAsync(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public static async Task SeedAsync(
+            RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager,
+            string? seedPassword)
         {
             string[] roles = ["User", "Admin"];
 
@@ -12,11 +16,15 @@
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
-                    IdentityResult result = await roleManager.CreateAsync(new IdentityRole(role));
+                    IdentityResult result =
+                        await roleManager.CreateAsync(new IdentityRole(role));
 
                     if (!result.Succeeded)
                     {
-                        throw new InvalidOperationException($"Failed to create role '{role}': " + string.Join(", ", result.Errors.Select(e => e.Description)));
+                        throw new InvalidOperationException(
+                            $"Failed to create role '{role}': " +
+                            string.Join(", ",
+                                result.Errors.Select(e => e.Description)));
                     }
                 }
             }
@@ -28,27 +36,51 @@
                 ("admin@test.test", "Admin")
             ];
 
-            foreach (var (email, role) in users)
+            foreach ((string email, string role) in users)
             {
-                IdentityUser? user = await userManager.FindByEmailAsync(email);
+                IdentityUser? user =
+                    await userManager.FindByEmailAsync(email);
 
                 if (user == null)
                 {
-                    throw new InvalidOperationException($"User '{email}' was not found.");
+                    if (string.IsNullOrWhiteSpace(seedPassword))
+                    {
+                        continue;
+                    }
+
+                    user = new IdentityUser
+                    {
+                        UserName = email,
+                        Email = email,
+                        EmailConfirmed = true
+                    };
+
+                    IdentityResult createResult =
+                        await userManager.CreateAsync(user, seedPassword);
+
+                    if (!createResult.Succeeded)
+                    {
+                        throw new InvalidOperationException(
+                            $"Failed to create user '{email}': " +
+                            string.Join(", ",
+                                createResult.Errors.Select(e => e.Description)));
+                    }
                 }
 
                 if (!await userManager.IsInRoleAsync(user, role))
                 {
-                    IdentityResult result = await userManager.AddToRoleAsync(user, role);
+                    IdentityResult roleResult =
+                        await userManager.AddToRoleAsync(user, role);
 
-                    if (!result.Succeeded)
+                    if (!roleResult.Succeeded)
                     {
-                        throw new InvalidOperationException( $"Failed to assign role '{role}' to '{email}': " +
-                            string.Join(", ", result.Errors.Select(e => e.Description)));
+                        throw new InvalidOperationException(
+                            $"Failed to assign role '{role}' to '{email}': " +
+                            string.Join(", ",
+                                roleResult.Errors.Select(e => e.Description)));
                     }
                 }
             }
         }
     }
 }
-

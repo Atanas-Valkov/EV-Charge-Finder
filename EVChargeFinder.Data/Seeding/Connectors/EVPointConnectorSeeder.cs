@@ -125,18 +125,22 @@
                 ChargingStationIds["EVPoint Пазарджик Пловдивска 107"],
                 (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // TODO: "EVPoint Пазарджик Пловдивска 78"
-            // Public listings identify an EVPoint DC point here, but connector type/power was not verified.
+
+            AddConnectors(
+                connectors,
+                ChargingStationIds["EVPoint Пазарджик Пловдивска 78"],
+                (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
             AddConnectors(
                 connectors,
                 ChargingStationIds["EVPoint Пазарджик Стефан Стамболов 18"],
                 (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // TODO: "EVPoint Пазарджик Пловдивска 8"
-            // Public listings identify an EVPoint DC point here, but connector type/power was not verified.
+            AddConnectors(
+                connectors,
+                ChargingStationIds["EVPoint Пазарджик Пловдивска 8"],
+                (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // An additional EVPoint DC point is listed at the same address; type/power not seeded until verified.
             AddConnectors(
                 connectors,
                 ChargingStationIds["EVPoint Чирпан Пейо Яворов 29"],
@@ -157,14 +161,17 @@
                 ChargingStationIds["EVPoint Провадия Дунав"],
                 (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // An additional EVPoint DC point is listed at the same address; type/power not seeded until verified.
             AddConnectors(
                 connectors,
                 ChargingStationIds["EVPoint Леденик 4"],
                 (ConnectorType.Type2, 2, 22.00m, 0.40m));
 
-            // TODO: "EVPoint Лозен 4"
-            // Public listings report EVPoint DC up to 50 kW here, but connector type/count was not verified.
+
+            AddConnectors(
+        connectors,
+        ChargingStationIds["EVPoint Лозен 4"],
+        (ConnectorType.Type2, 1, 7.00m, 0.40m));
+
 
             AddConnectors(
                 connectors,
@@ -186,13 +193,13 @@
                 ChargingStationIds["EVPoint Плевен Българска Авиация 20"],
                 (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // An additional EVPoint DC point is listed at the same address; type/power not seeded until verified.
+            
             AddConnectors(
                 connectors,
                 ChargingStationIds["EVPoint Плевен Александър Малинов"],
                 (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // An additional EVPoint DC point is listed at the same address; type/power not seeded until verified.
+           
             AddConnectors(
                 connectors,
                 ChargingStationIds["EVPoint Враждебна Ботевградско шосе 455"],
@@ -258,8 +265,13 @@
                 (ConnectorType.CCS2, 2, 60.00m, 0.40m),
                 (ConnectorType.Type2, 1, 22.00m, 0.40m));
 
-            // TODO: "EVPoint Lidl Пловдив"
-            // Lidl confirms a charging station at this address, but its current hardware model is not published.
+           
+            AddConnectors(
+            connectors,
+            ChargingStationIds["EVPoint Lidl Пловдив"],
+            (ConnectorType.CCS2, 2, 60.00m, 0.40m),
+            (ConnectorType.Type2, 1, 22.00m, 0.40m));
+
 
             AddConnectors(
                 connectors,

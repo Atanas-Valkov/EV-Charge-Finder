@@ -115,9 +115,13 @@
                 0.35m);
 
 
-            // TODO: "OMV Тракия Белозем"
-            // OMV currently states that the charging station at this site is being upgraded.
-            // Connector count, power and price are therefore intentionally not seeded yet.
+            AddConnectors(
+               connectors,
+               ChargingStationIds["OMV Тракия Белозем"],
+               ConnectorType.CCS2,
+               1,
+               50.00m,
+               0.35m);
 
             return connectors.ToArray();
         }

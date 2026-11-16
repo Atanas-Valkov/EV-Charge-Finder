@@ -5,8 +5,7 @@
 
     public static class eCarsConnectorSeeder
     {
-        private const decimal UnknownPricePerKWh = 0.00m;
-
+      
         public static Connector[] GetConnectors(
             Dictionary<string, int> ChargingStationIds)
         {
@@ -19,7 +18,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -28,7 +27,7 @@
                 ConnectorType.Type2,
                 2,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -37,7 +36,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -46,7 +45,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -55,7 +54,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
             AddConnectors(
                 connectors,
@@ -63,7 +62,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -72,7 +71,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -81,7 +80,7 @@
                 ConnectorType.Type2,
                 2,
                 7.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -90,7 +89,7 @@
                 ConnectorType.Type2,
                 1,
                 3.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -99,7 +98,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -108,7 +107,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -117,7 +116,7 @@
                 ConnectorType.Type2,
                 1,
                 22.00m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -126,7 +125,7 @@
                 ConnectorType.Type2,
                 1,
                 7.40m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             AddConnectors(
@@ -135,7 +134,7 @@
                 ConnectorType.Type2,
                 1,
                 7.40m,
-                UnknownPricePerKWh);
+                0.47m);
 
 
             return connectors.ToArray();
